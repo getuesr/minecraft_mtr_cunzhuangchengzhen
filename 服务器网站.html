@@ -1,0 +1,824 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTR城市建设服务器 - 专业铁路建设平台</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        :root {
+            --primary-color: #6a1b9a;
+            --secondary-color: #4a148c;
+            --accent-color: #ba68c8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+        
+        /* 轮播图样式 */
+        .carousel-section {
+            margin-top: 76px; /* 导航栏高度 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-item {
+            height: 500px;
+            position: relative;
+        }
+        
+        .carousel-item img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        /* 柔和的边缘效果 */
+        .carousel-inner {
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
+        }
+        
+        .carousel-indicators {
+            bottom: 20px;
+        }
+        
+        .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+        
+        /* 关于我们区域样式 */
+        .about-section {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .section-title p {
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .feature-box {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(106, 27, 154, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+        
+        .feature-box h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* 路线图区域样式 */
+        .route-section {
+            background-color: var(--light-color);
+            padding: 100px 0;
+        }
+        
+        .route-image-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .route-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .route-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .route-description {
+            margin-top: 2rem;
+        }
+        
+        .route-description h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .route-description h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .route-description p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        /* 图片展示区域样式 */
+        .gallery-section {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* 联系区域样式 */
+        .contact-section {
+            padding: 100px 0;
+            background: url('h_2.jpg') center/cover no-repeat;
+            color: white;
+            position: relative;
+        }
+        
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(106, 27, 154, 0.85);
+            z-index: 0;
+        }
+        
+        .contact-section .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-card {
+            background-color: white;
+            color: var(--dark-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .contact-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .contact-info {
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .contact-info p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .qrcode-container {
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+            padding-left: 2rem;
+        }
+        
+        .qrcode-container img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .qrcode-container p {
+            margin-top: 1rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        /* 城市介绍覆盖页面样式 */
+        .city-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .city-content {
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 1400px;
+            min-height: 800px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: var(--accent-color);
+            transform: rotate(90deg);
+        }
+        
+        .city-gallery {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin: 2rem 0;
+        }
+        
+        .city-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .city-gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .city-description {
+            margin-top: 2rem;
+        }
+        
+        .city-description h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .city-description h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .city-description p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .carousel-item {
+                height: 300px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .city-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .city-content {
+                max-width: 95%;
+                min-height: auto;
+            }
+            
+            .qrcode-container {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                padding-left: 0;
+                padding-top: 2rem;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <!-- 网站Logo/标题 -->
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-train me-2"></i>MTR城市建设服务器
+            </a>
+            <!-- 移动端导航切换按钮 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- 导航菜单 -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" onclick="showCity('village')">村庄城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('jinyu')">金玉城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('xinhai')">新海市</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('yunzhou')">云州城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('unnamed')">未命名城市</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 轮播图区域 - 替换了原来的"专业MTR服务器"区域 -->
+    <section class="carousel-section">
+        <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <!-- 轮播指示器 -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+            </div>
+            
+            <!-- 轮播内容 -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="lo_1.jpg" class="d-block w-100" alt="MTR城市建设服务器展示1">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_2.jpg" class="d-block w-100" alt="MTR城市建设服务器展示2">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_3.jpg" class="d-block w-100" alt="MTR城市建设服务器展示3">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_4.jpg" class="d-block w-100" alt="MTR城市建设服务器展示4">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_5.jpg" class="d-block w-100" alt="MTR城市建设服务器展示5">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_6.jpg" class="d-block w-100" alt="MTR城市建设服务器展示6">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_7.jpg" class="d-block w-100" alt="MTR城市建设服务器展示7">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_8.jpg" class="d-block w-100" alt="MTR城市建设服务器展示8">
+                </div>
+            </div>
+            
+            <!-- 轮播控制按钮 -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">上一张</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#headerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">下一张</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- 关于我们区域 -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>关于我们</h2>
+                <p>专业MTR服务器运营团队，致力于为玩家提供最佳铁路建设体验</p>
+            </div>
+            <div class="row">
+                <!-- 特性1 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-train"></i>
+                        </div>
+                        <h3>专业模组支持</h3>
+                        <p>采用最新MTR 4.0.2模组，配合fabric Minecraft Java 1.20.4版本，确保最佳游戏体验。</p>
+                    </div>
+                </div>
+                <!-- 特性2 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h3>多样化城市建设</h3>
+                        <p>从传统村庄到现代化大都市，多种城市风格任您选择，打造独特的城市景观。</p>
+                    </div>
+                </div>
+                <!-- 特性3 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>活跃社区</h3>
+                        <p>拥有多个活跃玩家社群，定期举办建筑比赛和技术交流活动，共同进步。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 路线图区域 -->
+    <section id="route" class="route-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务器路线图</h2>
+                <p>我们服务器的高铁线路网络，连接各大城市</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="route-image-container">
+                        <img src="L_1.jpg" alt="高铁线路图" class="route-image">
+                    </div>
+                    <div class="route-description">
+                        <h3>高铁网络规划</h3>
+                        <p>我们的服务器建立了完善的高铁网络系统，连接所有主要城市，确保玩家可以快速便捷地穿梭于不同城市之间。</p>
+                        <p>高铁线路采用最新的信号系统和轨道设计，提供高效、安全的交通服务。每个城市都设有现代化的高铁站，与城市交通系统无缝衔接。</p>
+                        <p>我们持续优化线路布局和列车调度，确保整个网络运行顺畅，为玩家提供最佳的铁路交通体验。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 图片展示区域 -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>项目展示</h2>
+                <p>欣赏我们服务器中玩家建设的精美铁路和城市景观</p>
+            </div>
+            <div class="row">
+                <!-- 图片1 -->
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="pic_02.jpg" alt="高铁线路">
+                        <div class="gallery-overlay">
+                            <h4>高铁线路</h4>
+                            <p>连接各大城市的高速铁路网络</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 图片2 -->
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="pic_03.jpg" alt="城市车站">
+                        <div class="gallery-overlay">
+                            <h4>城市车站</h4>
+                            <p>现代化设计的火车站</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 图片3 -->
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="pic_04.jpg" alt="铁路网络">
+                        <div class="gallery-overlay">
+                            <h4>铁路网络</h4>
+                            <p>错综复杂的铁路系统</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系区域 -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="contact-card">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3>加入我们</h3>
+                                <div class="contact-info">
+                                    <p><i class="fas fa-users"></i>官方QQ群: 435250279</p>
+                                    <p><i class="fas fa-server"></i>服务器IP: 加入群后整合包自带服务器</p>
+                                    <p><i class="fas fa-clock"></i>服务器在线时间: 24/7</p>
+                                    <p><i class="fas fa-headset"></i>技术支持: 群内管理员</p>
+                                </div>
+                                <div class="mt-4">
+                                    <h5>加入流程</h5>
+                                    <ol>
+                                        <li>加入官方QQ群获取最新信息</li>
+                                        <li>下载服务器专用整合包</li>
+                                        <li>按照指南配置客户端</li>
+                                        <li>开始您的城市建设之旅</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="qrcode-container">
+                                    <img src="pic_05.jpg" alt="QQ群二维码">
+                                    <p>扫描二维码加入QQ群</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>MTR城市建设服务器 &copy; 2023 - 专业铁路建设平台</p>
+        </div>
+    </footer>
+
+    <!-- 城市介绍覆盖页面 -->
+    <div id="cityOverlay" class="city-overlay">
+        <div class="container">
+            <div class="city-content">
+                <button class="close-btn" onclick="closeCity()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 id="cityTitle">城市名称</h2>
+                <div class="city-gallery" id="cityGallery">
+                    <!-- 图片将由JavaScript动态生成 -->
+                </div>
+                <div class="city-description">
+                    <h3>城市介绍</h3>
+                    <p id="cityDescription">这里将显示城市的详细介绍...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 城市数据
+        const cities = {
+            village: {
+                title: "村庄城",
+                description: "村庄城是我们服务器中最古老的城市之一，以其传统的建筑风格和独特的村庄布局而闻名。这里保留了许多早期玩家的建筑作品，是了解服务器历史的绝佳地点。村庄城注重传统建筑风格的保留，同时融入了现代化的交通设施，形成了独特的城市风貌。",
+                images: ["ct_01.jpg", "ct_02.jpg", "ct_03.jpg", "ct_04.jpg", "ct_05.jpg"]
+            },
+            jinyu: {
+                title: "金玉城",
+                description: "金玉城是一个现代化的大都市，拥有壮观的高层建筑和复杂的交通网络。这里的商业区非常繁荣，是服务器中最具活力的经济中心之一。金玉城以其独特的金色主题建筑和精心规划的交通系统而闻名，是服务器中最受欢迎的城市之一。",
+                images: ["ct_01_1.jpg", "ct_02_2.jpg", "ct_03_3.jpg", "ct_04_4.jpg", "ct_05_5.jpg"]
+            },
+            xinhai: {
+                title: "新海市",
+                description: "新海市是一个沿海城市，以其美丽的海滨风光和现代化的港口设施而著称。这里的水上交通系统非常发达，连接着多个岛屿和沿海地区。新海市注重生态与城市的和谐发展，拥有独特的海洋主题建筑和精心设计的海滨景观。",
+                images: ["ct_01_6.jpg", "ct_02_7.jpg", "ct_03_8.jpg", "ct_04_9.jpg", "ct_05_10.jpg"]
+            },
+            yunzhou: {
+                title: "云州城",
+                description: "云州城坐落在山脉之间，以其独特的山地建筑和壮丽的自然景观而闻名。这里的铁路系统需要穿越多个隧道和桥梁，工程难度极高。云州城充分利用了山地地形，打造了层次分明的城市景观和独特的空中交通系统。",
+                images: ["ct_01_11.jpg", "ct_02_12.jpg", "ct_03_13.jpg", "ct_04_14.jpg", "ct_05_15.jpg"]
+            },
+            unnamed: {
+                title: "未命名城市",
+                description: "这是一个正在建设中的新城市，目前还没有正式的名称。这里充满了各种创意和实验性的建筑项目，是服务器中最具创新精神的地方。未命名城市鼓励玩家尝试新的建筑风格和城市规划理念，是服务器中创新思维的孵化器。",
+                images: ["ct_01_16.jpg", "ct_02_17.jpg", "ct_03_18.jpg", "ct_04_19.jpg", "ct_05_20.jpg"]
+            }
+        };
+        
+        // 显示城市介绍
+        function showCity(cityId) {
+            const city = cities[cityId];
+            document.getElementById('cityTitle').textContent = city.title;
+            document.getElementById('cityDescription').textContent = city.description;
+            
+            // 动态生成图片
+            const gallery = document.getElementById('cityGallery');
+            gallery.innerHTML = '';
+            city.images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `${city.title}图片`;
+                gallery.appendChild(img);
+            });
+            
+            document.getElementById('cityOverlay').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 关闭城市介绍
+        function closeCity() {
+            document.getElementById('cityOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto'; // 恢复滚动
+        }
+        
+        // 点击覆盖层外部关闭
+        document.getElementById('cityOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCity();
+            }
+        });
+        
+        // ESC键关闭城市介绍
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCity();
+            }
+        });
+    </script>
+</body>
+</html>
