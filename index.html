@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,58 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: #f5f7fa;
+        }
+        
+        /* 竖屏提示样式 */
+        .orientation-alert {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .countdown {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+        
+        /* 服务器状态指示器 */
+        .server-status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .server-online {
+            background-color: #4CAF50;
+            box-shadow: 0 0 8px #4CAF50;
+        }
+        
+        .server-offline {
+            background-color: #f44336;
+            box-shadow: 0 0 8px #f44336;
         }
         
         /* 导航栏样式 */
@@ -483,10 +535,38 @@
                 padding-top: 2rem;
                 margin-top: 2rem;
             }
+            
+            /* 竖屏优化 - 合并元素 */
+            .feature-box {
+                margin-bottom: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .gallery-item {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        /* 竖屏检测 */
+        @media (max-width: 768px) and (orientation: portrait) {
+            .orientation-alert {
+                display: block;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 竖屏提示 -->
+    <div class="orientation-alert" id="orientationAlert">
+        <i class="fas fa-mobile-alt me-2"></i>横屏或电脑版访问效果更佳 <span class="countdown" id="countdown">5</span>
+    </div>
+
     <!-- 导航栏 -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
@@ -521,7 +601,7 @@
         </div>
     </nav>
 
-    <!-- 轮播图区域 - 替换了原来的"专业MTR服务器"区域 -->
+    <!-- 轮播图区域 -->
     <section class="carousel-section">
         <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <!-- 轮播指示器 -->
@@ -693,8 +773,14 @@
                             <div class="col-md-8">
                                 <h3>加入我们</h3>
                                 <div class="contact-info">
-                                    <p><i class="fas fa-users"></i>官方QQ群: 435250279</p>
-                                    <p><i class="fas fa-server"></i>服务器IP: 加入群后整合包自带服务器</p>
+                                    <p><i class="fas fa-users"></i>官方QQ群: 1070623105</p>
+                                    <p>
+                                        <i class="fas fa-server"></i>服务器状态: 
+                                        <span id="serverStatus">
+                                            <span class="server-status" id="statusIndicator"></span>
+                                            <span id="statusText">检测中...</span>
+                                        </span>
+                                    </p>
                                     <p><i class="fas fa-clock"></i>服务器在线时间: 24/7</p>
                                     <p><i class="fas fa-headset"></i>技术支持: 群内管理员</p>
                                 </div>
@@ -819,6 +905,46 @@
                 closeCity();
             }
         });
+        
+        // 服务器状态检测
+        function checkServerStatus() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            // 检测当前域名
+            const currentDomain = window.location.hostname;
+            
+            // 如果是skhebn.top域名，显示服务器已开启
+            if (currentDomain === 'skhebn.top') {
+                statusIndicator.className = 'server-status server-online';
+                statusText.textContent = '服务器已开启';
+            } else {
+                statusIndicator.className = 'server-status server-offline';
+                statusText.textContent = '服务器已关闭';
+            }
+        }
+        
+        // 页面加载时检测服务器状态
+        window.addEventListener('load', checkServerStatus);
+        
+        // 竖屏提示倒计时功能
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            let countdownValue = 5;
+            
+            const countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('orientationAlert').style.display = 'none';
+                }
+            }, 1000);
+        }
+        
+        // 页面加载后开始倒计时
+        window.addEventListener('load', startCountdown);
     </script>
 </body>
 </html>
