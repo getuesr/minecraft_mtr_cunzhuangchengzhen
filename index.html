@@ -60,25 +60,6 @@
             font-weight: bold;
         }
         
-        /* 服务器状态指示器 */
-        .server-status {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .server-online {
-            background-color: #4CAF50;
-            box-shadow: 0 0 8px #4CAF50;
-        }
-        
-        .server-offline {
-            background-color: #f44336;
-            box-shadow: 0 0 8px #f44336;
-        }
-        
         /* 导航栏样式 */
         .navbar {
             background-color: var(--primary-color);
@@ -120,14 +101,9 @@
             object-fit: cover;
             height: 100%;
             width: 100%;
-            border-radius: 8px;
         }
         
-        /* 柔和的边缘效果 */
-        .carousel-inner {
-            mask-image: radial-gradient(circle, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
-            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
-        }
+        /* 移除了柔和的边缘效果 */
         
         .carousel-indicators {
             bottom: 20px;
@@ -774,13 +750,7 @@
                                 <h3>加入我们</h3>
                                 <div class="contact-info">
                                     <p><i class="fas fa-users"></i>官方QQ群: 1070623105</p>
-                                    <p>
-                                        <i class="fas fa-server"></i>服务器状态: 
-                                        <span id="serverStatus">
-                                            <span class="server-status" id="statusIndicator"></span>
-                                            <span id="statusText">检测中...</span>
-                                        </span>
-                                    </p>
+                                    <p><i class="fas fa-server"></i>服务器IP: 加入群后整合包自带服务器</p>
                                     <p><i class="fas fa-clock"></i>服务器在线时间: 24/7</p>
                                     <p><i class="fas fa-headset"></i>技术支持: 群内管理员</p>
                                 </div>
@@ -789,8 +759,8 @@
                                     <ol>
                                         <li>加入官方QQ群获取最新信息</li>
                                         <li>下载服务器专用整合包</li>
-                                        <li>按照指南配置客户端</li>
-                                        <li>开始您的城市建设之旅</li>
+                                        <li>安装整合包(记得一定是最新版)</li>
+                                        <li>进服务器喽~没什么好说的呢~</li>
                                     </ol>
                                 </div>
                             </div>
@@ -810,7 +780,7 @@
     <!-- 页脚 -->
     <footer class="footer">
         <div class="container">
-            <p>MTR城市建设服务器 &copy; 2023 - 专业铁路建设平台</p>
+            <p>MTR城市建设服务器 这里是页脚了啦 喵~</p>
         </div>
     </footer>
 
@@ -841,27 +811,27 @@
         const cities = {
             village: {
                 title: "村庄城",
-                description: "村庄城是我们服务器中最古老的城市之一，以其传统的建筑风格和独特的村庄布局而闻名。这里保留了许多早期玩家的建筑作品，是了解服务器历史的绝佳地点。村庄城注重传统建筑风格的保留，同时融入了现代化的交通设施，形成了独特的城市风貌。",
+                description: "村庄城是我们服务器第一个城市,由于尝试在山里建设,地形有点别扭,所以城市有一点一点的看着别扭(",
                 images: ["ct_01.jpg", "ct_02.jpg", "ct_03.jpg", "ct_04.jpg", "ct_05.jpg"]
             },
             jinyu: {
                 title: "金玉城",
-                description: "金玉城是一个现代化的大都市，拥有壮观的高层建筑和复杂的交通网络。这里的商业区非常繁荣，是服务器中最具活力的经济中心之一。金玉城以其独特的金色主题建筑和精心规划的交通系统而闻名，是服务器中最受欢迎的城市之一。",
+                description: "没有注释,发展中,目前就一个车站,一条马路",
                 images: ["ct_01_1.jpg", "ct_02_2.jpg", "ct_03_3.jpg", "ct_04_4.jpg", "ct_05_5.jpg"]
             },
             xinhai: {
                 title: "新海市",
-                description: "新海市是一个沿海城市，以其美丽的海滨风光和现代化的港口设施而著称。这里的水上交通系统非常发达，连接着多个岛屿和沿海地区。新海市注重生态与城市的和谐发展，拥有独特的海洋主题建筑和精心设计的海滨景观。",
+                description: "没有注释,发展中,目前就一个车站",
                 images: ["ct_01_6.jpg", "ct_02_7.jpg", "ct_03_8.jpg", "ct_04_9.jpg", "ct_05_10.jpg"]
             },
             yunzhou: {
                 title: "云州城",
-                description: "云州城坐落在山脉之间，以其独特的山地建筑和壮丽的自然景观而闻名。这里的铁路系统需要穿越多个隧道和桥梁，工程难度极高。云州城充分利用了山地地形，打造了层次分明的城市景观和独特的空中交通系统。",
+                description: "没有注释,发展中,目前就一个车站",
                 images: ["ct_01_11.jpg", "ct_02_12.jpg", "ct_03_13.jpg", "ct_04_14.jpg", "ct_05_15.jpg"]
             },
             unnamed: {
                 title: "未命名城市",
-                description: "这是一个正在建设中的新城市，目前还没有正式的名称。这里充满了各种创意和实验性的建筑项目，是服务器中最具创新精神的地方。未命名城市鼓励玩家尝试新的建筑风格和城市规划理念，是服务器中创新思维的孵化器。",
+                description: "没有注释,发展中,目前连个车站都没有(",
                 images: ["ct_01_16.jpg", "ct_02_17.jpg", "ct_03_18.jpg", "ct_04_19.jpg", "ct_05_20.jpg"]
             }
         };
@@ -905,27 +875,6 @@
                 closeCity();
             }
         });
-        
-        // 服务器状态检测
-        function checkServerStatus() {
-            const statusIndicator = document.getElementById('statusIndicator');
-            const statusText = document.getElementById('statusText');
-            
-            // 检测当前域名
-            const currentDomain = window.location.hostname;
-            
-            // 如果是skhebn.top域名，显示服务器已开启
-            if (currentDomain === 'skhebn.top') {
-                statusIndicator.className = 'server-status server-online';
-                statusText.textContent = '服务器已开启';
-            } else {
-                statusIndicator.className = 'server-status server-offline';
-                statusText.textContent = '服务器已关闭';
-            }
-        }
-        
-        // 页面加载时检测服务器状态
-        window.addEventListener('load', checkServerStatus);
         
         // 竖屏提示倒计时功能
         function startCountdown() {
