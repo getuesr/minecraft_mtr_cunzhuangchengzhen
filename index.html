@@ -103,8 +103,6 @@
             width: 100%;
         }
         
-        /* 移除了柔和的边缘效果 */
-        
         .carousel-indicators {
             bottom: 20px;
         }
@@ -452,6 +450,7 @@
             border-radius: 5px;
             transition: transform 0.3s;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
         
         .city-gallery img:hover {
@@ -483,6 +482,67 @@
         .city-description p {
             margin-bottom: 1rem;
             line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        /* 图片放大覆盖层样式 */
+        .image-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .image-overlay img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-overlay .hint {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        /* 彩色渐变标题 */
+        .city-title-gradient {
+            background: linear-gradient(90deg, #6a1b9a, #ba68c8, #4a148c, #e1bee7);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientMove 5s ease infinite;
+            font-weight: 700;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         /* 响应式调整 */
@@ -561,7 +621,7 @@
                         <a class="nav-link active" onclick="showCity('village')">村庄城</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="showCity('jinyu')">金玉城</a>
+                        <a class="nav-link" onclick="showCity('jinyu')">玉金城</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="showCity('xinhai')">新海市</a>
@@ -791,7 +851,7 @@
                 <button class="close-btn" onclick="closeCity()">
                     <i class="fas fa-times"></i>
                 </button>
-                <h2 id="cityTitle">城市名称</h2>
+                <h2 id="cityTitle" class="city-title-gradient">城市名称</h2>
                 <div class="city-gallery" id="cityGallery">
                     <!-- 图片将由JavaScript动态生成 -->
                 </div>
@@ -801,6 +861,12 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- 图片放大覆盖层 -->
+    <div id="imageOverlay" class="image-overlay">
+        <img id="enlargedImage" src="" alt="放大图片">
+        <div class="hint">点击任意空白处关闭</div>
     </div>
 
     <!-- 引入Bootstrap JS -->
@@ -815,8 +881,8 @@
                 images: ["ct_01.jpg", "ct_02.jpg", "ct_03.jpg", "ct_04.jpg", "ct_05.jpg"]
             },
             jinyu: {
-                title: "金玉城",
-                description: "没有注释,发展中,目前就一个车站,一条马路",
+                title: "玉金城",
+                description: "玉金市坐拥山海之韵，群山叠翠，碧海连天，既得林壑之幽，又具沧波之阔。这座小城的魅力，不仅在于自然，更在于不断生长的交通脉络——梁海大桥如银色长龙跃海而过，梁海大道贯通南北，打通了发展的动脉。而梁海站作为高铁枢纽，则让玉金市真正融入了“一小时生活圈”，人来货往，机遇涌动。\n发展并未冲淡这里的温度。面朝大海的小楼静立，书声与海浪相伴的校园生机盎然。山与海在此交融，路与桥在此延伸，玉金市正以从容而开放的姿态，编织着一幅宜居宜业的未来画卷。",
                 images: ["ct_01_1.jpg", "ct_02_2.jpg", "ct_03_3.jpg", "ct_04_4.jpg", "ct_05_5.jpg"]
             },
             xinhai: {
@@ -849,6 +915,9 @@
                 const img = document.createElement('img');
                 img.src = imgSrc;
                 img.alt = `${city.title}图片`;
+                img.addEventListener('dblclick', function() {
+                    enlargeImage(imgSrc);
+                });
                 gallery.appendChild(img);
             });
             
@@ -873,6 +942,36 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeCity();
+            }
+        });
+        
+        // 图片放大功能
+        function enlargeImage(imgSrc) {
+            const imageOverlay = document.getElementById('imageOverlay');
+            const enlargedImage = document.getElementById('enlargedImage');
+            
+            enlargedImage.src = imgSrc;
+            imageOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 关闭放大图片
+        function closeImageOverlay() {
+            document.getElementById('imageOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // 点击图片覆盖层关闭
+        document.getElementById('imageOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageOverlay();
+            }
+        });
+        
+        // ESC键关闭放大图片
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('imageOverlay').style.display === 'flex') {
+                closeImageOverlay();
             }
         });
         
