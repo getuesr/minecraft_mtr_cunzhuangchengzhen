@@ -79,14 +79,14 @@
             font-weight: 800;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            color: white; /* 改为普通白色文字 */
+            color: white;
             letter-spacing: 2px;
         }
         
         .landing-subtitle {
             font-size: 1.8rem;
             margin-bottom: 2rem;
-            color: white; /* 改为普通白色文字 */
+            color: white;
             font-weight: 300;
         }
         
@@ -94,11 +94,11 @@
             position: absolute;
             bottom: 40px;
             left: 50%;
-            transform: translateX(-50%) scale(0.65); /* 缩小35% */
+            transform: translateX(-50%) scale(0.65);
             text-align: center;
             color: white;
             animation: bounce 2s infinite;
-            opacity: 0.65; /* 透明度65% */
+            opacity: 0.65;
         }
         
         .scroll-indicator p {
@@ -140,17 +140,88 @@
             transform: translateY(0);
         }
         
+        /* 公告栏样式 */
+        .announcement-bar {
+            position: fixed;
+            top: -60px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(50, 10, 80, 0.95);
+            color: white;
+            padding: 15px 0;
+            z-index: 9997;
+            transition: top 0.4s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: none; /* 初始隐藏 */
+        }
+        
+        .announcement-bar.show {
+            top: 0;
+            display: block;
+        }
+        
+        .announcement-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .announcement-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-right: 20px;
+        }
+        
+        .announcement-title i {
+            margin-right: 8px;
+            color: #ffcc00;
+        }
+        
+        .announcement-text {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .scrolling-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scrollText 15s linear infinite;
+        }
+        
+        @keyframes scrollText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
         /* 导航栏样式 */
         .navbar {
             background-color: rgba(106, 27, 154, 0.95);
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
             transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9998;
         }
         
         .navbar.scrolled {
             background-color: var(--primary-color);
             padding: 0.7rem 0;
+        }
+        
+        .navbar.with-announcement {
+            top: 60px;
         }
         
         .navbar-brand {
@@ -207,28 +278,43 @@
             width: 100%;
         }
         
+        /* 轮播指示器样式 - 进一步缩小 */
         .carousel-indicators {
             bottom: 20px;
+            margin-bottom: 0;
         }
         
-        .carousel-indicators button {
-            width: 12px;
-            height: 12px;
+        .carousel-indicators [data-bs-target] {
+            width: 6px; /* 进一步缩小 */
+            height: 6px; /* 进一步缩小 */
             border-radius: 50%;
-            margin: 0 8px;
+            margin: 0 4px; /* 进一步缩小 */
             transition: all 0.3s;
             background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
         }
         
-        .carousel-indicators button.active {
+        .carousel-indicators .active {
             background-color: white;
             transform: scale(1.2);
         }
         
+        /* 修复轮播控制按钮 */
         .carousel-control-prev, .carousel-control-next {
             width: 5%;
             opacity: 0.7;
             transition: opacity 0.3s;
+            background: none;
+            border: none;
+        }
+        
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background-size: 20px 20px;
         }
         
         .carousel-control-prev:hover, .carousel-control-next:hover {
@@ -763,6 +849,16 @@
             .gallery-item {
                 margin-bottom: 1.5rem;
             }
+            
+            .announcement-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .announcement-title {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
         }
         
         @media (max-width: 576px) {
@@ -785,6 +881,12 @@
             .city-gallery {
                 grid-template-columns: 1fr;
             }
+            
+            .carousel-indicators [data-bs-target] {
+                width: 4px;
+                height: 4px;
+                margin: 0 3px;
+            }
         }
     </style>
 </head>
@@ -798,7 +900,20 @@
         <div class="scroll-indicator">
             <p>向下滚动进入主页</p>
             <div class="scroll-arrow">
-                <i class="fas fa-angle-double-down"></i> <!-- 改为双向下箭头 -->
+                <i class="fas fa-angle-double-down"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 公告栏 -->
+    <div class="announcement-bar" id="announcementBar">
+        <div class="announcement-content">
+            <div class="announcement-title">
+                <i class="fas fa-bullhorn"></i>
+                <span>服务器公告</span>
+            </div>
+            <div class="announcement-text">
+                <div class="scrolling-text">暂无公告</div>
             </div>
         </div>
     </div>
@@ -806,7 +921,7 @@
     <!-- 页面内容 - 初始隐藏 -->
     <div class="page-content">
         <!-- 导航栏 -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
             <div class="container">
                 <!-- 网站Logo/标题 -->
                 <a class="navbar-brand" href="#">
@@ -842,7 +957,7 @@
         <!-- 轮播图区域 -->
         <section class="carousel-section">
             <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                <!-- 轮播指示器 -->
+                <!-- 轮播指示器 - 滚动小点 -->
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                     <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -1078,6 +1193,7 @@
     <script>
         // 滚动过渡效果
         let hasScrolled = false;
+        let lastScrollTop = 0;
         
         window.addEventListener('scroll', function() {
             // 导航栏滚动效果
@@ -1086,6 +1202,30 @@
             } else {
                 document.querySelector('.navbar').classList.remove('scrolled');
             }
+            
+            // 公告栏显示/隐藏逻辑 - 只在页面内容激活后显示
+            const announcementBar = document.getElementById('announcementBar');
+            const mainNavbar = document.getElementById('mainNavbar');
+            let st = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // 只有当页面内容激活后才显示公告栏
+            if (document.querySelector('.page-content').classList.contains('active')) {
+                if (st > lastScrollTop && st > 200) {
+                    // 向下滚动且超过200px时显示公告栏
+                    announcementBar.classList.add('show');
+                    mainNavbar.classList.add('with-announcement');
+                } else if (st <= 100) {
+                    // 滚动到顶部时隐藏公告栏
+                    announcementBar.classList.remove('show');
+                    mainNavbar.classList.remove('with-announcement');
+                }
+            } else {
+                // 如果页面内容未激活，确保公告栏隐藏
+                announcementBar.classList.remove('show');
+                mainNavbar.classList.remove('with-announcement');
+            }
+            
+            lastScrollTop = st <= 0 ? 0 : st;
             
             // 主界面淡出效果
             if (!hasScrolled && window.scrollY > 100) {
