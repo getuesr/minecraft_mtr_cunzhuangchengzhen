@@ -11,13 +11,15 @@
     <style>
         /* 全局样式 */
         :root {
-            --primary-color: #6a1b9a;
-            --secondary-color: #4a148c;
-            --accent-color: #ba68c8;
+            --primary-color: #666;
+            --secondary-color: #777;
+            --accent-color: #888;
             --light-color: #f8f9fa;
-            --dark-color: #343a40;
+            --dark-color: #333;
             --text-color: #333;
-            --border-color: #e0e0e0;
+            --border-color: #dee2e6;
+            /* 移除渐变，使用纯深灰色 */
+            --solid-color: #666;
         }
         
         * {
@@ -78,16 +80,27 @@
             font-size: 4rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            color: white;
+            color: white !important;
+            text-shadow: 2px 2px 0 #000, 
+                         -2px -2px 0 #000, 
+                         2px -2px 0 #000, 
+                         -2px 2px 0 #000,
+                         1px 1px 0 #000,
+                         -1px -1px 0 #000,
+                         1px -1px 0 #000,
+                         -1px 1px 0 #000;
             letter-spacing: 2px;
         }
         
         .landing-subtitle {
             font-size: 1.8rem;
             margin-bottom: 2rem;
-            color: white;
+            color: white !important;
             font-weight: 300;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         .scroll-indicator {
@@ -104,14 +117,21 @@
         .scroll-indicator p {
             margin-bottom: 15px;
             font-size: 1.2rem;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
             font-weight: 500;
+            color: white !important;
         }
         
         .scroll-arrow {
             font-size: 2.5rem;
             color: white;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         @keyframes bounce {
@@ -140,13 +160,53 @@
             transform: translateY(0);
         }
         
+        /* 施工公告样式 */
+        .construction-notice {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px 50px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            max-width: 80%;
+            display: none;
+        }
+        
+        .construction-notice h3 {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+        }
+        
+        .construction-notice p {
+            font-size: 1.2rem;
+            color: #333;
+            text-shadow: 0.5px 0.5px 0 #000;
+        }
+        
         /* 公告栏样式 */
         .announcement-bar {
-            background-color: rgba(50, 10, 80, 0.95);
+            background-color: #666; /* 深灰色背景 */
             color: white;
-            padding: 15px 0;
+            padding: 10px 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            display: none; /* 初始隐藏 */
+            display: block !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9998;
+            height: 44px;
         }
         
         .announcement-content {
@@ -156,19 +216,25 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            height: 100%;
         }
         
         .announcement-title {
             display: flex;
             align-items: center;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-right: 20px;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         .announcement-title i {
             margin-right: 8px;
-            color: #ffcc00;
+            color: #ddd;
+            text-shadow: 1px 1px 0 #000;
         }
         
         .announcement-text {
@@ -181,6 +247,11 @@
             display: inline-block;
             padding-left: 100%;
             animation: scrollText 15s linear infinite;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+            font-size: 1rem;
         }
         
         @keyframes scrollText {
@@ -192,29 +263,35 @@
             }
         }
         
-        /* 导航栏样式 */
+        /* 导航栏样式 - 修复空位问题 */
         .navbar {
-            background-color: rgba(106, 27, 154, 0.95);
+            background: var(--solid-color); /* 纯深灰色背景 */
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
+            padding: 0.8rem 0;
             transition: all 0.3s ease;
             position: fixed;
-            top: 0;
+            top: 44px; /* 与公告栏高度一致 */
             width: 100%;
-            z-index: 9998;
+            z-index: 9997;
+            height: 72px;
         }
         
         .navbar.scrolled {
-            background-color: var(--primary-color);
-            padding: 0.7rem 0;
+            background: var(--solid-color);
+            padding: 0.5rem 0;
+            height: 64px;
         }
         
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
-            color: white;
+            font-size: 1.4rem;
+            color: white !important;
             display: flex;
             align-items: center;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         .nav-link {
@@ -224,6 +301,7 @@
             transition: color 0.3s;
             cursor: pointer;
             position: relative;
+            text-shadow: 0.5px 0.5px 0 #000;
         }
         
         .nav-link::after {
@@ -245,11 +323,16 @@
             width: 100%;
         }
         
-        /* 轮播图样式 - 修复版 */
+        /* 轮播图区域样式 */
         .carousel-section {
-            margin-top: 76px;
+            margin-top: 116px; /* 公告栏高度(44px) + 导航栏高度(72px) = 116px */
             position: relative;
             overflow: hidden;
+        }
+        
+        /* 滚动后调整轮播图间距 */
+        .navbar.scrolled + .carousel-section {
+            margin-top: 108px; /* 公告栏高度(44px) + 滚动后导航栏高度(64px) = 108px */
         }
         
         .carousel-item {
@@ -263,17 +346,17 @@
             width: 100%;
         }
         
-        /* 轮播指示器样式 - 进一步缩小 */
+        /* 轮播指示器样式 */
         .carousel-indicators {
             bottom: 20px;
             margin-bottom: 0;
         }
         
         .carousel-indicators [data-bs-target] {
-            width: 6px; /* 进一步缩小 */
-            height: 6px; /* 进一步缩小 */
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            margin: 0 4px; /* 进一步缩小 */
+            margin: 0 4px;
             transition: all 0.3s;
             background-color: rgba(255, 255, 255, 0.5);
             border: none;
@@ -285,7 +368,7 @@
             transform: scale(1.2);
         }
         
-        /* 修复轮播控制按钮 */
+        /* 圆形轮播控制按钮 */
         .carousel-control-prev, .carousel-control-next {
             width: 5%;
             opacity: 0.7;
@@ -297,8 +380,8 @@
         .carousel-control-prev-icon, .carousel-control-next-icon {
             background-color: rgba(0, 0, 0, 0.3);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background-size: 20px 20px;
         }
         
@@ -320,21 +403,30 @@
         .section-title h2 {
             font-size: 2.8rem;
             font-weight: 700;
-            color: var(--primary-color);
+            color: white !important;
+            text-shadow: 2px 2px 0 #000, 
+                         -2px -2px 0 #000, 
+                         2px -2px 0 #000, 
+                         -2px 2px 0 #000,
+                         1px 1px 0 #000,
+                         -1px -1px 0 #000,
+                         1px -1px 0 #000,
+                         -1px 1px 0 #000;
             margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
+            background: none !important;
         }
         
+        /* 线条变细，使用深灰色 */
         .section-title h2::after {
             content: '';
             position: absolute;
             bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--solid-color);
             border-radius: 2px;
         }
         
@@ -343,6 +435,7 @@
             max-width: 700px;
             margin: 0 auto;
             font-size: 1.2rem;
+            text-shadow: 0.5px 0.5px 0 #0002;
         }
         
         .feature-box {
@@ -366,32 +459,42 @@
         .feature-icon {
             width: 90px;
             height: 90px;
-            background: linear-gradient(135deg, rgba(106, 27, 154, 0.1), rgba(186, 104, 200, 0.1));
+            background: var(--solid-color); /* 纯深灰色背景 */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 2rem;
-            color: var(--primary-color);
+            color: white;
             font-size: 2.5rem;
             transition: all 0.4s;
+            text-shadow: 1px 1px 0 #000;
         }
         
         .feature-box:hover .feature-icon {
             transform: scale(1.1);
-            background: linear-gradient(135deg, rgba(106, 27, 154, 0.2), rgba(186, 104, 200, 0.2));
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
         }
         
         .feature-box h3 {
             font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
-            color: var(--primary-color);
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+            background: var(--solid-color); /* 纯深灰色背景 */
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
         }
         
         .feature-box p {
             font-size: 1.1rem;
             line-height: 1.7;
+            text-shadow: 0.5px 0.5px 0 #0002;
         }
         
         /* 路线图区域样式 */
@@ -413,6 +516,7 @@
             max-width: 100%;
             height: auto;
             transition: transform 0.5s;
+            border: 3px solid var(--solid-color); /* 深灰色边框 */
         }
         
         .route-image:hover {
@@ -424,21 +528,29 @@
         }
         
         .route-description h3 {
-            color: var(--primary-color);
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
             margin-bottom: 1.8rem;
             font-size: 2rem;
             position: relative;
             display: inline-block;
+            background: var(--solid-color); /* 纯深灰色背景 */
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
         }
         
+        /* 线条变细，使用深灰色 */
         .route-description h3::after {
             content: '';
             position: absolute;
             bottom: -10px;
             left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 100%;
+            height: 1.5px;
+            background: var(--solid-color);
             border-radius: 2px;
         }
         
@@ -446,6 +558,7 @@
             margin-bottom: 1.5rem;
             line-height: 1.8;
             font-size: 1.1rem;
+            text-shadow: 0.5px 0.5px 0 #0002;
         }
         
         /* 图片展示区域样式 */
@@ -461,6 +574,7 @@
             margin-bottom: 2rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.4s;
+            border: 2px solid var(--solid-color); /* 深灰色边框 */
         }
         
         .gallery-item:hover {
@@ -498,23 +612,32 @@
         .gallery-overlay h4 {
             font-size: 1.4rem;
             margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+        }
+        
+        .gallery-overlay p {
+            text-shadow: 0.5px 0.5px 0 #000;
         }
         
         /* 联系区域样式 */
         .contact-section {
             padding: 100px 0;
-            background: linear-gradient(rgba(106, 27, 154, 0.9), rgba(74, 20, 140, 0.9)), url('h_2.jpg') center/cover no-repeat;
+            background: var(--solid-color); /* 纯深灰色背景 */
             color: white;
             position: relative;
         }
         
         .contact-card {
-            background-color: white;
+            background-color: rgba(255,255,255,0.9);
             color: var(--dark-color);
             border-radius: 12px;
             padding: 3rem;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             transition: transform 0.4s;
+            border: 3px solid var(--solid-color); /* 深灰色边框 */
         }
         
         .contact-card:hover {
@@ -522,21 +645,29 @@
         }
         
         .contact-card h3 {
-            color: var(--primary-color);
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
             margin-bottom: 2rem;
             font-size: 2rem;
             position: relative;
             display: inline-block;
+            background: var(--solid-color); /* 纯深灰色背景 */
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
         }
         
+        /* 线条变细，使用深灰色 */
         .contact-card h3::after {
             content: '';
             position: absolute;
             bottom: -10px;
             left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 100%;
+            height: 1.5px;
+            background: var(--solid-color);
             border-radius: 2px;
         }
         
@@ -550,6 +681,7 @@
             width: 24px;
             text-align: center;
             font-size: 1.2rem;
+            text-shadow: 0.5px 0.5px 0 #000;
         }
         
         .contact-info p {
@@ -557,6 +689,7 @@
             font-size: 1.1rem;
             display: flex;
             align-items: center;
+            text-shadow: 0.5px 0.5px 0 #0002;
         }
         
         .qrcode-container {
@@ -574,26 +707,40 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--solid-color); /* 深灰色边框 */
         }
         
         .qrcode-container p {
             margin-top: 1.5rem;
             font-weight: 600;
-            color: var(--primary-color);
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
             font-size: 1.1rem;
+            background: var(--solid-color); /* 纯深灰色背景 */
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
+            display: inline-block;
         }
         
-        /* 页脚样式 */
+        /* 页脚样式 - 移除空位 */
         .footer {
-            background-color: var(--secondary-color);
+            background: #666; /* 纯深灰色背景 */
             color: white;
             padding: 2.5rem 0;
             text-align: center;
+            margin-bottom: 0; /* 确保没有额外边距 */
         }
         
         .footer p {
             margin: 0;
             font-size: 1.1rem;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         /* 城市介绍覆盖页面样式 */
@@ -622,6 +769,7 @@
             position: relative;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             animation: fadeIn 0.5s ease;
+            border: 3px solid var(--solid-color); /* 深灰色边框 */
         }
         
         @keyframes fadeIn {
@@ -633,7 +781,7 @@
             position: absolute;
             top: 1.5rem;
             right: 1.5rem;
-            background: var(--primary-color);
+            background: var(--solid-color); /* 纯深灰色背景 */
             color: white;
             border: none;
             width: 45px;
@@ -646,11 +794,14 @@
             cursor: pointer;
             z-index: 10;
             transition: all 0.3s;
+            text-shadow: 1px 1px 0 #000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
         
         .close-btn:hover {
-            background: var(--accent-color);
-            transform: rotate(90deg);
+            background: var(--solid-color);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
         }
         
         .city-gallery {
@@ -668,6 +819,7 @@
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
+            border: 2px solid var(--solid-color); /* 深灰色边框 */
         }
         
         .city-gallery img:hover {
@@ -680,21 +832,29 @@
         }
         
         .city-description h3 {
-            color: var(--primary-color);
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
             margin-bottom: 1.5rem;
             font-size: 1.8rem;
             position: relative;
             display: inline-block;
+            background: var(--solid-color); /* 纯深灰色背景 */
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
         }
         
+        /* 线条变细，使用深灰色 */
         .city-description h3::after {
             content: '';
             position: absolute;
             bottom: -8px;
             left: 0;
-            width: 40px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 100%;
+            height: 1.5px;
+            background: var(--solid-color);
             border-radius: 2px;
         }
         
@@ -703,6 +863,7 @@
             line-height: 1.8;
             white-space: pre-line;
             font-size: 1.1rem;
+            text-shadow: 0.5px 0.5px 0 #0002;
         }
         
         /* 图片放大覆盖层样式 */
@@ -726,6 +887,7 @@
             max-height: 80%;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--solid-color); /* 深灰色边框 */
         }
         
         .image-overlay .hint {
@@ -737,6 +899,10 @@
             padding: 12px 25px;
             border-radius: 25px;
             animation: pulse 2s infinite;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         @keyframes pulse {
@@ -745,25 +911,21 @@
             100% { opacity: 0.7; }
         }
         
-        /* 彩色渐变标题 */
-        .city-title-gradient {
-            background: linear-gradient(90deg, #6a1b9a, #ba68c8, #4a148c, #e1bee7);
-            background-size: 400% 400%;
+        /* 深灰色标题 */
+        .city-title-solid {
+            background: var(--solid-color); /* 纯深灰色背景 */
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: gradientMove 5s ease infinite;
             font-weight: 700;
             padding-bottom: 10px;
             margin-bottom: 20px;
             display: inline-block;
             font-size: 2.5rem;
-        }
-        
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
         }
         
         /* 响应式调整 */
@@ -782,6 +944,26 @@
             
             .section-title h2 {
                 font-size: 2.3rem;
+            }
+            
+            /* 移动端导航栏高度调整 */
+            .navbar {
+                height: auto;
+                padding: 0.8rem 0;
+            }
+            
+            .navbar.scrolled {
+                height: auto;
+                padding: 0.5rem 0;
+            }
+            
+            /* 移动端轮播图间距调整 */
+            .carousel-section {
+                margin-top: 44px; /* 仅公告栏高度，导航栏自适应 */
+            }
+            
+            .navbar.scrolled + .carousel-section {
+                margin-top: 44px;
             }
         }
         
@@ -842,7 +1024,20 @@
             
             .announcement-title {
                 margin-right: 0;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
+            }
+            
+            /* 移动端公告栏高度调整 */
+            .announcement-bar {
+                height: auto;
+                padding: 8px 0;
+            }
+            
+            /* 移动端导航栏位置调整 */
+            .navbar {
+                top: auto;
+                position: sticky;
+                margin-top: -1px; /* 消除边框间隙 */
             }
         }
         
@@ -892,7 +1087,26 @@
 
     <!-- 页面内容 - 初始隐藏 -->
     <div class="page-content">
-        <!-- 导航栏 -->
+        <!-- 施工公告 -->
+        <div class="construction-notice" id="constructionNotice">
+            <h3>施工公告</h3>
+            <p>此页还在施工哦~</p>
+        </div>
+
+        <!-- 公告栏 - 固定在顶部，常驻显示 -->
+        <div class="announcement-bar" id="announcementBar">
+            <div class="announcement-content">
+                <div class="announcement-title">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>服务器公告</span>
+                </div>
+                <div class="announcement-text">
+                    <div class="scrolling-text">欢迎来到萌新MTR地铁建设服务器！服务器在线时间：一般为周五~周天，但是可以随时@腐竹要求开服。官方QQ群：1070623105</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导航栏 - 紧贴公告栏下方（无空位） -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
             <div class="container">
                 <!-- 网站Logo/标题 -->
@@ -926,20 +1140,7 @@
             </div>
         </nav>
 
-        <!-- 公告栏 - 移动到页面顶部 -->
-        <div class="announcement-bar" id="announcementBar">
-            <div class="announcement-content">
-                <div class="announcement-title">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>服务器公告</span>
-                </div>
-                <div class="announcement-text">
-                    <div class="scrolling-text">欢迎来到萌新MTR地铁建设服务器！服务器在线时间：一般为周五~周天，但是可以随时@腐竹要求开服。官方QQ群：1070623105</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 轮播图区域 -->
+        <!-- 轮播图区域 - 紧贴导航栏下方（无错位） -->
         <section class="carousel-section">
             <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                 <!-- 轮播指示器 - 滚动小点 -->
@@ -954,7 +1155,7 @@
                     <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
                 </div>
                 
-                <!-- 轮播内容 - 原版代码 -->
+                <!-- 轮播内容 -->
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img src="lo_1.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示1">
@@ -982,7 +1183,7 @@
                     </div>
                 </div>
                 
-                <!-- 轮播控制按钮 -->
+                <!-- 轮播控制按钮 - 圆形 -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">上一张</span>
@@ -1139,7 +1340,7 @@
             </div>
         </section>
 
-        <!-- 页脚 -->
+        <!-- 页脚 - 纯灰色 -->
         <footer class="footer">
             <div class="container">
                 <p>萌新MTR地铁建设服务器 这里是页脚了啦 喵~</p>
@@ -1153,7 +1354,7 @@
                     <button class="close-btn" onclick="closeCity()">
                         <i class="fas fa-times"></i>
                     </button>
-                    <h2 id="cityTitle" class="city-title-gradient">城市名称</h2>
+                    <h2 id="cityTitle" class="city-title-solid">城市名称</h2>
                     <div class="city-gallery" id="cityGallery">
                         <!-- 图片将由JavaScript动态生成 -->
                     </div>
@@ -1178,7 +1379,6 @@
     <script>
         // 滚动过渡效果
         let hasScrolled = false;
-        let lastScrollTop = 0;
         
         window.addEventListener('scroll', function() {
             // 导航栏滚动效果
@@ -1201,8 +1401,12 @@
                 setTimeout(() => {
                     mainLanding.style.display = 'none';
                     document.querySelector('.page-content').classList.add('active');
-                    // 显示公告栏
-                    document.getElementById('announcementBar').style.display = 'block';
+                    // 显示施工公告
+                    document.getElementById('constructionNotice').style.display = 'block';
+                    // 3秒后自动隐藏施工公告
+                    setTimeout(() => {
+                        document.getElementById('constructionNotice').style.display = 'none';
+                    }, 3000);
                 }, 1000);
             }
         });
@@ -1249,7 +1453,7 @@
                 const img = document.createElement('img');
                 img.src = imgSrc;
                 img.alt = `${city.title}图片`;
-                img.addEventListener('click', function() {  // 改为单击事件
+                img.addEventListener('click', function() {
                     enlargeImage(imgSrc);
                 });
                 gallery.appendChild(img);
