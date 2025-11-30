@@ -73,76 +73,6 @@
             text-shadow: 0.5px 0.5px 0 #000;
         }
         
-        /* 公告栏样式 */
-        .announcement-bar {
-            background-color: #666;
-            color: white;
-            padding: 10px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            display: block !important;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9998;
-            height: auto;
-            min-height: 44px;
-        }
-        
-        .announcement-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            height: 100%;
-        }
-        
-        .announcement-title {
-            display: flex;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-right: 20px;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-        }
-        
-        .announcement-title i {
-            margin-right: 8px;
-            color: #ddd;
-            text-shadow: 1px 1px 0 #000;
-        }
-        
-        .announcement-text {
-            flex: 1;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        .scrolling-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: scrollText 15s linear infinite;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-            font-size: 1rem;
-        }
-        
-        @keyframes scrollText {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-        
         /* 导航栏样式 */
         .navbar {
             background: var(--solid-color);
@@ -150,7 +80,7 @@
             padding: 0.8rem 0;
             transition: all 0.3s ease;
             position: fixed;
-            top: 44px; /* 公告栏高度 */
+            top: 0;
             width: 100%;
             z-index: 9997;
             height: auto;
@@ -202,15 +132,30 @@
             width: 100%;
         }
         
+        /* 首页按钮下方横线 */
+        .nav-item:first-child .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
         /* 轮播图区域样式 */
         .carousel-section {
-            margin-top: 116px; /* 公告栏高度(44px) + 导航栏高度(72px) */
+            margin-top: 72px; /* 导航栏高度 */
             position: relative;
             overflow: hidden;
         }
         
+        /* 轮播图高度缩减一半 */
         .carousel-item {
-            height: calc(100vh - 116px); /* 视口高度减去顶部高度 */
+            height: 40vh; /* 使用视口高度的40% */
+            min-height: 300px; /* 设置最小高度 */
+            max-height: 500px; /* 设置最大高度 */
             position: relative;
         }
         
@@ -242,7 +187,7 @@
             transform: scale(1.2);
         }
         
-        /* 圆形轮播控制按钮 */
+        /* 圆形轮播控制按钮 - 去掉椭圆形背景 */
         .carousel-control-prev, .carousel-control-next {
             width: 5%;
             opacity: 0.7;
@@ -252,10 +197,10 @@
         }
         
         .carousel-control-prev-icon, .carousel-control-next-icon {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            background-color: transparent; /* 去掉背景 */
+            border-radius: 0; /* 去掉圆角 */
+            width: 30px; /* 调整大小 */
+            height: 30px;
             background-size: 20px 20px;
         }
         
@@ -596,13 +541,14 @@
             display: inline-block;
         }
         
-        /* 页脚样式 */
+        /* 页脚样式 - 包含滚动公告 */
         .footer {
             background: #666;
             color: white;
-            padding: 2.5rem 0;
+            padding: 2.5rem 0 4rem 0; /* 底部增加内边距以容纳公告 */
             text-align: center;
             margin-bottom: 0;
+            position: relative;
         }
         
         .footer p {
@@ -614,216 +560,94 @@
                          -1px 1px 0 #000;
         }
         
-        /* 城市介绍覆盖页面样式 */
-        .city-overlay {
-            position: fixed;
-            top: 0;
+        /* 滚动公告样式 - 放在页脚内 */
+        .announcement-bar {
+            background-color: #555;
+            color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 9999;
-            display: none;
-            overflow-y: auto;
-            transition: all 0.4s ease;
+            z-index: 9996;
+            height: auto;
+            min-height: 44px;
         }
         
-        .city-content {
-            background-color: white;
-            margin: 2rem auto;
-            padding: 3rem;
-            border-radius: 12px;
-            max-width: 1400px;
-            min-height: 800px;
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease;
-            border: 3px solid var(--solid-color);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: var(--solid-color);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+        .announcement-content {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s;
-            text-shadow: 1px 1px 0 #000;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-        
-        .close-btn:hover {
-            background: var(--solid-color);
-            transform: rotate(90deg) scale(1.1);
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-        }
-        
-        .city-gallery {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin: 2.5rem 0;
-        }
-        
-        .city-gallery img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            border: 2px solid var(--solid-color);
-        }
-        
-        .city-gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .city-description {
-            margin-top: 2.5rem;
-        }
-        
-        .city-description h3 {
-            color: white !important;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            position: relative;
-            display: inline-block;
-            background: var(--solid-color);
-            padding: 0.3rem 1.5rem;
-            border-radius: 30px;
-        }
-        
-        .city-description h3::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 1.5px;
-            background: var(--solid-color);
-            border-radius: 2px;
-        }
-        
-        .city-description p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            white-space: pre-line;
-            font-size: 1.1rem;
-            text-shadow: 0.5px 0.5px 0 #0002;
-        }
-        
-        /* 图片放大覆盖层样式 */
-        .image-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            display: none;
-            justify-content: center;
+        }
+        
+        .announcement-title {
+            display: flex;
             align-items: center;
-            flex-direction: column;
-            cursor: pointer;
-        }
-        
-        .image-overlay img {
-            max-width: 90%;
-            max-height: 80%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 3px solid var(--solid-color);
-        }
-        
-        .image-overlay .hint {
-            color: white;
-            margin-top: 25px;
-            font-size: 1.2rem;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 12px 25px;
-            border-radius: 25px;
-            animation: pulse 2s infinite;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-right: 20px;
             text-shadow: 1px 1px 0 #000, 
                          -1px -1px 0 #000, 
                          1px -1px 0 #000, 
                          -1px 1px 0 #000;
         }
         
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
+        .announcement-title i {
+            margin-right: 8px;
+            color: #ddd;
+            text-shadow: 1px 1px 0 #000;
         }
         
-        /* 深灰色标题 */
-        .city-title-solid {
-            background: var(--solid-color);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 700;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+        .announcement-text {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .scrolling-text {
             display: inline-block;
-            font-size: 2.5rem;
+            padding-left: 100%;
+            animation: scrollText 15s linear infinite;
             text-shadow: 1px 1px 0 #000, 
                          -1px -1px 0 #000, 
                          1px -1px 0 #000, 
                          -1px 1px 0 #000;
+            font-size: 1rem;
+        }
+        
+        @keyframes scrollText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
         
         /* 响应式调整 */
         @media (max-width: 992px) {
             .carousel-item {
-                height: 450px;
+                height: 35vh;
             }
             
             .section-title h2 {
                 font-size: 2.3rem;
             }
-            
-            .city-gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
         }
         
         @media (max-width: 768px) {
             .carousel-item {
-                height: 350px;
+                height: 30vh;
+                min-height: 200px;
             }
             
             .section-title h2 {
                 font-size: 2rem;
-            }
-            
-            .city-gallery {
-                grid-template-columns: repeat(2, 1fr);
             }
             
             .city-content {
@@ -867,26 +691,23 @@
             
             /* 移动端导航栏调整 */
             .navbar {
-                top: 0;
                 position: sticky;
+                top: 0;
             }
             
             .carousel-section {
-                margin-top: 44px; /* 仅公告栏高度 */
+                margin-top: 0; /* 移动端不需要额外margin-top */
             }
         }
         
         @media (max-width: 576px) {
             .carousel-item {
-                height: 250px;
+                height: 25vh;
+                min-height: 180px;
             }
             
             .section-title h2 {
                 font-size: 1.8rem;
-            }
-            
-            .city-gallery {
-                grid-template-columns: 1fr;
             }
             
             .carousel-indicators [data-bs-target] {
@@ -904,20 +725,7 @@
         <p>此页还在施工哦~</p>
     </div>
 
-    <!-- 公告栏 - 固定在顶部，常驻显示 -->
-    <div class="announcement-bar" id="announcementBar">
-        <div class="announcement-content">
-            <div class="announcement-title">
-                <i class="fas fa-bullhorn"></i>
-                <span>服务器公告</span>
-            </div>
-            <div class="announcement-text">
-                <div class="scrolling-text">欢迎来到萌新MTR地铁建设服务器！服务器在线时间：一般为周五~周天，但是可以随时@腐竹要求开服。官方QQ群：1070623105</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 导航栏 - 紧贴公告栏下方 -->
+    <!-- 导航栏 - 简化后的三个按钮 -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
         <div class="container">
             <!-- 网站Logo/标题 -->
@@ -928,30 +736,24 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- 导航菜单 -->
+            <!-- 导航菜单 - 简化后的三个按钮 -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" onclick="showCity('village')">村庄城</a>
+                        <a class="nav-link active">首页</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="showCity('jinyu')">玉金城</a>
+                        <a class="nav-link" href="Server_City">服务器内的城市</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="showCity('xinhai')">新海市</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="showCity('yunzhou')">云州城</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="showCity('unnamed')">未命名城市</a>
+                        <a class="nav-link" href="about_us">关于我们</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- 轮播图区域 - 紧贴导航栏下方 -->
+    <!-- 轮播图区域 - 高度已缩减 -->
     <section class="carousel-section">
         <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <!-- 轮播指示器 - 滚动小点 -->
@@ -994,7 +796,7 @@
                 </div>
             </div>
             
-            <!-- 轮播控制按钮 - 圆形 -->
+            <!-- 轮播控制按钮 - 只有箭头，没有椭圆形背景 -->
             <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">上一张</span>
@@ -1151,37 +953,24 @@
         </div>
     </section>
 
-    <!-- 页脚 - 纯灰色 -->
+    <!-- 页脚 - 包含滚动公告 -->
     <footer class="footer">
         <div class="container">
             <p>萌新MTR地铁建设服务器 这里是页脚了啦 喵~</p>
         </div>
-    </footer>
-
-    <!-- 城市介绍覆盖页面 -->
-    <div id="cityOverlay" class="city-overlay">
-        <div class="container">
-            <div class="city-content">
-                <button class="close-btn" onclick="closeCity()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2 id="cityTitle" class="city-title-solid">城市名称</h2>
-                <div class="city-gallery" id="cityGallery">
-                    <!-- 图片将由JavaScript动态生成 -->
+        <!-- 滚动公告 - 现在放在页脚内 -->
+        <div class="announcement-bar" id="announcementBar">
+            <div class="announcement-content">
+                <div class="announcement-title">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>服务器公告</span>
                 </div>
-                <div class="city-description">
-                    <h3>城市介绍</h3>
-                    <p id="cityDescription">这里将显示城市的详细介绍...</p>
+                <div class="announcement-text">
+                    <div class="scrolling-text">欢迎来到萌新MTR地铁建设服务器！服务器在线时间：一般为周五~周天，但是可以随时@腐竹要求开服。官方QQ群：1070623105</div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- 图片放大覆盖层 -->
-    <div id="imageOverlay" class="image-overlay">
-        <img id="enlargedImage" src="" alt="放大图片">
-        <div class="hint">点击任意空白处关闭</div>
-    </div>
+    </footer>
 
     <!-- 引入Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -1212,108 +1001,12 @@
                     document.querySelector('.navbar').classList.remove('scrolled');
                 }
             });
-        });
-        
-        // 城市数据
-        const cities = {
-            village: {
-                title: "村庄城",
-                description: "村庄城是我们服务器第一个城市,由于尝试在山里建设,地形有点别扭,所以城市有一点一点的看着别扭(",
-                images: ["ct_01.jpg", "ct_02.jpg", "ct_03.jpg", "ct_04.jpg", "ct_05.jpg"]
-            },
-            jinyu: {
-                title: "玉金城",
-                description: "玉金市坐拥山海之韵，群山叠翠，碧海连天，既得林壑之幽，又具沧波之阔。这座小城的魅力，不仅在于自然，更在于不断生长的交通脉络——梁海大桥如银色长龙跃海而过，梁海大道贯通南北，打通了发展的动脉。而梁海站作为高铁枢纽，则让玉金市真正融入了\"一小时生活圈\"，人来货往，机遇涌动。\n发展并未冲淡这里的温度。面朝大海的小楼静立，书声与海浪相伴的校园生机盎然。山与海在此交融，路与桥在此延伸，玉金市正以从容而开放的姿态，编织着一幅宜居宜业的未来画卷。",
-                images: ["ct_01_1.jpg", "ct_02_2.jpg", "ct_03_3.jpg", "ct_04_4.jpg", "ct_05_5.jpg"]
-            },
-            xinhai: {
-                title: "新海市",
-                description: "没有注释,发展中,目前就一个车站",
-                images: ["ct_01_6.jpg", "ct_02_7.jpg", "ct_03_8.jpg", "ct_04_9.jpg", "ct_05_10.jpg"]
-            },
-            yunzhou: {
-                title: "云州城",
-                description: "没有注释,发展中,目前就一个车站",
-                images: ["ct_01_11.jpg", "ct_02_12.jpg", "ct_03_13.jpg", "ct_04_14.jpg", "ct_05_15.jpg"]
-            },
-            unnamed: {
-                title: "未命名城市",
-                description: "没有注释,发展中,目前连个车站都没有(",
-                images: ["ct_01_16.jpg", "ct_02_17.jpg", "ct_03_18.jpg", "ct_04_19.jpg", "ct_05_20.jpg"]
-            }
-        };
-        
-        // 显示城市介绍
-        function showCity(cityId) {
-            const city = cities[cityId];
-            document.getElementById('cityTitle').textContent = city.title;
-            document.getElementById('cityDescription').textContent = city.description;
             
-            // 动态生成图片
-            const gallery = document.getElementById('cityGallery');
-            gallery.innerHTML = '';
-            city.images.forEach(imgSrc => {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.alt = `${city.title}图片`;
-                img.addEventListener('click', function() {
-                    enlargeImage(imgSrc);
-                });
-                gallery.appendChild(img);
+            // 首页按钮点击事件 - 无响应
+            document.querySelector('.nav-item:first-child .nav-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                // 什么都不做
             });
-            
-            document.getElementById('cityOverlay').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        }
-        
-        // 关闭城市介绍
-        function closeCity() {
-            document.getElementById('cityOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto'; // 恢复滚动
-        }
-        
-        // 点击覆盖层外部关闭
-        document.getElementById('cityOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeCity();
-            }
-        });
-        
-        // ESC键关闭城市介绍
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeCity();
-            }
-        });
-        
-        // 图片放大功能
-        function enlargeImage(imgSrc) {
-            const imageOverlay = document.getElementById('imageOverlay');
-            const enlargedImage = document.getElementById('enlargedImage');
-            
-            enlargedImage.src = imgSrc;
-            imageOverlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // 关闭放大图片
-        function closeImageOverlay() {
-            document.getElementById('imageOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        // 点击图片覆盖层关闭
-        document.getElementById('imageOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeImageOverlay();
-            }
-        });
-        
-        // ESC键关闭放大图片
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('imageOverlay').style.display === 'flex') {
-                closeImageOverlay();
-            }
         });
     </script>
 </body>
