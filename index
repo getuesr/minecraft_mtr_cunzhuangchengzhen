@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芒特省MTR城市建设服务器 - 加载中</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .loading-container {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .progress-text {
+            position: absolute;
+            bottom: 80px;
+            right: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .loading-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .loading-text {
+                font-size: 16px;
+            }
+            
+            .progress-text {
+                bottom: 60px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-text" id="progressText">正在预加载资源...</div>
+    <div class="loading-container">
+        <div class="loading-text">芒特省MTR城市建设服务器</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        // 预加载目标页面
+        function preloadPage() {
+            const targetUrl = 'index_home.html';
+            const progressText = document.getElementById('progressText');
+            
+            // 更新进度文本
+            progressText.textContent = '正在预加载资源...';
+            
+            // 创建一个隐藏的iframe来预加载目标页面
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = targetUrl;
+            
+            iframe.onload = function() {
+                // 页面加载完成后，等待一小段时间确保资源缓存
+                progressText.textContent = '资源加载完成，即将跳转...';
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 500);
+            };
+            
+            iframe.onerror = function() {
+                // 如果预加载失败，直接跳转
+                progressText.textContent = '预加载失败，正在跳转...';
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 1000);
+            };
+            
+            document.body.appendChild(iframe);
+            
+            // 设置超时，确保即使预加载有问题也能跳转
+            setTimeout(() => {
+                progressText.textContent = '正在跳转...';
+                window.location.href = targetUrl;
+            }, 5000);
+        }
+        
+        // 页面加载完成后开始预加载
+        window.addEventListener('load', preloadPage);
+    </script>
+</body>
+</html>
