@@ -58,6 +58,15 @@
             color: rgba(255, 255, 255, 0.7);
         }
         
+        .cached-indicator {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .loading-container {
                 bottom: 20px;
@@ -72,10 +81,16 @@
                 bottom: 60px;
                 right: 20px;
             }
+            
+            .cached-indicator {
+                top: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="cached-indicator" id="cachedIndicator">已缓存</div>
     <div class="progress-text" id="progressText">正在预加载资源...</div>
     <div class="loading-container">
         <div class="loading-text">芒特省MTR城市建设服务器</div>
@@ -87,6 +102,23 @@
         function preloadPage() {
             const targetUrl = 'home';
             const progressText = document.getElementById('progressText');
+            const cachedIndicator = document.getElementById('cachedIndicator');
+            
+            // 检查是否已有缓存
+            const cacheKey = 'mt_mtr_server_cached';
+            const isCached = localStorage.getItem(cacheKey);
+            
+            if (isCached) {
+                // 如果已有缓存，显示相应提示并快速跳转
+                progressText.textContent = '您已经缓存过当前资源';
+                cachedIndicator.style.display = 'block';
+                
+                // 1秒后跳转
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 1000);
+                return;
+            }
             
             // 更新进度文本
             progressText.textContent = '正在预加载资源...';
@@ -97,7 +129,11 @@
             iframe.src = targetUrl;
             
             iframe.onload = function() {
-                // 页面加载完成后，等待一小段时间确保资源缓存
+                // 页面加载完成后，标记为已缓存
+                localStorage.setItem(cacheKey, 'true');
+                cachedIndicator.style.display = 'block';
+                
+                // 等待一小段时间确保资源缓存
                 progressText.textContent = '资源加载完成，即将跳转...';
                 setTimeout(() => {
                     window.location.href = targetUrl;
