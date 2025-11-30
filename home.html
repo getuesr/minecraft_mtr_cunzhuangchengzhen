@@ -208,12 +208,6 @@
             opacity: 1;
         }
         
-        /* 关于我们区域样式 */
-        .about-section {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
         .section-title {
             text-align: center;
             margin-bottom: 4rem;
@@ -253,65 +247,6 @@
             max-width: 700px;
             margin: 0 auto;
             font-size: 1.2rem;
-            text-shadow: 0.5px 0.5px 0 #0002;
-        }
-        
-        .feature-box {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
-            transition: all 0.4s;
-            margin-bottom: 2rem;
-            background-color: white;
-            border: 1px solid var(--border-color);
-            height: 100%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .feature-box:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary-color);
-        }
-        
-        .feature-icon {
-            width: 90px;
-            height: 90px;
-            background: var(--solid-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            color: white;
-            font-size: 2.5rem;
-            transition: all 0.4s;
-            text-shadow: 1px 1px 0 #000;
-        }
-        
-        .feature-box:hover .feature-icon {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
-        }
-        
-        .feature-box h3 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            color: white !important;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-            background: var(--solid-color);
-            display: inline-block;
-            padding: 0.3rem 1.5rem;
-            border-radius: 30px;
-        }
-        
-        .feature-box p {
-            font-size: 1.1rem;
-            line-height: 1.7;
             text-shadow: 0.5px 0.5px 0 #0002;
         }
         
@@ -650,29 +585,12 @@
                 font-size: 2rem;
             }
             
-            .city-content {
-                max-width: 95%;
-                min-height: auto;
-                padding: 2rem;
-            }
-            
             .qrcode-container {
                 border-left: none;
                 border-top: 1px solid var(--border-color);
                 padding-left: 0;
                 padding-top: 2.5rem;
                 margin-top: 2.5rem;
-            }
-            
-            .feature-box {
-                margin-bottom: 1.5rem;
-                padding: 2rem 1.5rem;
-            }
-            
-            .feature-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 2rem;
             }
             
             .gallery-item {
@@ -805,48 +723,6 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">下一张</span>
             </button>
-        </div>
-    </section>
-
-    <!-- 关于我们区域 -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>关于我们</h2>
-                <p>萌新MTR服务器运营团队，致力于为玩家提供最佳铁路建设体验</p>
-            </div>
-            <div class="row">
-                <!-- 特性1 -->
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <i class="fas fa-train"></i>
-                        </div>
-                        <h3>Mod是什么？</h3>
-                        <p>采用最新MTR 4.0.2模组，配合fabric Minecraft Java 1.20.1版本，确保最佳游戏体验。</p>
-                    </div>
-                </div>
-                <!-- 特性2 -->
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <i class="fas fa-city"></i>
-                        </div>
-                        <h3>多样化城市建设</h3>
-                        <p>从传统村庄到现代化大都市，多种城市风格任您选择，打造独特的城市景观。</p>
-                    </div>
-                </div>
-                <!-- 特性3 -->
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>活跃社区</h3>
-                        <p>拥有多个活跃玩家社群，定期举办建筑比赛和技术交流活动，共同进步。</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
