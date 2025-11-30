@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 萌新MTR地铁建设服务器</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        :root {
+            --primary-color: #666;
+            --secondary-color: #777;
+            --accent-color: #888;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --solid-color: #666;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background: var(--solid-color);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9997;
+            height: auto;
+        }
+        
+        .navbar.scrolled {
+            background: var(--solid-color);
+            padding: 0.5rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+            cursor: pointer;
+            position: relative;
+            text-shadow: 0.5px 0.5px 0 #000;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* 关于我们页面的主要内容区域 */
+        .about-main {
+            margin-top: 72px; /* 导航栏高度 */
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white !important;
+            text-shadow: 2px 2px 0 #000, 
+                         -2px -2px 0 #000, 
+                         2px -2px 0 #000, 
+                         -2px 2px 0 #000,
+                         1px 1px 0 #000,
+                         -1px -1px 0 #000,
+                         1px -1px 0 #000,
+                         -1px 1px 0 #000;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            background: none !important;
+        }
+        
+        .section-title h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--solid-color);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            text-shadow: 0.5px 0.5px 0 #0002;
+        }
+        
+        /* 服务器介绍区域 */
+        .server-intro {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .intro-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s;
+            border: 3px solid var(--solid-color);
+            margin-bottom: 2rem;
+        }
+        
+        .intro-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .intro-card h3 {
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            background: var(--solid-color);
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
+        }
+        
+        .intro-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background: var(--solid-color);
+            border-radius: 2px;
+        }
+        
+        .intro-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-shadow: 0.5px 0.5px 0 #0002;
+        }
+        
+        /* 联系区域样式 */
+        .contact-section {
+            padding: 80px 0;
+            background: var(--solid-color);
+            color: white;
+            position: relative;
+        }
+        
+        .contact-card {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--dark-color);
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s;
+            border: 3px solid var(--solid-color);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-card h3 {
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            background: var(--solid-color);
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
+        }
+        
+        .contact-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background: var(--solid-color);
+            border-radius: 2px;
+        }
+        
+        .contact-info {
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 0.8rem;
+            width: 24px;
+            text-align: center;
+            font-size: 1.2rem;
+            text-shadow: 0.5px 0.5px 0 #000;
+        }
+        
+        .contact-info p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            text-shadow: 0.5px 0.5px 0 #0002;
+        }
+        
+        .qrcode-container {
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+            padding-left: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .qrcode-container img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--solid-color);
+        }
+        
+        .qrcode-container p {
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: white !important;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+            font-size: 1.1rem;
+            background: var(--solid-color);
+            padding: 0.3rem 1.5rem;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background: #666;
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 0 #000, 
+                         -1px -1px 0 #000, 
+                         1px -1px 0 #000, 
+                         -1px 1px 0 #000;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .section-title h1 {
+                font-size: 2.5rem;
+            }
+            
+            .intro-card, .contact-card {
+                padding: 2rem;
+            }
+            
+            .qrcode-container {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                padding-left: 0;
+                padding-top: 2.5rem;
+                margin-top: 2.5rem;
+            }
+            
+            .about-main, .server-intro, .contact-section {
+                padding: 60px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+        <div class="container">
+            <!-- 网站Logo/标题 -->
+            <a class="navbar-brand" href="home">
+                <i class="fas fa-train me-2"></i>萌新MTR地铁建设服务器
+            </a>
+            <!-- 移动端导航切换按钮 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- 导航菜单 -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Server_City">服务器内的城市</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active">关于我们</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 关于我们页面主要内容 -->
+    <main>
+        <!-- 页面标题区域 -->
+        <section class="about-main">
+            <div class="container">
+                <div class="section-title">
+                    <h1>关于我们</h1>
+                    <p>了解萌新MTR服务器团队的使命、价值观和团队成员</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 服务器介绍区域 -->
+        <section class="server-intro">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="intro-card">
+                            <h3>服务器介绍</h3>
+                            <p>一个1.20.1 fabric MTR服务器，虽然都是萌新，咱们但是在一块也能..做的很好..</p>
+                            <p>我们致力于为玩家提供最优质的铁路建设体验，结合MTR模组的强大功能，打造真实、高效、美观的地铁系统。</p>
+                            <p>从传统村庄到现代化大都市，我们提供了多种城市风格供玩家选择，打造独特的城市景观。</p>
+                            <p>我们相信，铁路不仅是交通工具，更是连接人与人、城市与城市的纽带。通过精心设计的铁路网络，我们希望能够为玩家创造一个既真实又充满想象力的世界。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系区域 -->
+        <section class="contact-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <div class="contact-card">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3>加入我们</h3>
+                                    <div class="contact-info">
+                                        <p><i class="fas fa-users"></i>官方QQ群: 1070623105</p>
+                                        <p><i class="fas fa-server"></i>服务器IP: 暂不透露 需进群下载整合包后索取</p>
+                                        <p><i class="fas fa-clock"></i>服务器在线时间: 一般为周五~周天，但是可以随时@腐竹要求开服</p>
+                                        <p><i class="fas fa-headset"></i>技术支持: 群内管理员</p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <h5>加入流程</h5>
+                                        <ol>
+                                            <li>加入官方QQ群获取最新信息</li>
+                                            <li>下载服务器专用整合包</li>
+                                            <li>安装整合包(记得一定是最新版)</li>
+                                            <li>进服务器喽~没什么好说的呢~</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="qrcode-container">
+                                        <img src="pic_05.jpg" alt="QQ群二维码">
+                                        <p>扫描二维码加入QQ群</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>萌新MTR地铁建设服务器 这里是页脚了啦 喵~</p>
+        </div>
+    </footer>
+
+    <!-- 引入Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
