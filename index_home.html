@@ -18,7 +18,6 @@
             --dark-color: #333;
             --text-color: #333;
             --border-color: #dee2e6;
-            /* 移除渐变，使用纯深灰色 */
             --solid-color: #666;
         }
         
@@ -38,126 +37,6 @@
             color: var(--text-color);
             background-color: #f5f7fa;
             overflow-x: hidden;
-        }
-        
-        /* 主界面样式 */
-        #main-landing {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('background.jpg') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        
-        .landing-content {
-            text-align: center;
-            color: white;
-            padding: 3rem;
-            max-width: 90%;
-            margin: 0 auto;
-            animation: fadeInUp 1.2s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .landing-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: white !important;
-            text-shadow: 2px 2px 0 #000, 
-                         -2px -2px 0 #000, 
-                         2px -2px 0 #000, 
-                         -2px 2px 0 #000,
-                         1px 1px 0 #000,
-                         -1px -1px 0 #000,
-                         1px -1px 0 #000,
-                         -1px 1px 0 #000;
-            letter-spacing: 2px;
-        }
-        
-        .landing-subtitle {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            color: white !important;
-            font-weight: 300;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-        }
-        
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.65);
-            text-align: center;
-            color: white;
-            animation: bounce 2s infinite;
-            opacity: 0.65;
-        }
-        
-        .scroll-indicator p {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-            font-weight: 500;
-            color: white !important;
-        }
-        
-        .scroll-arrow {
-            font-size: 2.5rem;
-            color: white;
-            text-shadow: 1px 1px 0 #000, 
-                         -1px -1px 0 #000, 
-                         1px -1px 0 #000, 
-                         -1px 1px 0 #000;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0) translateX(-50%) scale(0.65);
-            }
-            40% {
-                transform: translateY(-15px) translateX(-50%) scale(0.65);
-            }
-            60% {
-                transform: translateY(-7px) translateX(-50%) scale(0.65);
-            }
-        }
-        
-        /* 页面内容 - 初始隐藏 */
-        .page-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .page-content.active {
-            opacity: 1;
-            transform: translateY(0);
         }
         
         /* 施工公告样式 */
@@ -196,7 +75,7 @@
         
         /* 公告栏样式 */
         .announcement-bar {
-            background-color: #666; /* 深灰色背景 */
+            background-color: #666;
             color: white;
             padding: 10px 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -206,7 +85,8 @@
             left: 0;
             width: 100%;
             z-index: 9998;
-            height: 44px;
+            height: auto;
+            min-height: 44px;
         }
         
         .announcement-content {
@@ -263,23 +143,22 @@
             }
         }
         
-        /* 导航栏样式 - 修复空位问题 */
+        /* 导航栏样式 */
         .navbar {
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             padding: 0.8rem 0;
             transition: all 0.3s ease;
             position: fixed;
-            top: 44px; /* 与公告栏高度一致 */
+            top: 44px; /* 公告栏高度 */
             width: 100%;
             z-index: 9997;
-            height: 72px;
+            height: auto;
         }
         
         .navbar.scrolled {
             background: var(--solid-color);
             padding: 0.5rem 0;
-            height: 64px;
         }
         
         .navbar-brand {
@@ -325,18 +204,13 @@
         
         /* 轮播图区域样式 */
         .carousel-section {
-            margin-top: 116px; /* 公告栏高度(44px) + 导航栏高度(72px) = 116px */
+            margin-top: 116px; /* 公告栏高度(44px) + 导航栏高度(72px) */
             position: relative;
             overflow: hidden;
         }
         
-        /* 滚动后调整轮播图间距 */
-        .navbar.scrolled + .carousel-section {
-            margin-top: 108px; /* 公告栏高度(44px) + 滚动后导航栏高度(64px) = 108px */
-        }
-        
         .carousel-item {
-            height: 600px;
+            height: calc(100vh - 116px); /* 视口高度减去顶部高度 */
             position: relative;
         }
         
@@ -418,7 +292,6 @@
             background: none !important;
         }
         
-        /* 线条变细，使用深灰色 */
         .section-title h2::after {
             content: '';
             position: absolute;
@@ -459,7 +332,7 @@
         .feature-icon {
             width: 90px;
             height: 90px;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -485,7 +358,7 @@
                          -1px -1px 0 #000, 
                          1px -1px 0 #000, 
                          -1px 1px 0 #000;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             display: inline-block;
             padding: 0.3rem 1.5rem;
             border-radius: 30px;
@@ -516,7 +389,7 @@
             max-width: 100%;
             height: auto;
             transition: transform 0.5s;
-            border: 3px solid var(--solid-color); /* 深灰色边框 */
+            border: 3px solid var(--solid-color);
         }
         
         .route-image:hover {
@@ -537,12 +410,11 @@
             font-size: 2rem;
             position: relative;
             display: inline-block;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             padding: 0.3rem 1.5rem;
             border-radius: 30px;
         }
         
-        /* 线条变细，使用深灰色 */
         .route-description h3::after {
             content: '';
             position: absolute;
@@ -574,7 +446,7 @@
             margin-bottom: 2rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.4s;
-            border: 2px solid var(--solid-color); /* 深灰色边框 */
+            border: 2px solid var(--solid-color);
         }
         
         .gallery-item:hover {
@@ -625,7 +497,7 @@
         /* 联系区域样式 */
         .contact-section {
             padding: 100px 0;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             color: white;
             position: relative;
         }
@@ -637,7 +509,7 @@
             padding: 3rem;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             transition: transform 0.4s;
-            border: 3px solid var(--solid-color); /* 深灰色边框 */
+            border: 3px solid var(--solid-color);
         }
         
         .contact-card:hover {
@@ -654,12 +526,11 @@
             font-size: 2rem;
             position: relative;
             display: inline-block;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             padding: 0.3rem 1.5rem;
             border-radius: 30px;
         }
         
-        /* 线条变细，使用深灰色 */
         .contact-card h3::after {
             content: '';
             position: absolute;
@@ -707,7 +578,7 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            border: 3px solid var(--solid-color); /* 深灰色边框 */
+            border: 3px solid var(--solid-color);
         }
         
         .qrcode-container p {
@@ -719,19 +590,19 @@
                          1px -1px 0 #000, 
                          -1px 1px 0 #000;
             font-size: 1.1rem;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             padding: 0.3rem 1.5rem;
             border-radius: 30px;
             display: inline-block;
         }
         
-        /* 页脚样式 - 移除空位 */
+        /* 页脚样式 */
         .footer {
-            background: #666; /* 纯深灰色背景 */
+            background: #666;
             color: white;
             padding: 2.5rem 0;
             text-align: center;
-            margin-bottom: 0; /* 确保没有额外边距 */
+            margin-bottom: 0;
         }
         
         .footer p {
@@ -769,7 +640,7 @@
             position: relative;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             animation: fadeIn 0.5s ease;
-            border: 3px solid var(--solid-color); /* 深灰色边框 */
+            border: 3px solid var(--solid-color);
         }
         
         @keyframes fadeIn {
@@ -781,7 +652,7 @@
             position: absolute;
             top: 1.5rem;
             right: 1.5rem;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             color: white;
             border: none;
             width: 45px;
@@ -819,7 +690,7 @@
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            border: 2px solid var(--solid-color); /* 深灰色边框 */
+            border: 2px solid var(--solid-color);
         }
         
         .city-gallery img:hover {
@@ -841,12 +712,11 @@
             font-size: 1.8rem;
             position: relative;
             display: inline-block;
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             padding: 0.3rem 1.5rem;
             border-radius: 30px;
         }
         
-        /* 线条变细，使用深灰色 */
         .city-description h3::after {
             content: '';
             position: absolute;
@@ -887,7 +757,7 @@
             max-height: 80%;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 3px solid var(--solid-color); /* 深灰色边框 */
+            border: 3px solid var(--solid-color);
         }
         
         .image-overlay .hint {
@@ -913,7 +783,7 @@
         
         /* 深灰色标题 */
         .city-title-solid {
-            background: var(--solid-color); /* 纯深灰色背景 */
+            background: var(--solid-color);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -930,14 +800,6 @@
         
         /* 响应式调整 */
         @media (max-width: 992px) {
-            .landing-title {
-                font-size: 3rem;
-            }
-            
-            .landing-subtitle {
-                font-size: 1.5rem;
-            }
-            
             .carousel-item {
                 height: 450px;
             }
@@ -946,36 +808,12 @@
                 font-size: 2.3rem;
             }
             
-            /* 移动端导航栏高度调整 */
-            .navbar {
-                height: auto;
-                padding: 0.8rem 0;
-            }
-            
-            .navbar.scrolled {
-                height: auto;
-                padding: 0.5rem 0;
-            }
-            
-            /* 移动端轮播图间距调整 */
-            .carousel-section {
-                margin-top: 44px; /* 仅公告栏高度，导航栏自适应 */
-            }
-            
-            .navbar.scrolled + .carousel-section {
-                margin-top: 44px;
+            .city-gallery {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
         
         @media (max-width: 768px) {
-            .landing-title {
-                font-size: 2.5rem;
-            }
-            
-            .landing-subtitle {
-                font-size: 1.3rem;
-            }
-            
             .carousel-item {
                 height: 350px;
             }
@@ -1027,29 +865,18 @@
                 margin-bottom: 5px;
             }
             
-            /* 移动端公告栏高度调整 */
-            .announcement-bar {
-                height: auto;
-                padding: 8px 0;
+            /* 移动端导航栏调整 */
+            .navbar {
+                top: 0;
+                position: sticky;
             }
             
-            /* 移动端导航栏位置调整 */
-            .navbar {
-                top: auto;
-                position: sticky;
-                margin-top: -1px; /* 消除边框间隙 */
+            .carousel-section {
+                margin-top: 44px; /* 仅公告栏高度 */
             }
         }
         
         @media (max-width: 576px) {
-            .landing-title {
-                font-size: 2rem;
-            }
-            
-            .landing-subtitle {
-                font-size: 1.1rem;
-            }
-            
             .carousel-item {
                 height: 250px;
             }
@@ -1071,344 +898,320 @@
     </style>
 </head>
 <body>
-    <!-- 主界面 -->
-    <div id="main-landing">
-        <div class="landing-content">
-            <h1 class="landing-title">Minecraft-MTR 芒特省建设服务器</h1>
-            <p class="landing-subtitle">探索无限可能的铁路世界</p>
-        </div>
-        <div class="scroll-indicator">
-            <p>向下滚动进入主页</p>
-            <div class="scroll-arrow">
-                <i class="fas fa-angle-double-down"></i>
+    <!-- 施工公告 -->
+    <div class="construction-notice" id="constructionNotice">
+        <h3>施工公告</h3>
+        <p>此页还在施工哦~</p>
+    </div>
+
+    <!-- 公告栏 - 固定在顶部，常驻显示 -->
+    <div class="announcement-bar" id="announcementBar">
+        <div class="announcement-content">
+            <div class="announcement-title">
+                <i class="fas fa-bullhorn"></i>
+                <span>服务器公告</span>
+            </div>
+            <div class="announcement-text">
+                <div class="scrolling-text">欢迎来到萌新MTR地铁建设服务器！服务器在线时间：一般为周五~周天，但是可以随时@腐竹要求开服。官方QQ群：1070623105</div>
             </div>
         </div>
     </div>
 
-    <!-- 页面内容 - 初始隐藏 -->
-    <div class="page-content">
-        <!-- 施工公告 -->
-        <div class="construction-notice" id="constructionNotice">
-            <h3>施工公告</h3>
-            <p>此页还在施工哦~</p>
-        </div>
-
-        <!-- 公告栏 - 固定在顶部，常驻显示 -->
-        <div class="announcement-bar" id="announcementBar">
-            <div class="announcement-content">
-                <div class="announcement-title">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>服务器公告</span>
-                </div>
-                <div class="announcement-text">
-                    <div class="scrolling-text">欢迎来到萌新MTR地铁建设服务器！服务器在线时间：一般为周五~周天，但是可以随时@腐竹要求开服。官方QQ群：1070623105</div>
-                </div>
+    <!-- 导航栏 - 紧贴公告栏下方 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+        <div class="container">
+            <!-- 网站Logo/标题 -->
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-train me-2"></i>萌新MTR地铁建设服务器
+            </a>
+            <!-- 移动端导航切换按钮 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- 导航菜单 -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" onclick="showCity('village')">村庄城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('jinyu')">玉金城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('xinhai')">新海市</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('yunzhou')">云州城</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showCity('unnamed')">未命名城市</a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
 
-        <!-- 导航栏 - 紧贴公告栏下方（无空位） -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
-            <div class="container">
-                <!-- 网站Logo/标题 -->
-                <a class="navbar-brand" href="#">
-                    <i class="fas fa-train me-2"></i>萌新MTR地铁建设服务器
-                </a>
-                <!-- 移动端导航切换按钮 -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <!-- 导航菜单 -->
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" onclick="showCity('village')">村庄城</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="showCity('jinyu')">玉金城</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="showCity('xinhai')">新海市</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="showCity('yunzhou')">云州城</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="showCity('unnamed')">未命名城市</a>
-                        </li>
-                    </ul>
+    <!-- 轮播图区域 - 紧贴导航栏下方 -->
+    <section class="carousel-section">
+        <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <!-- 轮播指示器 - 滚动小点 -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+            </div>
+            
+            <!-- 轮播内容 -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="lo_1.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示1">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_2.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示2">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_3.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示3">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_4.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示4">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_5.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示5">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_6.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示6">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_7.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示7">
+                </div>
+                <div class="carousel-item">
+                    <img src="lo_8.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示8">
                 </div>
             </div>
-        </nav>
+            
+            <!-- 轮播控制按钮 - 圆形 -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">上一张</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#headerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">下一张</span>
+            </button>
+        </div>
+    </section>
 
-        <!-- 轮播图区域 - 紧贴导航栏下方（无错位） -->
-        <section class="carousel-section">
-            <div id="headerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                <!-- 轮播指示器 - 滚动小点 -->
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
-                    <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
-                </div>
-                
-                <!-- 轮播内容 -->
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="lo_1.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示1">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_2.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示2">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_3.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示3">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_4.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示4">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_5.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示5">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_6.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示6">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_7.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示7">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="lo_8.jpg" class="d-block w-100" alt="萌新MTR地铁建设服务器展示8">
-                    </div>
-                </div>
-                
-                <!-- 轮播控制按钮 - 圆形 -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">上一张</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#headerCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">下一张</span>
-                </button>
+    <!-- 关于我们区域 -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>关于我们</h2>
+                <p>萌新MTR服务器运营团队，致力于为玩家提供最佳铁路建设体验</p>
             </div>
-        </section>
-
-        <!-- 关于我们区域 -->
-        <section id="about" class="about-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>关于我们</h2>
-                    <p>萌新MTR服务器运营团队，致力于为玩家提供最佳铁路建设体验</p>
+            <div class="row">
+                <!-- 特性1 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-train"></i>
+                        </div>
+                        <h3>Mod是什么？</h3>
+                        <p>采用最新MTR 4.0.2模组，配合fabric Minecraft Java 1.20.1版本，确保最佳游戏体验。</p>
+                    </div>
                 </div>
-                <div class="row">
-                    <!-- 特性1 -->
-                    <div class="col-md-4">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fas fa-train"></i>
-                            </div>
-                            <h3>Mod是什么？</h3>
-                            <p>采用最新MTR 4.0.2模组，配合fabric Minecraft Java 1.20.1版本，确保最佳游戏体验。</p>
+                <!-- 特性2 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-city"></i>
                         </div>
+                        <h3>多样化城市建设</h3>
+                        <p>从传统村庄到现代化大都市，多种城市风格任您选择，打造独特的城市景观。</p>
                     </div>
-                    <!-- 特性2 -->
-                    <div class="col-md-4">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fas fa-city"></i>
-                            </div>
-                            <h3>多样化城市建设</h3>
-                            <p>从传统村庄到现代化大都市，多种城市风格任您选择，打造独特的城市景观。</p>
+                </div>
+                <!-- 特性3 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
                         </div>
-                    </div>
-                    <!-- 特性3 -->
-                    <div class="col-md-4">
-                        <div class="feature-box">
-                            <div class="feature-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h3>活跃社区</h3>
-                            <p>拥有多个活跃玩家社群，定期举办建筑比赛和技术交流活动，共同进步。</p>
-                        </div>
+                        <h3>活跃社区</h3>
+                        <p>拥有多个活跃玩家社群，定期举办建筑比赛和技术交流活动，共同进步。</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 路线图区域 -->
-        <section id="route" class="route-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>服务器路线图</h2>
-                    <p>我们服务器的高铁线路网络，连接各大城市</p>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="route-image-container">
-                            <img src="L_1.jpg" alt="高铁线路图" class="route-image">
-                        </div>
-                        <div class="route-description">
-                            <h3>高铁网络规划</h3>
-                            <p>我们的服务器建立了完善的高铁网络系统，连接所有主要城市，确保玩家可以快速便捷地穿梭于不同城市之间。</p>
-                            <p>高铁线路采用最新的信号系统和轨道设计，提供高效、安全的交通服务。每个城市都设有现代化的高铁站，与城市交通系统无缝衔接。</p>
-                            <p>我们持续优化线路布局和列车调度，确保整个网络运行顺畅，为玩家提供最佳的铁路交通体验。</p>
-                        </div>
+    <!-- 路线图区域 -->
+    <section id="route" class="route-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务器路线图</h2>
+                <p>我们服务器的高铁线路网络，连接各大城市</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="route-image-container">
+                        <img src="L_1.jpg" alt="高铁线路图" class="route-image">
+                    </div>
+                    <div class="route-description">
+                        <h3>高铁网络规划</h3>
+                        <p>我们的服务器建立了完善的高铁网络系统，连接所有主要城市，确保玩家可以快速便捷地穿梭于不同城市之间。</p>
+                        <p>高铁线路采用最新的信号系统和轨道设计，提供高效、安全的交通服务。每个城市都设有现代化的高铁站，与城市交通系统无缝衔接。</p>
+                        <p>我们持续优化线路布局和列车调度，确保整个网络运行顺畅，为玩家提供最佳的铁路交通体验。</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 图片展示区域 -->
-        <section id="gallery" class="gallery-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>项目展示</h2>
-                    <p>欣赏我们服务器中玩家建设的精美铁路和城市景观</p>
+    <!-- 图片展示区域 -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>项目展示</h2>
+                <p>欣赏我们服务器中玩家建设的精美铁路和城市景观</p>
+            </div>
+            <div class="row">
+                <!-- 图片1 -->
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="pic_02.jpg" alt="高铁线路">
+                        <div class="gallery-overlay">
+                            <h4>高铁线路</h4>
+                            <p>连接各大城市的高速铁路网络</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <!-- 图片1 -->
-                    <div class="col-md-4">
-                        <div class="gallery-item">
-                            <img src="pic_02.jpg" alt="高铁线路">
-                            <div class="gallery-overlay">
-                                <h4>高铁线路</h4>
-                                <p>连接各大城市的高速铁路网络</p>
-                            </div>
+                <!-- 图片2 -->
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="pic_03.jpg" alt="城市车站">
+                        <div class="gallery-overlay">
+                            <h4>城市车站</h4>
+                            <p>现代化设计的火车站</p>
                         </div>
                     </div>
-                    <!-- 图片2 -->
-                    <div class="col-md-4">
-                        <div class="gallery-item">
-                            <img src="pic_03.jpg" alt="城市车站">
-                            <div class="gallery-overlay">
-                                <h4>城市车站</h4>
-                                <p>现代化设计的火车站</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 图片3 -->
-                    <div class="col-md-4">
-                        <div class="gallery-item">
-                            <img src="pic_04.jpg" alt="铁路网络">
-                            <div class="gallery-overlay">
-                                <h4>铁路网络</h4>
-                                <p>错综复杂的铁路系统</p>
-                            </div>
+                </div>
+                <!-- 图片3 -->
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="pic_04.jpg" alt="铁路网络">
+                        <div class="gallery-overlay">
+                            <h4>铁路网络</h4>
+                            <p>错综复杂的铁路系统</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 联系区域 -->
-        <section id="contact" class="contact-section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-10">
-                        <div class="contact-card">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h3>加入我们</h3>
-                                    <div class="contact-info">
-                                        <p><i class="fas fa-users"></i>官方QQ群: 1070623105</p>
-                                        <p><i class="fas fa-server"></i>服务器IP: 加入群后整合包自带服务器</p>
-                                        <p><i class="fas fa-clock"></i>服务器在线时间: 一般为周五~周天，但是可以随时@腐竹要求开服</p>
-                                        <p><i class="fas fa-headset"></i>技术支持: 群内管理员</p>
-                                    </div>
-                                    <div class="mt-4">
-                                        <h5>加入流程</h5>
-                                        <ol>
-                                            <li>加入官方QQ群获取最新信息</li>
-                                            <li>下载服务器专用整合包</li>
-                                            <li>安装整合包(记得一定是最新版)</li>
-                                            <li>进服务器喽~没什么好说的呢~</li>
-                                        </ol>
-                                    </div>
+    <!-- 联系区域 -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="contact-card">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3>加入我们</h3>
+                                <div class="contact-info">
+                                    <p><i class="fas fa-users"></i>官方QQ群: 1070623105</p>
+                                    <p><i class="fas fa-server"></i>服务器IP: 加入群后整合包自带服务器</p>
+                                    <p><i class="fas fa-clock"></i>服务器在线时间: 一般为周五~周天，但是可以随时@腐竹要求开服</p>
+                                    <p><i class="fas fa-headset"></i>技术支持: 群内管理员</p>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="qrcode-container">
-                                        <img src="pic_05.jpg" alt="QQ群二维码">
-                                        <p>扫描二维码加入QQ群</p>
-                                    </div>
+                                <div class="mt-4">
+                                    <h5>加入流程</h5>
+                                    <ol>
+                                        <li>加入官方QQ群获取最新信息</li>
+                                        <li>下载服务器专用整合包</li>
+                                        <li>安装整合包(记得一定是最新版)</li>
+                                        <li>进服务器喽~没什么好说的呢~</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="qrcode-container">
+                                    <img src="pic_05.jpg" alt="QQ群二维码">
+                                    <p>扫描二维码加入QQ群</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 页脚 - 纯灰色 -->
-        <footer class="footer">
-            <div class="container">
-                <p>萌新MTR地铁建设服务器 这里是页脚了啦 喵~</p>
-            </div>
-        </footer>
+    <!-- 页脚 - 纯灰色 -->
+    <footer class="footer">
+        <div class="container">
+            <p>萌新MTR地铁建设服务器 这里是页脚了啦 喵~</p>
+        </div>
+    </footer>
 
-        <!-- 城市介绍覆盖页面 -->
-        <div id="cityOverlay" class="city-overlay">
-            <div class="container">
-                <div class="city-content">
-                    <button class="close-btn" onclick="closeCity()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <h2 id="cityTitle" class="city-title-solid">城市名称</h2>
-                    <div class="city-gallery" id="cityGallery">
-                        <!-- 图片将由JavaScript动态生成 -->
-                    </div>
-                    <div class="city-description">
-                        <h3>城市介绍</h3>
-                        <p id="cityDescription">这里将显示城市的详细介绍...</p>
-                    </div>
+    <!-- 城市介绍覆盖页面 -->
+    <div id="cityOverlay" class="city-overlay">
+        <div class="container">
+            <div class="city-content">
+                <button class="close-btn" onclick="closeCity()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 id="cityTitle" class="city-title-solid">城市名称</h2>
+                <div class="city-gallery" id="cityGallery">
+                    <!-- 图片将由JavaScript动态生成 -->
+                </div>
+                <div class="city-description">
+                    <h3>城市介绍</h3>
+                    <p id="cityDescription">这里将显示城市的详细介绍...</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- 图片放大覆盖层 -->
-        <div id="imageOverlay" class="image-overlay">
-            <img id="enlargedImage" src="" alt="放大图片">
-            <div class="hint">点击任意空白处关闭</div>
-        </div>
+    <!-- 图片放大覆盖层 -->
+    <div id="imageOverlay" class="image-overlay">
+        <img id="enlargedImage" src="" alt="放大图片">
+        <div class="hint">点击任意空白处关闭</div>
     </div>
 
     <!-- 引入Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // 滚动过渡效果
-        let hasScrolled = false;
-        
-        window.addEventListener('scroll', function() {
-            // 导航栏滚动效果
-            if (window.scrollY > 50) {
-                document.querySelector('.navbar').classList.add('scrolled');
-            } else {
-                document.querySelector('.navbar').classList.remove('scrolled');
-            }
+        // 页面加载完成后显示施工公告
+        document.addEventListener('DOMContentLoaded', function() {
+            // 显示施工公告
+            document.getElementById('constructionNotice').style.display = 'block';
             
-            // 主界面淡出效果
-            if (!hasScrolled && window.scrollY > 100) {
-                hasScrolled = true;
-                
-                // 淡出主界面
-                const mainLanding = document.getElementById('main-landing');
-                mainLanding.style.opacity = '0';
-                mainLanding.style.transform = 'translateY(-30px)';
-                
-                // 显示页面内容
-                setTimeout(() => {
-                    mainLanding.style.display = 'none';
-                    document.querySelector('.page-content').classList.add('active');
-                    // 显示施工公告
-                    document.getElementById('constructionNotice').style.display = 'block';
-                    // 3秒后自动隐藏施工公告
-                    setTimeout(() => {
-                        document.getElementById('constructionNotice').style.display = 'none';
-                    }, 3000);
-                }, 1000);
-            }
+            // 3秒后自动隐藏施工公告
+            setTimeout(() => {
+                document.getElementById('constructionNotice').style.display = 'none';
+            }, 3000);
+            
+            // 确保轮播图正常工作
+            const carousel = new bootstrap.Carousel(document.getElementById('headerCarousel'), {
+                interval: 5000,
+                wrap: true,
+                pause: 'hover'
+            });
+            
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    document.querySelector('.navbar').classList.add('scrolled');
+                } else {
+                    document.querySelector('.navbar').classList.remove('scrolled');
+                }
+            });
         });
         
         // 城市数据
@@ -1511,16 +1314,6 @@
             if (e.key === 'Escape' && document.getElementById('imageOverlay').style.display === 'flex') {
                 closeImageOverlay();
             }
-        });
-        
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function() {
-            // 确保轮播图正常工作
-            const carousel = new bootstrap.Carousel(document.getElementById('headerCarousel'), {
-                interval: 5000,
-                wrap: true,
-                pause: 'hover'
-            });
         });
     </script>
 </body>
