@@ -3,162 +3,1332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>芒特省MTR城市建设服务器 - 加载中</title>
+    <title>萌新MTR服务器</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
         }
         
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1E5799 0%, #207CCA 51%, #2989D8 100%);
             height: 100vh;
             overflow: hidden;
+            position: relative;
+            cursor: default;
+        }
+        
+        /* 桌面背景 */
+        .desktop {
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEgxMjgwVjcyMEgwVjBaIiBmaWxsPSJ1cmwoI3BhaW50MF9saW5lYXIpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSI2NDAiIHkxPSIwIiB4Mj0iNjQwIiB5Mj0iNzIwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMyMDc5Q0EiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDIyRTY0Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+');
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 水印 */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 60px;
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .watermark span {
+            display: block;
+            text-align: center;
+        }
+        
+        /* 任务栏 */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to bottom, #0B58A2 0%, #0A4A8C 50%, #093C75 100%);
+            border-top: 1px solid #1E90FF;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 1000;
+        }
+        
+        /* 开始按钮 */
+        .start-button {
+            width: 80px;
+            height: 30px;
+            background: linear-gradient(to bottom, #60B53F 0%, #3D8C3D 50%, #2D6B2D 100%);
+            border: 1px solid #7AC142;
+            border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 10px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
         }
         
-        .loading-container {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
+        .start-button:hover {
+            background: linear-gradient(to bottom, #7AC142 0%, #4FA64F 50%, #3D8C3D 100%);
+        }
+        
+        .start-button:active {
+            background: linear-gradient(to bottom, #2D6B2D 0%, #3D8C3D 50%, #60B53F 100%);
+            box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* 任务栏图标 - 仅保留浏览器 */
+        .taskbar-icons {
+            display: flex;
+            gap: 8px;
+            flex-grow: 1;
+        }
+        
+        .taskbar-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to bottom, #3A7AD9 0%, #2E62B3 100%);
+            border: 1px solid #4A8CE3;
+            border-radius: 3px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .taskbar-icon:hover {
+            background: linear-gradient(to bottom, #4A8CE3 0%, #3A7AD9 100%);
+        }
+        
+        /* 系统托盘 */
+        .system-tray {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: white;
+            font-size: 11px;
+        }
+        
+        .time {
+            padding: 0 10px;
+        }
+        
+        /* 窗口样式 */
+        .window {
+            position: absolute;
+            min-width: 300px;
+            min-height: 200px;
+            background: linear-gradient(to bottom, #F1F1F1 0%, #E5E5E5 100%);
+            border: 1px solid #A5A5A5;
+            border-radius: 6px 6px 0 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+        
+        .window.maximized {
+            width: 100% !important;
+            height: calc(100% - 40px) !important;
+            top: 0 !important;
+            left: 0 !important;
+            border-radius: 0;
+        }
+        
+        /* 窗口标题栏 */
+        .title-bar {
+            height: 30px;
+            background: linear-gradient(to bottom, #EBEBEB 0%, #D5D5D5 100%);
+            border-bottom: 1px solid #A5A5A5;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            cursor: move;
+            position: relative;
+            user-select: none;
+        }
+        
+        .window-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        .window-title {
+            flex-grow: 1;
+            color: #333;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* 窗口控制按钮 - 去掉最小化按钮 */
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .control-btn {
+            width: 22px;
+            height: 22px;
+            border: 1px solid #A5A5A5;
+            background: linear-gradient(to bottom, #F5F5F5 0%, #E5E5E5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: linear-gradient(to bottom, #E5E5E5 0%, #D5D5D5 100%);
+        }
+        
+        .control-btn.close:hover {
+            background: linear-gradient(to bottom, #E81123 0%, #F1707A 100%);
+            color: white;
+        }
+        
+        /* 窗口内容 */
+        .window-content {
+            padding: 20px;
+            height: calc(100% - 30px);
+            overflow: auto;
+        }
+        
+        /* 桌面图标 - 仅保留浏览器 */
+        .desktop-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1;
+        }
+        
+        .desktop-icon {
+            width: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 12px;
+            text-align: center;
+            padding: 5px;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .desktop-icon:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .desktop-icon.selected {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .icon-image {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4A90E2 0%, #2E62B3 100%);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        /* 开始菜单 */
+        .start-menu {
+            position: absolute;
+            bottom: 40px;
+            left: 10px;
+            width: 400px;
+            height: 500px;
+            background: linear-gradient(to bottom, #2C2C2C 0%, #1A1A1A 100%);
+            border: 1px solid #000;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1001;
+            overflow: hidden;
+        }
+        
+        .start-menu.active {
+            display: block;
+        }
+        
+        .user-panel {
+            height: 80px;
+            background: linear-gradient(to right, #0B58A2 0%, #083E6B 100%);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4A90E2 0%, #2E62B3 100%);
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .program-list {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            height: calc(100% - 80px);
+            overflow-y: auto;
+        }
+        
+        .program-item {
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .program-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Alt+Tab 覆盖层 */
+        .alt-tab-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .alt-tab-overlay.active {
+            display: flex;
+        }
+        
+        /* 上下文菜单 - 仅保留关于按钮 */
+        .context-menu {
+            position: absolute;
+            background: white;
+            border: 1px solid #A5A5A5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            min-width: 150px;
+            z-index: 10000;
+        }
+        
+        .context-menu-item {
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .context-menu-item:hover {
+            background: #E3F2FD;
+        }
+        
+        /* 浏览器特定样式 */
+        .browser-content {
+            padding: 0;
+            height: calc(100% - 30px);
+            width: 100%;
+        }
+        
+        .browser-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .ie-title {
+            color: #0066CC;
+            font-weight: bold;
+        }
+        
+        /* 加载动画 */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0B58A2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
+        
+        .loading-logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            overflow: hidden;
+            border-radius: 3px;
+        }
+        
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: width 0.3s;
         }
         
         .loading-text {
-            font-size: 18px;
-            font-weight: 500;
-            color: #fff;
-        }
-        
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .progress-text {
-            position: absolute;
-            bottom: 80px;
-            right: 40px;
+            color: white;
+            margin-top: 10px;
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
         }
         
-        .cached-indicator {
+        /* 窗口动画 */
+        @keyframes windowOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .window.open {
+            animation: windowOpen 0.2s ease-out;
+        }
+        
+        .window.closing {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #E5E5E5;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #A5A5A5 0%, #8C8C8C 100%);
+            border-radius: 6px;
+            border: 3px solid #E5E5E5;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #8C8C8C 0%, #737373 100%);
+        }
+        
+        /* 调整大小的手柄 - 改进样式 */
+        .resize-handle {
             position: absolute;
-            top: 40px;
-            right: 40px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            display: none;
+            background: transparent;
+            z-index: 1000;
         }
         
-        @media (max-width: 768px) {
-            .loading-container {
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .loading-text {
-                font-size: 16px;
-            }
-            
-            .progress-text {
-                bottom: 60px;
-                right: 20px;
-            }
-            
-            .cached-indicator {
-                top: 20px;
-                right: 20px;
-            }
+        .resize-handle-top {
+            top: 0;
+            left: 5px;
+            right: 5px;
+            height: 5px;
+            cursor: n-resize;
+        }
+        
+        .resize-handle-bottom {
+            bottom: 0;
+            left: 5px;
+            right: 5px;
+            height: 5px;
+            cursor: s-resize;
+        }
+        
+        .resize-handle-left {
+            top: 5px;
+            left: 0;
+            width: 5px;
+            bottom: 5px;
+            cursor: w-resize;
+        }
+        
+        .resize-handle-right {
+            top: 5px;
+            right: 0;
+            width: 5px;
+            bottom: 5px;
+            cursor: e-resize;
+        }
+        
+        .resize-handle-topleft {
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            cursor: nw-resize;
+        }
+        
+        .resize-handle-topright {
+            top: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            cursor: ne-resize;
+        }
+        
+        .resize-handle-bottomleft {
+            bottom: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            cursor: sw-resize;
+        }
+        
+        .resize-handle-bottomright {
+            bottom: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            cursor: se-resize;
         }
     </style>
 </head>
 <body>
-    <div class="cached-indicator" id="cachedIndicator">已缓存</div>
-    <div class="progress-text" id="progressText">正在预加载资源...</div>
-    <div class="loading-container">
-        <div class="loading-text">芒特省MTR城市建设服务器</div>
-        <div class="loading-spinner"></div>
+    <!-- 加载屏幕 -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">启动中</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+        <div class="loading-text" id="loadingText">正在启动系统...</div>
+    </div>
+
+    <!-- 桌面水印 -->
+    <div class="watermark">
+        <span>MTR建设服务器</span>
+        <span>芒特省服务器</span>
+    </div>
+
+    <div class="desktop" id="desktop">
+        <!-- Alt+Tab 覆盖层 -->
+        <div class="alt-tab-overlay" id="altTabOverlay">
+            <div style="background: rgba(255,255,255,0.9); padding: 30px; border-radius: 10px; max-width: 80%;">
+                <h3 style="color: #0B58A2; margin-bottom: 20px;">Alt+Tab - 切换窗口</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;" id="altTabWindows"></div>
+                <div style="margin-top: 20px; color: #666; font-size: 12px;">
+                    使用 Tab 键选择，释放 Alt 键确认
+                </div>
+            </div>
+        </div>
+        
+        <!-- 开始菜单 -->
+        <div class="start-menu" id="startMenu">
+            <div class="user-panel">
+                <div class="user-avatar">MTR</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: bold;">萌新MTR服务器</div>
+                    <div style="font-size: 11px; opacity: 0.8;">窗口模拟器</div>
+                </div>
+            </div>
+            <div class="program-list" id="startMenuPrograms">
+                <!-- 程序列表由 JavaScript 动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 任务栏 -->
+        <div class="taskbar">
+            <div class="start-button" id="startButton">
+                <span>开始</span>
+            </div>
+            <div class="taskbar-icons" id="taskbarIcons">
+                <!-- 仅保留浏览器图标 -->
+                <div class="taskbar-icon" onclick="launchApp('browser')" title="Internet Explorer 11">🌐</div>
+            </div>
+            <div class="system-tray">
+                <div class="time" id="clock">13:37</div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // 预加载目标页面
-        function preloadPage() {
-            const targetUrl = 'home';
-            const progressText = document.getElementById('progressText');
-            const cachedIndicator = document.getElementById('cachedIndicator');
-            
-            // 检查是否已有缓存
-            const cacheKey = 'mt_mtr_server_cached';
-            const isCached = localStorage.getItem(cacheKey);
-            
-            if (isCached) {
-                // 如果已有缓存，显示相应提示并快速跳转
-                progressText.textContent = '您已经缓存过当前资源';
-                cachedIndicator.style.display = 'block';
-                
-                // 1秒后跳转
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 1000);
-                return;
+        // ==================== 系统初始化 ====================
+        let windowCount = 0;
+        let activeWindow = null;
+        let windows = {};
+        let altPressed = false;
+        let tabPressed = false;
+        
+        // 应用数据库 - 仅保留浏览器
+        const realApps = {
+            'browser': {
+                name: 'Internet Explorer 11',
+                exe: 'iexplore.exe',
+                icon: '🌐',
+                type: 'internet',
+                launch: function() {
+                    createBrowserWindow();
+                }
             }
+        };
+        
+        // 桌面快捷方式配置 - 仅保留浏览器
+        const desktopShortcuts = [
+            { app: 'browser', name: 'Internet Explorer', position: 0 }
+        ];
+        
+        // 开始菜单程序配置 - 仅保留浏览器
+        const startMenuPrograms = [
+            { category: '程序', apps: ['browser'] }
+        ];
+        
+        // ==================== 初始化函数 ====================
+        function init() {
+            updateClock();
+            createDesktopIcons();
+            createStartMenu();
+            setupEventListeners();
             
-            // 更新进度文本
-            progressText.textContent = '正在预加载资源...';
-            
-            // 创建一个隐藏的iframe来预加载目标页面
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = targetUrl;
-            
-            iframe.onload = function() {
-                // 页面加载完成后，标记为已缓存
-                localStorage.setItem(cacheKey, 'true');
-                cachedIndicator.style.display = 'block';
-                
-                // 等待一小段时间确保资源缓存
-                progressText.textContent = '资源加载完成，即将跳转...';
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 500);
-            };
-            
-            iframe.onerror = function() {
-                // 如果预加载失败，直接跳转
-                progressText.textContent = '预加载失败，正在跳转...';
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 1000);
-            };
-            
-            document.body.appendChild(iframe);
-            
-            // 设置超时，确保即使预加载有问题也能跳转
+            // 模拟启动过程
             setTimeout(() => {
-                progressText.textContent = '正在跳转...';
-                window.location.href = targetUrl;
-            }, 5000);
+                document.getElementById('loadingText').textContent = '正在加载桌面...';
+                document.getElementById('loadingProgress').style.width = '50%';
+            }, 500);
+            
+            setTimeout(() => {
+                document.getElementById('loadingText').textContent = '正在准备桌面...';
+                document.getElementById('loadingProgress').style.width = '80%';
+            }, 1000);
+            
+            setTimeout(() => {
+                document.getElementById('loadingText').textContent = '正在启动系统服务...';
+                document.getElementById('loadingProgress').style.width = '100%';
+            }, 1500);
+            
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 2000);
         }
         
-        // 页面加载完成后开始预加载
-        window.addEventListener('load', preloadPage);
+        // ==================== 核心功能 ====================
+        
+        // 启动应用程序
+        function launchApp(appId) {
+            const app = realApps[appId];
+            if (app && typeof app.launch === 'function') {
+                app.launch();
+            }
+        }
+        
+        // 创建桌面图标
+        function createDesktopIcons() {
+            const desktop = document.getElementById('desktop');
+            const iconsContainer = document.createElement('div');
+            iconsContainer.className = 'desktop-icons';
+            iconsContainer.id = 'desktopIcons';
+            
+            desktopShortcuts.forEach(shortcut => {
+                const app = realApps[shortcut.app];
+                if (!app) return;
+                
+                const icon = document.createElement('div');
+                icon.className = 'desktop-icon';
+                icon.innerHTML = `
+                    <div class="icon-image">${app.icon}</div>
+                    <span>${shortcut.name || app.name}</span>
+                `;
+                icon.style.top = `${20 + shortcut.position * 80}px`;
+                icon.style.position = 'absolute';
+                icon.onclick = () => {
+                    // 双击效果
+                    icon.classList.add('selected');
+                    setTimeout(() => icon.classList.remove('selected'), 200);
+                    launchApp(shortcut.app);
+                };
+                
+                // 添加右键菜单支持
+                icon.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    showContextMenu(e, shortcut.app, icon);
+                });
+                
+                iconsContainer.appendChild(icon);
+            });
+            
+            desktop.appendChild(iconsContainer);
+        }
+        
+        // 创建开始菜单
+        function createStartMenu() {
+            const startMenu = document.getElementById('startMenuPrograms');
+            
+            startMenuPrograms.forEach(section => {
+                const sectionElement = document.createElement('div');
+                sectionElement.style.gridColumn = '1 / -1';
+                sectionElement.style.marginTop = '10px';
+                sectionElement.style.marginBottom = '5px';
+                sectionElement.style.color = '#888';
+                sectionElement.style.fontSize = '11px';
+                sectionElement.textContent = section.category;
+                startMenu.appendChild(sectionElement);
+                
+                section.apps.forEach(appId => {
+                    const app = realApps[appId];
+                    if (!app) return;
+                    
+                    const programItem = document.createElement('div');
+                    programItem.className = 'program-item';
+                    programItem.innerHTML = `
+                        <strong>${app.name}</strong>
+                        <div style="font-size: 11px; opacity: 0.8;">${app.exe}</div>
+                    `;
+                    programItem.onclick = () => {
+                        document.getElementById('startMenu').classList.remove('active');
+                        launchApp(appId);
+                    };
+                    startMenu.appendChild(programItem);
+                });
+            });
+        }
+        
+        // 创建浏览器窗口
+        function createBrowserWindow() {
+            windowCount++;
+            const windowId = `window_${windowCount}`;
+            
+            const windowEl = document.createElement('div');
+            windowEl.className = 'window open';
+            windowEl.id = windowId;
+            windowEl.style.top = '50px';
+            windowEl.style.left = '50px';
+            windowEl.style.width = '800px';
+            windowEl.style.height = '600px';
+            
+            windowEl.innerHTML = `
+                <div class="title-bar" id="${windowId}_titlebar">
+                    <div class="window-icon ie-title">IE</div>
+                    <div class="window-title">芒特省 (玉金市/村庄城)</div>
+                    <div class="window-controls">
+                        <div class="control-btn maximize">□</div>
+                        <div class="control-btn close">×</div>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div style="width: 100%; height: 100%; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <h2 style="color: #0B58A2; margin-bottom: 20px;">芒特省 (玉金市/村庄城)</h2>
+                        <p style="margin-bottom: 30px; font-size: 16px;">这个界面好玩吗？</p>
+                        <p style="margin-bottom: 40px; font-size: 14px; color: #666;">点击下面的按钮才会跳转到真正的村庄城网页</p>
+                        <button onclick="openRealBrowser()" style="
+                            padding: 12px 30px;
+                            background: linear-gradient(to bottom, #3A7AD9 0%, #2E62B3 100%);
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            font-size: 14px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+                        ">打开真正的村庄城网页</button>
+                        <p style="margin-top: 40px; font-size: 12px; color: #888;">点击后将会打开Internet Explorer 11浏览器</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('desktop').appendChild(windowEl);
+            
+            // 初始化窗口数据
+            windows[windowId] = {
+                element: windowEl,
+                type: 'browser',
+                minimized: false,
+                maximized: false,
+                resizable: true,
+                originalSize: {
+                    width: '800px',
+                    height: '600px'
+                },
+                originalPosition: {
+                    top: '50px',
+                    left: '50px'
+                }
+            };
+            
+            // 设置窗口功能
+            setupWindowFunctionality(windowEl, windowId);
+            
+            return windowId;
+        }
+        
+        // 设置窗口功能（拖动、调整大小、按钮）
+        function setupWindowFunctionality(windowEl, windowId) {
+            const windowData = windows[windowId];
+            if (!windowData) return;
+            
+            // 1. 设置窗口拖动
+            setupWindowDrag(windowEl, `${windowId}_titlebar`);
+            
+            // 2. 设置窗口控制按钮
+            setupWindowControls(windowEl, windowId);
+            
+            // 3. 如果窗口可调整大小，添加调整大小手柄
+            if (windowData.resizable) {
+                addResizeHandles(windowEl);
+            }
+            
+            // 4. 窗口点击置顶
+            windowEl.addEventListener('mousedown', () => {
+                bringToFront(windowId);
+            });
+            
+            // 5. 初始化窗口状态
+            bringToFront(windowId);
+        }
+        
+        // 为窗口添加调整大小手柄
+        function addResizeHandles(windowEl) {
+            const handles = [
+                {class: 'resize-handle-top', cursor: 'n-resize'},
+                {class: 'resize-handle-bottom', cursor: 's-resize'},
+                {class: 'resize-handle-left', cursor: 'w-resize'},
+                {class: 'resize-handle-right', cursor: 'e-resize'},
+                {class: 'resize-handle-topleft', cursor: 'nw-resize'},
+                {class: 'resize-handle-topright', cursor: 'ne-resize'},
+                {class: 'resize-handle-bottomleft', cursor: 'sw-resize'},
+                {class: 'resize-handle-bottomright', cursor: 'se-resize'}
+            ];
+            
+            handles.forEach(handle => {
+                const handleEl = document.createElement('div');
+                handleEl.className = handle.class;
+                handleEl.style.cursor = handle.cursor;
+                windowEl.appendChild(handleEl);
+                
+                // 为每个手柄添加调整大小功能
+                setupResizeHandle(handleEl, windowEl, handle.class);
+            });
+        }
+        
+        // 设置调整大小手柄功能 - 修复宽度调整问题
+        function setupResizeHandle(handle, windowEl, handleClass) {
+            let isResizing = false;
+            let startX, startY;
+            let startWidth, startHeight;
+            let startLeft, startTop;
+            
+            handle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = windowEl.offsetWidth;
+                startHeight = windowEl.offsetHeight;
+                startLeft = windowEl.offsetLeft;
+                startTop = windowEl.offsetTop;
+                
+                // 阻止事件冒泡
+                e.stopPropagation();
+                e.preventDefault();
+                
+                // 防止选中文本
+                document.body.style.userSelect = 'none';
+                
+                // 设置全局鼠标移动和抬起事件
+                const handleMouseMove = (moveEvent) => {
+                    if (!isResizing) return;
+                    
+                    const deltaX = moveEvent.clientX - startX;
+                    const deltaY = moveEvent.clientY - startY;
+                    
+                    // 计算最小尺寸
+                    const minWidth = 300;
+                    const minHeight = 200;
+                    
+                    // 处理左右调整
+                    if (handleClass.includes('right') || handleClass.includes('topright') || handleClass.includes('bottomright')) {
+                        const newWidth = Math.max(minWidth, startWidth + deltaX);
+                        windowEl.style.width = newWidth + 'px';
+                    }
+                    
+                    // 处理左侧调整
+                    if (handleClass.includes('left') || handleClass.includes('topleft') || handleClass.includes('bottomleft')) {
+                        const newWidth = Math.max(minWidth, startWidth - deltaX);
+                        const newLeft = startLeft + deltaX;
+                        windowEl.style.width = newWidth + 'px';
+                        windowEl.style.left = newLeft + 'px';
+                    }
+                    
+                    // 处理上下调整
+                    if (handleClass.includes('bottom') || handleClass.includes('bottomleft') || handleClass.includes('bottomright')) {
+                        const newHeight = Math.max(minHeight, startHeight + deltaY);
+                        windowEl.style.height = newHeight + 'px';
+                    }
+                    
+                    // 处理顶部调整
+                    if (handleClass.includes('top') || handleClass.includes('topleft') || handleClass.includes('topright')) {
+                        const newHeight = Math.max(minHeight, startHeight - deltaY);
+                        const newTop = startTop + deltaY;
+                        windowEl.style.height = newHeight + 'px';
+                        windowEl.style.top = newTop + 'px';
+                    }
+                };
+                
+                const handleMouseUp = () => {
+                    isResizing = false;
+                    document.body.style.userSelect = '';
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                };
+                
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+        }
+        
+        // 打开真正的浏览器窗口
+        function openRealBrowser() {
+            windowCount++;
+            const windowId = `window_${windowCount}`;
+            
+            const windowEl = document.createElement('div');
+            windowEl.className = 'window open';
+            windowEl.id = windowId;
+            windowEl.style.top = '80px';
+            windowEl.style.left = '80px';
+            windowEl.style.width = '900px';
+            windowEl.style.height = '650px';
+            
+            windowEl.innerHTML = `
+                <div class="title-bar" id="${windowId}_titlebar">
+                    <div class="window-icon ie-title">IE</div>
+                    <div class="window-title">Internet Explorer 11 - https://cunchengmtr.cloud/</div>
+                    <div class="window-controls">
+                        <div class="control-btn maximize">□</div>
+                        <div class="control-btn close">×</div>
+                    </div>
+                </div>
+                <div class="window-content" style="padding: 0; height: calc(100% - 30px);">
+                    <iframe class="browser-frame" src="https://cunchengmtr.cloud/" title="芒特省MTR服务器" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+            `;
+            
+            document.getElementById('desktop').appendChild(windowEl);
+            
+            // 初始化窗口数据
+            windows[windowId] = {
+                element: windowEl,
+                type: 'real-browser',
+                minimized: false,
+                maximized: false,
+                resizable: true,
+                originalSize: {
+                    width: '900px',
+                    height: '650px'
+                },
+                originalPosition: {
+                    top: '80px',
+                    left: '80px'
+                }
+            };
+            
+            // 设置窗口功能
+            setupWindowFunctionality(windowEl, windowId);
+            
+            return windowId;
+        }
+        
+        // ==================== 窗口管理系统 ====================
+        
+        // 窗口拖拽功能
+        function setupWindowDrag(windowEl, titlebarId) {
+            const titlebar = document.getElementById(titlebarId);
+            let isDragging = false;
+            let offsetX, offsetY;
+            
+            titlebar.addEventListener('mousedown', (e) => {
+                const windowId = windowEl.id;
+                const windowData = windows[windowId];
+                
+                if (!windowData) return;
+                
+                // 如果窗口已经最大化，则先恢复原状
+                if (windowData.maximized) {
+                    maximizeWindow(windowId);
+                    // 更新拖动偏移量
+                    const rect = windowEl.getBoundingClientRect();
+                    offsetX = e.clientX - rect.width / 2;
+                    offsetY = e.clientY - 15; // 标题栏高度的一半
+                } else {
+                    const rect = windowEl.getBoundingClientRect();
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                }
+                
+                isDragging = true;
+                bringToFront(windowId);
+                
+                // 阻止事件冒泡
+                e.stopPropagation();
+                e.preventDefault();
+                
+                // 防止选中文本
+                document.body.style.userSelect = 'none';
+                
+                // 设置全局鼠标移动和抬起事件
+                const handleMouseMove = (moveEvent) => {
+                    if (!isDragging) return;
+                    
+                    windowEl.style.left = `${moveEvent.clientX - offsetX}px`;
+                    windowEl.style.top = `${moveEvent.clientY - offsetY}px`;
+                };
+                
+                const handleMouseUp = () => {
+                    isDragging = false;
+                    document.body.style.userSelect = '';
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                };
+                
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+        }
+        
+        // 窗口控制按钮功能 - 去掉最小化按钮
+        function setupWindowControls(windowEl, windowId) {
+            const controls = windowEl.querySelector('.window-controls');
+            const windowData = windows[windowId];
+            
+            if (!windowData) return;
+            
+            // 最大化按钮
+            const maximizeBtn = controls.querySelector('.maximize');
+            if (maximizeBtn) {
+                maximizeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    maximizeWindow(windowId);
+                });
+            }
+            
+            // 关闭按钮
+            const closeBtn = controls.querySelector('.close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeWindow(windowId);
+                });
+            }
+        }
+        
+        // 窗口操作函数
+        function minimizeWindow(windowId) {
+            const windowData = windows[windowId];
+            if (windowData) {
+                windowData.element.style.display = 'none';
+                windowData.minimized = true;
+            }
+        }
+        
+        function maximizeWindow(windowId) {
+            const windowData = windows[windowId];
+            if (windowData && windowData.resizable) {
+                if (windowData.maximized) {
+                    // 恢复窗口
+                    windowData.element.classList.remove('maximized');
+                    windowData.element.style.width = windowData.originalSize.width;
+                    windowData.element.style.height = windowData.originalSize.height;
+                    windowData.element.style.top = windowData.originalPosition.top;
+                    windowData.element.style.left = windowData.originalPosition.left;
+                    windowData.maximized = false;
+                } else {
+                    // 保存当前大小和位置
+                    windowData.originalSize = {
+                        width: windowData.element.style.width || windowData.element.offsetWidth + 'px',
+                        height: windowData.element.style.height || windowData.element.offsetHeight + 'px'
+                    };
+                    windowData.originalPosition = {
+                        top: windowData.element.style.top || windowData.element.offsetTop + 'px',
+                        left: windowData.element.style.left || windowData.element.offsetLeft + 'px'
+                    };
+                    
+                    // 最大化窗口
+                    windowData.element.classList.add('maximized');
+                    windowData.maximized = true;
+                }
+            }
+        }
+        
+        function closeWindow(windowId) {
+            const windowData = windows[windowId];
+            if (windowData) {
+                windowData.element.classList.add('closing');
+                setTimeout(() => {
+                    windowData.element.style.opacity = '0';
+                    windowData.element.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        windowData.element.remove();
+                        delete windows[windowId];
+                        if (activeWindow === windowId) {
+                            activeWindow = null;
+                        }
+                    }, 200);
+                }, 500);
+            }
+        }
+        
+        function bringToFront(windowId) {
+            if (activeWindow === windowId) return;
+            
+            if (activeWindow && windows[activeWindow]) {
+                windows[activeWindow].element.style.zIndex = '100';
+            }
+            
+            const windowData = windows[windowId];
+            if (windowData) {
+                windowData.element.style.zIndex = '200';
+                activeWindow = windowId;
+            }
+        }
+        
+        // ==================== 高级功能 ====================
+        
+        // Alt+Tab 窗口切换
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Alt') altPressed = true;
+            if (e.key === 'Tab' && altPressed) {
+                e.preventDefault();
+                tabPressed = true;
+                showAltTab();
+            }
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Alt') altPressed = false;
+            if (e.key === 'Tab') tabPressed = false;
+            if (!altPressed) hideAltTab();
+        });
+        
+        function showAltTab() {
+            const overlay = document.getElementById('altTabOverlay');
+            const windowsContainer = document.getElementById('altTabWindows');
+            
+            windowsContainer.innerHTML = '';
+            Object.keys(windows).forEach((id, index) => {
+                const win = windows[id];
+                if (!win.minimized) {
+                    const windowElement = document.createElement('div');
+                    windowElement.style.cssText = `
+                        background: white;
+                        padding: 20px;
+                        margin: 10px;
+                        border: 3px solid ${id === activeWindow ? '#4A90E2' : '#ddd'};
+                        cursor: pointer;
+                        border-radius: 5px;
+                        text-align: center;
+                    `;
+                    windowElement.onclick = () => switchToWindow(id);
+                    windowElement.innerHTML = `
+                        <div style="font-size: 24px;">${win.type === 'browser' || win.type === 'real-browser' ? '🌐' : '📋'}</div>
+                        <div>${win.element.querySelector('.window-title').textContent}</div>
+                    `;
+                    windowsContainer.appendChild(windowElement);
+                }
+            });
+            
+            overlay.classList.add('active');
+        }
+        
+        function hideAltTab() {
+            document.getElementById('altTabOverlay').classList.remove('active');
+        }
+        
+        function switchToWindow(windowId) {
+            if (windows[windowId]) {
+                windows[windowId].element.style.display = 'block';
+                windows[windowId].minimized = false;
+                bringToFront(windowId);
+                hideAltTab();
+            }
+        }
+        
+        // 右键菜单 - 仅保留关于按钮
+        function showContextMenu(e, appId, targetElement) {
+            closeContextMenu();
+            
+            const contextMenu = document.createElement('div');
+            contextMenu.className = 'context-menu';
+            contextMenu.style.left = `${e.clientX}px`;
+            contextMenu.style.top = `${e.clientY}px`;
+            contextMenu.id = 'contextMenu';
+            
+            contextMenu.innerHTML = `
+                <div class="context-menu-item" onclick="showAboutWindow()">
+                    关于(A)
+                </div>
+            `;
+            
+            document.body.appendChild(contextMenu);
+            
+            setTimeout(() => {
+                document.addEventListener('click', closeContextMenu);
+            }, 100);
+        }
+        
+        function closeContextMenu() {
+            const contextMenu = document.getElementById('contextMenu');
+            if (contextMenu) contextMenu.remove();
+            document.removeEventListener('click', closeContextMenu);
+        }
+        
+        // 显示关于窗口
+        function showAboutWindow() {
+            windowCount++;
+            const windowId = `window_${windowCount}`;
+            
+            const windowEl = document.createElement('div');
+            windowEl.className = 'window open';
+            windowEl.id = windowId;
+            windowEl.style.top = '100px';
+            windowEl.style.left = '100px';
+            windowEl.style.width = '400px';
+            windowEl.style.height = '300px';
+            
+            windowEl.innerHTML = `
+                <div class="title-bar" id="${windowId}_titlebar">
+                    <div class="window-icon">ℹ️</div>
+                    <div class="window-title">关于 萌新MTR服务器</div>
+                    <div class="window-controls">
+                        <div class="control-btn close">×</div>
+                    </div>
+                </div>
+                <div class="window-content" style="text-align: center; padding: 30px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🌐</div>
+                    <h3 style="color: #0B58A2; margin-bottom: 15px;">萌新MTR服务器</h3>
+                    <p style="margin-bottom: 10px;">窗口模拟器</p>
+                    <p style="margin-bottom: 20px; font-size: 14px; color: #666;">芒特省服务器专用版本</p>
+                    <div style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 20px;">
+                        <p style="font-size: 12px; color: #888;">版本 1.0.0</p>
+                        <p style="font-size: 12px; color: #888;">萌新MTR服务器</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('desktop').appendChild(windowEl);
+            
+            // 初始化窗口数据
+            windows[windowId] = {
+                element: windowEl,
+                type: 'about',
+                minimized: false,
+                maximized: false,
+                resizable: false
+            };
+            
+            // 设置窗口功能
+            setupWindowFunctionality(windowEl, windowId);
+            
+            return windowId;
+        }
+        
+        // ==================== 实用函数 ====================
+        
+        // 时钟更新
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}`;
+        }
+        
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 开始菜单控制
+            document.getElementById('startButton').addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.getElementById('startMenu').classList.toggle('active');
+            });
+            
+            document.addEventListener('click', (e) => {
+                const startMenu = document.getElementById('startMenu');
+                const startButton = document.getElementById('startButton');
+                if (!startMenu.contains(e.target) && !startButton.contains(e.target)) {
+                    startMenu.classList.remove('active');
+                }
+            });
+            
+            // 窗口点击置顶
+            document.addEventListener('click', (e) => {
+                let target = e.target.closest('.window');
+                if (target) {
+                    bringToFront(target.id);
+                }
+            });
+            
+            // 实时时钟
+            setInterval(updateClock, 1000);
+        }
+        
+        // 初始化系统
+        window.addEventListener('load', init);
     </script>
 </body>
 </html>
