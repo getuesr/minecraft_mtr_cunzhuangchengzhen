@@ -2,9 +2,45 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>萌新MTR服务器</title>
     <style>
+        /* 移动设备提示样式 */
+        .mobile-notice {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0B58A2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .mobile-notice h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .mobile-notice p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .mobile-notice .countdown {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #FFD700;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -144,6 +180,7 @@
             overflow: hidden;
             z-index: 100;
             transition: all 0.2s;
+            touch-action: none; /* 防止移动设备上的默认触摸行为 */
         }
         
         .window.maximized {
@@ -165,6 +202,7 @@
             cursor: move;
             position: relative;
             user-select: none;
+            touch-action: none;
         }
         
         .window-icon {
@@ -199,6 +237,7 @@
             cursor: pointer;
             color: #333;
             transition: all 0.2s;
+            touch-action: manipulation;
         }
         
         .control-btn:hover {
@@ -485,6 +524,7 @@
             position: absolute;
             background: transparent;
             z-index: 1000;
+            touch-action: none;
         }
         
         .resize-handle-top {
@@ -550,9 +590,44 @@
             height: 15px;
             cursor: se-resize;
         }
+        
+        /* 移动设备适配 */
+        @media (max-width: 768px) {
+            .desktop {
+                display: none;
+            }
+            
+            .mobile-notice {
+                display: flex;
+            }
+            
+            .window {
+                min-width: 200px;
+                min-height: 150px;
+            }
+            
+            .title-bar {
+                height: 40px;
+                font-size: 14px;
+            }
+            
+            .control-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- 移动设备提示 -->
+    <div class="mobile-notice" id="mobileNotice">
+        <h2>📱 手机版提示</h2>
+        <p>手机版无法访问桌面彩蛋</p>
+        <p>正在为您跳转到主页...</p>
+        <div class="countdown" id="countdown">3</div>
+    </div>
+
     <!-- 加载屏幕 -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">启动中</div>
@@ -610,6 +685,35 @@
     </div>
 
     <script>
+        // ==================== 移动设备检测 ====================
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   window.innerWidth <= 768;
+        }
+        
+        // 如果是移动设备，显示提示并跳转
+        if (isMobileDevice()) {
+            document.getElementById('mobileNotice').style.display = 'flex';
+            document.getElementById('desktop').style.display = 'none';
+            
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = 'https://cunchengmtr.cloud/home';
+                }
+            }, 1000);
+            
+            // 3秒后自动跳转
+            setTimeout(() => {
+                window.location.href = 'https://cunchengmtr.cloud/home';
+            }, 3000);
+        }
+        
         // ==================== 系统初始化 ====================
         let windowCount = 0;
         let activeWindow = null;
@@ -642,6 +746,9 @@
         
         // ==================== 初始化函数 ====================
         function init() {
+            // 如果是移动设备，不初始化桌面
+            if (isMobileDevice()) return;
+            
             updateClock();
             createDesktopIcons();
             createStartMenu();
@@ -700,12 +807,22 @@
                 `;
                 icon.style.top = `${20 + shortcut.position * 80}px`;
                 icon.style.position = 'absolute';
-                icon.onclick = () => {
-                    // 双击效果
-                    icon.classList.add('selected');
-                    setTimeout(() => icon.classList.remove('selected'), 200);
-                    launchApp(shortcut.app);
-                };
+                
+                // 移动设备使用 touch 事件
+                if (isMobileDevice()) {
+                    icon.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        icon.classList.add('selected');
+                        setTimeout(() => icon.classList.remove('selected'), 200);
+                        launchApp(shortcut.app);
+                    });
+                } else {
+                    icon.onclick = () => {
+                        icon.classList.add('selected');
+                        setTimeout(() => icon.classList.remove('selected'), 200);
+                        launchApp(shortcut.app);
+                    };
+                }
                 
                 // 添加右键菜单支持
                 icon.addEventListener('contextmenu', (e) => {
@@ -743,10 +860,20 @@
                         <strong>${app.name}</strong>
                         <div style="font-size: 11px; opacity: 0.8;">${app.exe}</div>
                     `;
-                    programItem.onclick = () => {
-                        document.getElementById('startMenu').classList.remove('active');
-                        launchApp(appId);
-                    };
+                    
+                    if (isMobileDevice()) {
+                        programItem.addEventListener('touchstart', (e) => {
+                            e.preventDefault();
+                            document.getElementById('startMenu').classList.remove('active');
+                            launchApp(appId);
+                        });
+                    } else {
+                        programItem.onclick = () => {
+                            document.getElementById('startMenu').classList.remove('active');
+                            launchApp(appId);
+                        };
+                    }
+                    
                     startMenu.appendChild(programItem);
                 });
             });
@@ -837,9 +964,17 @@
             }
             
             // 4. 窗口点击置顶
-            windowEl.addEventListener('mousedown', () => {
-                bringToFront(windowId);
-            });
+            if (isMobileDevice()) {
+                windowEl.addEventListener('touchstart', (e) => {
+                    if (e.target.closest('.title-bar')) return;
+                    bringToFront(windowId);
+                });
+            } else {
+                windowEl.addEventListener('mousedown', (e) => {
+                    if (e.target.closest('.title-bar')) return;
+                    bringToFront(windowId);
+                });
+            }
             
             // 5. 初始化窗口状态
             bringToFront(windowId);
@@ -876,75 +1011,104 @@
             let startWidth, startHeight;
             let startLeft, startTop;
             
-            handle.addEventListener('mousedown', (e) => {
+            const startResize = (clientX, clientY) => {
                 isResizing = true;
-                startX = e.clientX;
-                startY = e.clientY;
+                startX = clientX;
+                startY = clientY;
                 startWidth = windowEl.offsetWidth;
                 startHeight = windowEl.offsetHeight;
                 startLeft = windowEl.offsetLeft;
                 startTop = windowEl.offsetTop;
                 
-                // 阻止事件冒泡
-                e.stopPropagation();
-                e.preventDefault();
-                
                 // 防止选中文本
                 document.body.style.userSelect = 'none';
+                document.body.style.webkitUserSelect = 'none';
+            };
+            
+            const doResize = (clientX, clientY) => {
+                if (!isResizing) return;
                 
-                // 设置全局鼠标移动和抬起事件
-                const handleMouseMove = (moveEvent) => {
+                const deltaX = clientX - startX;
+                const deltaY = clientY - startY;
+                
+                // 计算最小尺寸
+                const minWidth = 300;
+                const minHeight = 200;
+                
+                // 处理左右调整
+                if (handleClass.includes('right') || handleClass.includes('topright') || handleClass.includes('bottomright')) {
+                    const newWidth = Math.max(minWidth, startWidth + deltaX);
+                    windowEl.style.width = newWidth + 'px';
+                }
+                
+                // 处理左侧调整
+                if (handleClass.includes('left') || handleClass.includes('topleft') || handleClass.includes('bottomleft')) {
+                    const newWidth = Math.max(minWidth, startWidth - deltaX);
+                    const newLeft = startLeft + deltaX;
+                    windowEl.style.width = newWidth + 'px';
+                    windowEl.style.left = newLeft + 'px';
+                }
+                
+                // 处理上下调整
+                if (handleClass.includes('bottom') || handleClass.includes('bottomleft') || handleClass.includes('bottomright')) {
+                    const newHeight = Math.max(minHeight, startHeight + deltaY);
+                    windowEl.style.height = newHeight + 'px';
+                }
+                
+                // 处理顶部调整
+                if (handleClass.includes('top') || handleClass.includes('topleft') || handleClass.includes('topright')) {
+                    const newHeight = Math.max(minHeight, startHeight - deltaY);
+                    const newTop = startTop + deltaY;
+                    windowEl.style.height = newHeight + 'px';
+                    windowEl.style.top = newTop + 'px';
+                }
+            };
+            
+            const stopResize = () => {
+                isResizing = false;
+                document.body.style.userSelect = '';
+                document.body.style.webkitUserSelect = '';
+            };
+            
+            // 移动设备使用 touch 事件
+            if (isMobileDevice()) {
+                handle.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    startResize(touch.clientX, touch.clientY);
+                });
+                
+                document.addEventListener('touchmove', (e) => {
                     if (!isResizing) return;
-                    
-                    const deltaX = moveEvent.clientX - startX;
-                    const deltaY = moveEvent.clientY - startY;
-                    
-                    // 计算最小尺寸
-                    const minWidth = 300;
-                    const minHeight = 200;
-                    
-                    // 处理左右调整
-                    if (handleClass.includes('right') || handleClass.includes('topright') || handleClass.includes('bottomright')) {
-                        const newWidth = Math.max(minWidth, startWidth + deltaX);
-                        windowEl.style.width = newWidth + 'px';
-                    }
-                    
-                    // 处理左侧调整
-                    if (handleClass.includes('left') || handleClass.includes('topleft') || handleClass.includes('bottomleft')) {
-                        const newWidth = Math.max(minWidth, startWidth - deltaX);
-                        const newLeft = startLeft + deltaX;
-                        windowEl.style.width = newWidth + 'px';
-                        windowEl.style.left = newLeft + 'px';
-                    }
-                    
-                    // 处理上下调整
-                    if (handleClass.includes('bottom') || handleClass.includes('bottomleft') || handleClass.includes('bottomright')) {
-                        const newHeight = Math.max(minHeight, startHeight + deltaY);
-                        windowEl.style.height = newHeight + 'px';
-                    }
-                    
-                    // 处理顶部调整
-                    if (handleClass.includes('top') || handleClass.includes('topleft') || handleClass.includes('topright')) {
-                        const newHeight = Math.max(minHeight, startHeight - deltaY);
-                        const newTop = startTop + deltaY;
-                        windowEl.style.height = newHeight + 'px';
-                        windowEl.style.top = newTop + 'px';
-                    }
-                };
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    doResize(touch.clientX, touch.clientY);
+                });
                 
-                const handleMouseUp = () => {
-                    isResizing = false;
-                    document.body.style.userSelect = '';
-                    document.removeEventListener('mousemove', handleMouseMove);
-                    document.removeEventListener('mouseup', handleMouseUp);
-                };
-                
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-            });
+                document.addEventListener('touchend', stopResize);
+                document.addEventListener('touchcancel', stopResize);
+            } else {
+                handle.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    startResize(e.clientX, e.clientY);
+                    
+                    const handleMouseMove = (moveEvent) => {
+                        doResize(moveEvent.clientX, moveEvent.clientY);
+                    };
+                    
+                    const handleMouseUp = () => {
+                        stopResize();
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                    };
+                    
+                    document.addEventListener('mousemove', handleMouseMove);
+                    document.addEventListener('mouseup', handleMouseUp);
+                });
+            }
         }
         
-        // 打开真正的浏览器窗口
+        // 打开真正的浏览器窗口 - 修改主页链接
         function openRealBrowser() {
             windowCount++;
             const windowId = `window_${windowCount}`;
@@ -960,14 +1124,14 @@
             windowEl.innerHTML = `
                 <div class="title-bar" id="${windowId}_titlebar">
                     <div class="window-icon ie-title">IE</div>
-                    <div class="window-title">Internet Explorer 11 - https://cunchengmtr.cloud/</div>
+                    <div class="window-title">Internet Explorer 11 - https://cunchengmtr.cloud/home</div>
                     <div class="window-controls">
                         <div class="control-btn maximize">□</div>
                         <div class="control-btn close">×</div>
                     </div>
                 </div>
                 <div class="window-content" style="padding: 0; height: calc(100% - 30px);">
-                    <iframe class="browser-frame" src="https://cunchengmtr.cloud/" title="芒特省MTR服务器" style="width: 100%; height: 100%; border: none;"></iframe>
+                    <iframe class="browser-frame" src="https://cunchengmtr.cloud/home" title="芒特省MTR服务器" style="width: 100%; height: 100%; border: none;"></iframe>
                 </div>
             `;
             
@@ -998,13 +1162,13 @@
         
         // ==================== 窗口管理系统 ====================
         
-        // 窗口拖拽功能
+        // 窗口拖拽功能 - 支持移动设备
         function setupWindowDrag(windowEl, titlebarId) {
             const titlebar = document.getElementById(titlebarId);
             let isDragging = false;
             let offsetX, offsetY;
             
-            titlebar.addEventListener('mousedown', (e) => {
+            const startDrag = (clientX, clientY) => {
                 const windowId = windowEl.id;
                 const windowData = windows[windowId];
                 
@@ -1015,42 +1179,71 @@
                     maximizeWindow(windowId);
                     // 更新拖动偏移量
                     const rect = windowEl.getBoundingClientRect();
-                    offsetX = e.clientX - rect.width / 2;
-                    offsetY = e.clientY - 15; // 标题栏高度的一半
+                    offsetX = clientX - rect.width / 2;
+                    offsetY = clientY - 15; // 标题栏高度的一半
                 } else {
                     const rect = windowEl.getBoundingClientRect();
-                    offsetX = e.clientX - rect.left;
-                    offsetY = e.clientY - rect.top;
+                    offsetX = clientX - rect.left;
+                    offsetY = clientY - rect.top;
                 }
                 
                 isDragging = true;
                 bringToFront(windowId);
                 
-                // 阻止事件冒泡
-                e.stopPropagation();
-                e.preventDefault();
-                
                 // 防止选中文本
                 document.body.style.userSelect = 'none';
+                document.body.style.webkitUserSelect = 'none';
+            };
+            
+            const doDrag = (clientX, clientY) => {
+                if (!isDragging) return;
                 
-                // 设置全局鼠标移动和抬起事件
-                const handleMouseMove = (moveEvent) => {
+                windowEl.style.left = `${clientX - offsetX}px`;
+                windowEl.style.top = `${clientY - offsetY}px`;
+            };
+            
+            const stopDrag = () => {
+                isDragging = false;
+                document.body.style.userSelect = '';
+                document.body.style.webkitUserSelect = '';
+            };
+            
+            // 移动设备使用 touch 事件
+            if (isMobileDevice()) {
+                titlebar.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    startDrag(touch.clientX, touch.clientY);
+                });
+                
+                document.addEventListener('touchmove', (e) => {
                     if (!isDragging) return;
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    doDrag(touch.clientX, touch.clientY);
+                });
+                
+                document.addEventListener('touchend', stopDrag);
+                document.addEventListener('touchcancel', stopDrag);
+            } else {
+                titlebar.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    startDrag(e.clientX, e.clientY);
                     
-                    windowEl.style.left = `${moveEvent.clientX - offsetX}px`;
-                    windowEl.style.top = `${moveEvent.clientY - offsetY}px`;
-                };
-                
-                const handleMouseUp = () => {
-                    isDragging = false;
-                    document.body.style.userSelect = '';
-                    document.removeEventListener('mousemove', handleMouseMove);
-                    document.removeEventListener('mouseup', handleMouseUp);
-                };
-                
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-            });
+                    const handleMouseMove = (moveEvent) => {
+                        doDrag(moveEvent.clientX, moveEvent.clientY);
+                    };
+                    
+                    const handleMouseUp = () => {
+                        stopDrag();
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                    };
+                    
+                    document.addEventListener('mousemove', handleMouseMove);
+                    document.addEventListener('mouseup', handleMouseUp);
+                });
+            }
         }
         
         // 窗口控制按钮功能 - 去掉最小化按钮
@@ -1063,31 +1256,39 @@
             // 最大化按钮
             const maximizeBtn = controls.querySelector('.maximize');
             if (maximizeBtn) {
-                maximizeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    maximizeWindow(windowId);
-                });
+                if (isMobileDevice()) {
+                    maximizeBtn.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        maximizeWindow(windowId);
+                    });
+                } else {
+                    maximizeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        maximizeWindow(windowId);
+                    });
+                }
             }
             
             // 关闭按钮
             const closeBtn = controls.querySelector('.close');
             if (closeBtn) {
-                closeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    closeWindow(windowId);
-                });
+                if (isMobileDevice()) {
+                    closeBtn.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        closeWindow(windowId);
+                    });
+                } else {
+                    closeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        closeWindow(windowId);
+                    });
+                }
             }
         }
         
         // 窗口操作函数
-        function minimizeWindow(windowId) {
-            const windowData = windows[windowId];
-            if (windowData) {
-                windowData.element.style.display = 'none';
-                windowData.minimized = true;
-            }
-        }
-        
         function maximizeWindow(windowId) {
             const windowData = windows[windowId];
             if (windowData && windowData.resizable) {
@@ -1153,6 +1354,8 @@
         
         // Alt+Tab 窗口切换
         document.addEventListener('keydown', (e) => {
+            if (isMobileDevice()) return;
+            
             if (e.key === 'Alt') altPressed = true;
             if (e.key === 'Tab' && altPressed) {
                 e.preventDefault();
@@ -1162,6 +1365,8 @@
         });
         
         document.addEventListener('keyup', (e) => {
+            if (isMobileDevice()) return;
+            
             if (e.key === 'Alt') altPressed = false;
             if (e.key === 'Tab') tabPressed = false;
             if (!altPressed) hideAltTab();
@@ -1301,6 +1506,9 @@
         
         // 设置事件监听器
         function setupEventListeners() {
+            // 如果是移动设备，不设置这些事件
+            if (isMobileDevice()) return;
+            
             // 开始菜单控制
             document.getElementById('startButton').addEventListener('click', (e) => {
                 e.stopPropagation();
