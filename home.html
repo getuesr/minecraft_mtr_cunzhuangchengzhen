@@ -118,11 +118,13 @@ html,body {
 .titlebar:active { cursor:grabbing; }
 .window-title {
   font-weight:600; font-size:1.1rem;
+  word-break:break-word;  /* 长标题换行 */
 }
 .window-content {
   padding:16px 14px;
   height:calc(100% - 48px);
   overflow-y:auto;
+  user-select:text;
 }
 .content-img {
   width:100%; border-radius:12px; margin:8px 0;
@@ -130,6 +132,7 @@ html,body {
 .placeholder {
   text-align:center; padding:15px;
   background:rgba(255,255,255,0.05); border-radius:14px;
+  margin:8px 0;
 }
 .resize-arrow {
   position:absolute;
@@ -143,6 +146,95 @@ html,body {
   color:var(--text-color);
 }
 .resize-arrow:hover { opacity:1; }
+
+/* 关于我们窗口的自定义样式 */
+.about-content {
+  line-height:1.6;
+}
+.about-content h3 {
+  font-size:1.2rem;
+  margin:12px 0 8px 0;
+  color:#b983ff;
+}
+.about-content p {
+  margin:6px 0;
+  font-size:0.95rem;
+}
+/* 核心：图文并列容器 */
+.about-side-by-side {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.about-text-col {
+  flex: 1;
+  min-width: 240px;
+}
+.about-img-col {
+  flex: 0 0 150px;
+}
+.about-img-col img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 2px solid var(--border-light);
+}
+.about-img-col p {
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.about-content .contact-info {
+  margin:10px 0;
+}
+.about-content .contact-info p {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.about-content .contact-info i {
+  color:#77e5ff;
+  width:20px;
+  text-align:center;
+}
+.about-content ol {
+  padding-left:20px;
+  margin:8px 0;
+}
+.about-content ol li {
+  margin:4px 0;
+}
+
+/* ---------- 合作服列表样式 ---------- */
+.coop-list {
+  margin: 8px 0;
+}
+.coop-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s, border-color 0.2s;
+  border: 1px solid transparent;
+  margin-bottom: 8px;
+}
+.coop-item:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: var(--border-light);
+}
+.coop-item img {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  border-radius: 6px;
+  object-fit: contain;
+}
 
 /* 手机端 */
 @media (max-width:600px) {
@@ -163,6 +255,9 @@ html,body {
   }
   .titlebar { cursor:default; }
   .resize-arrow { display:none; }
+  .about-side-by-side {
+    justify-content: center;
+  }
 }
 
 /* 内部轮播样式 */
@@ -225,66 +320,160 @@ updateTime();
 setInterval(updateTime, 1000);
 
 // 提示消失
-setTimeout(()=>{ barPc.style.width='0%' }, 100);
-setTimeout(()=>{ toastPc.classList.add('fade') }, 4500);
+setTimeout(()=>{ document.getElementById('barPc').style.width='0%' }, 100);
+setTimeout(()=>{ document.getElementById('toastPc').classList.add('fade') }, 4500);
 
 // ------------------------------
-// 窗口内容（服务器信息仅留轮播）
+// 窗口内容 (已按要求修改合作服)
 // ------------------------------
 const desk = document.getElementById('desktop');
 let zIndex = 10;
 
 const desktopWindows = [
 {
-title:"📋 关于我们", borderColor:"#ff6b6b", w:480, h:420, x:30, y:100,
-html:`
-<img class="content-img" src="lo_1.jpg">
-<div class="placeholder">芒特省 MTR 萌新服<br>专注地铁建设 & 铁路运输</div>
-`
-},
-{
-title:"🖥️ 服务器信息", borderColor:"#ffd166", w:620, h:260, x:530, y:280,
-// 这里只保留轮播，去掉所有文字
-html:`
-<div class="in-carousel">
-  <div class="in-carousel-inner">
-    <div class="in-carousel-item active"><img src="lo_1.jpg"></div>
-    <div class="in-carousel-item"><img src="lo_2.jpg"></div>
-    <div class="in-carousel-item"><img src="lo_3.jpg"></div>
-    <div class="in-carousel-item"><img src="lo_4.jpg"></div>
-    <div class="in-carousel-item"><img src="lo_5.jpg"></div>
+  title:"📋 关于我们", borderColor:"#ff6b6b", w:480, h:500, x:30, y:100,
+  html:`
+  <div class="about-content">
+    <h3>服务器介绍</h3>
+    <p>一个1.20.1 fabric MTR服务器，虽然都是萌新，咱们但是在一块也能..做的很好..</p>
+    <p>我们致力于为玩家提供最优质的铁路建设体验，结合MTR模组的强大功能，打造真实、高效、美观的地铁系统。</p>
+    <p>从传统村庄到现代化大都市，我们提供了多种城市风格供玩家选择，打造独特的城市景观。</p>
+    <p>我们相信，铁路不仅是交通工具，更是连接人与人、城市与城市的纽带。通过精心设计的铁路网络，我们希望能够为玩家创造一个既真实又充满想象力的世界。</p>
+    
+    <h3>加入我们</h3>
+    <!-- 图文并列：左文字 右图片 -->
+    <div class="about-side-by-side">
+      <div class="about-text-col">
+        <div class="contact-info">
+          <p><i>👥</i>官方QQ群: 1070623105</p>
+          <p><i>🖥️</i>服务器IP: 暂不透露 需进群下载整合包后索取</p>
+          <p><i>🕒</i>服务器在线时间: 一般为周五~周天，但是可以随时@腐竹要求开服</p>
+          <p><i>🎧</i>技术支持: 群内管理员</p>
+        </div>
+        
+        <h3>加入流程</h3>
+        <ol>
+          <li>加入官方QQ群获取最新信息</li>
+          <li>下载服务器专用整合包</li>
+          <li>安装整合包(记得一定是最新版)</li>
+          <li>进服务器喽~没什么好说的呢~</li>
+        </ol>
+      </div>
+      <!-- 图片列 -->
+      <div class="about-img-col">
+        <img src="pic_05.jpg" alt="QQ群二维码">
+        <p>扫描二维码加入QQ群</p>
+      </div>
+    </div>
   </div>
-</div>
-`
+  `
 },
 {
-title:"📜 入服规则", borderColor:"#b380df", w:420, h:240, x:380, y:560,
-html:`<div class="placeholder">禁止破坏 | 文明游戏 | 欢迎建设</div>`
+  title:"🖥️ 服务器信息", borderColor:"#ffd166", w:620, h:260, x:530, y:280,
+  html:`
+  <div class="in-carousel">
+    <div class="in-carousel-inner">
+      <div class="in-carousel-item active"><img src="lo_1.jpg"></div>
+      <div class="in-carousel-item"><img src="lo_2.jpg"></div>
+      <div class="in-carousel-item"><img src="lo_3.jpg"></div>
+      <div class="in-carousel-item"><img src="lo_4.jpg"></div>
+      <div class="in-carousel-item"><img src="lo_5.jpg"></div>
+    </div>
+  </div>
+  `
 },
 {
-title:"🗺️ 线路地图", borderColor:"#43e97b", w:320, h:320, x:30, y:540,
-html:`<img class="content-img" src="L_1.jpg"><div class="placeholder">主城线 | 郊区线 | 机场线</div>`
+  title:"📜 入服规则", borderColor:"#b380df", w:420, h:240, x:380, y:560,
+  html:`<div class="placeholder">禁止破坏 | 文明游戏 | 欢迎建设</div>`
 },
 {
-title:"🤝 合作服", borderColor:"#7ec7ff", w:300, h:220, x:860, y:100,
-html:`<div class="placeholder">筹备中...</div>`
+  title:"🗺️ 线路地图", borderColor:"#43e97b", w:320, h:320, x:30, y:540,
+  html:`<img class="content-img" src="L_1.jpg"><div class="placeholder">主城线 | 郊区线 | 机场线</div>`
+},
+// 合作服窗口 —— 已修改标题、尺寸、内容，添加鹤州城建按钮（图标从网页获取）
+{
+  title:"🤝 合作服(已明确表达合作关系)", borderColor:"#7ec7ff", w:340, h:260, x:840, y:100,
+  html:`
+    <div style="font-weight:600; margin-bottom:8px;">🤝 合作服务器</div>
+    <div class="coop-list">
+      <a class="coop-item" href="http://mtrhz.xyz/" target="_blank" rel="noopener">
+        <img src="https://icon.horse/icon/mtrhz.xyz" alt="" width="24" height="24">
+        鹤州城建
+      </a>
+    </div>
+    <!-- 可预留后续其他合作项 -->
+  `
 },
 {
-title:"📥 客户端下载", borderColor:"#77f", w:300, h:220, x:530, y:100,
-html:`<div class="placeholder">官网一键下载<br>包含完整材质包</div>`
+  title:"📥 客户端下载", borderColor:"#77f", w:300, h:220, x:530, y:100,
+  html:`<div class="placeholder">官网一键下载<br>包含完整材质包</div>`
 },
 {
-title:"📢 最新公告", borderColor:"#ff577f", w:300, h:220, x:820, y:560,
-html:`<div class="placeholder">周六铁路活动<br>奖励钻石块</div>`
+  title:"📢 最新公告", borderColor:"#ff577f", w:300, h:220, x:820, y:560,
+  html:`<div class="placeholder">周六铁路活动<br>奖励钻石块</div>`
 }
 ];
 
 const mobileWindows = [
-  { title:"📋 关于我们", borderColor:"#ff6b6b", html:'<img class="content-img" src="lo_1.jpg"><div class="placeholder">芒特省 MTR 萌新服</div>' },
-  { title:"🖥️ 服务器信息", borderColor:"#ffd166", html:'<div class="in-carousel"><div class="in-carousel-inner"><div class="in-carousel-item active"><img src="lo_1.jpg"></div><div class="in-carousel-item"><img src="lo_2.jpg"></div><div class="in-carousel-item"><img src="lo_3.jpg"></div><div class="in-carousel-item"><img src="lo_4.jpg"></div><div class="in-carousel-item"><img src="lo_5.jpg"></div></div></div>' },
+  { title:"📋 关于我们", borderColor:"#ff6b6b", 
+    html:`
+    <div class="about-content">
+      <h3>服务器介绍</h3>
+      <p>一个1.20.1 fabric MTR服务器，虽然都是萌新，咱们但是在一块也能..做的很好..</p>
+      <p>我们致力于为玩家提供最优质的铁路建设体验，结合MTR模组的强大功能，打造真实、高效、美观的地铁系统。</p>
+      
+      <h3>加入我们</h3>
+      <div class="about-side-by-side">
+        <div class="about-text-col">
+          <div class="contact-info">
+            <p><i>👥</i>官方QQ群: 1070623105</p>
+            <p><i>🖥️</i>服务器IP: 暂不透露 需进群下载整合包后索取</p>
+            <p><i>🕒</i>服务器在线时间: 一般为周五~周天，但是可以随时@腐竹要求开服</p>
+          </div>
+          
+          <h3>加入流程</h3>
+          <ol>
+            <li>加入官方QQ群获取最新信息</li>
+            <li>下载服务器专用整合包</li>
+            <li>安装整合包(记得一定是最新版)</li>
+            <li>进服务器喽~没什么好说的呢~</li>
+          </ol>
+        </div>
+        <div class="about-img-col">
+          <img src="pic_05.jpg" alt="QQ群二维码">
+          <p>扫描二维码加入QQ群</p>
+        </div>
+      </div>
+    </div>
+    `
+  },
+  { title:"🖥️ 服务器信息", borderColor:"#ffd166", 
+    html:`
+    <div class="in-carousel">
+      <div class="in-carousel-inner">
+        <div class="in-carousel-item active"><img src="lo_1.jpg"></div>
+        <div class="in-carousel-item"><img src="lo_2.jpg"></div>
+        <div class="in-carousel-item"><img src="lo_3.jpg"></div>
+        <div class="in-carousel-item"><img src="lo_4.jpg"></div>
+        <div class="in-carousel-item"><img src="lo_5.jpg"></div>
+      </div>
+    </div>
+    `
+  },
   { title:"📜 入服规则", borderColor:"#b380df", html:'<div class="placeholder">禁止破坏 | 文明游戏 | 欢迎建设</div>' },
   { title:"🗺️ 线路地图", borderColor:"#43e97b", html:'<img class="content-img" src="L_1.jpg"><div class="placeholder">主城线 | 郊区线 | 机场线</div>' },
-  { title:"🤝 合作服", borderColor:"#7ec7ff", html:'<div class="placeholder">筹备中...</div>' },
+  // 合作服移动端 —— 同样修改标题和内容
+  { title:"🤝 合作服(已明确表达合作关系)", borderColor:"#7ec7ff", 
+    html:`
+    <div style="font-weight:600; margin-bottom:8px;">🤝 合作服务器</div>
+    <div class="coop-list">
+      <a class="coop-item" href="http://mtrhz.xyz/" target="_blank" rel="noopener">
+        <img src="https://icon.horse/icon/mtrhz.xyz" alt="" width="24" height="24">
+        鹤州城建
+      </a>
+    </div>
+    ` 
+  },
   { title:"📥 客户端下载", borderColor:"#77f", html:'<div class="placeholder">官网一键下载<br>包含完整材质包</div>' },
   { title:"📢 最新公告", borderColor:"#ff577f", html:'<div class="placeholder">周六铁路活动<br>奖励钻石块</div>' }
 ];
