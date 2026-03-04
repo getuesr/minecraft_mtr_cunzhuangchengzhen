@@ -89,9 +89,23 @@ html,body {
   transition:width linear;
 }
 
-.toast-pc { top:var(--navbar-height); }
-.toast-pc .toast-bar { background:#22c55e; transition-duration:4.5s; }
-.toast-mobile { display:none; }
+.toast-pc {
+  top:var(--navbar-height);
+}
+.toast-pc .toast-bar {
+  background:#22c55e;
+  transition-duration:4.5s;
+}
+
+/* 手机提示默认隐藏 */
+.toast-mobile {
+  display: none;
+  top:var(--navbar-height);
+}
+.toast-mobile .toast-bar {
+  background:#f97316;  /* 橙色 */
+  transition-duration:7s;
+}
 
 /* 窗口 */
 .desktop {
@@ -259,6 +273,14 @@ html,body {
   .about-side-by-side {
     justify-content: center;
   }
+
+  /* 手机端提示显示/隐藏 */
+  .toast-pc {
+    display: none;
+  }
+  .toast-mobile {
+    display: block;
+  }
 }
 
 /* 内部轮播样式 */
@@ -303,6 +325,12 @@ html,body {
   <div class="toast-bar" id="barPc"></div>
 </div>
 
+<!-- 新增手机提示 -->
+<div class="toast toast-mobile" id="toastMobile">
+  📱 手机用户启用固定排版模式。
+  <div class="toast-bar" id="barMobile"></div>
+</div>
+
 <div class="desktop" id="desktop"></div>
 
 <script>
@@ -320,9 +348,21 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-// 提示消失
+// PC提示消失
 setTimeout(()=>{ document.getElementById('barPc').style.width='0%' }, 100);
 setTimeout(()=>{ document.getElementById('toastPc').classList.add('fade') }, 4500);
+
+// 手机提示消失（仅当屏幕宽度≤600时执行）
+if (window.innerWidth <= 600) {
+  setTimeout(() => { 
+    const barMobile = document.getElementById('barMobile');
+    if (barMobile) barMobile.style.width = '0%'; 
+  }, 100);
+  setTimeout(() => { 
+    const toastMobile = document.getElementById('toastMobile');
+    if (toastMobile) toastMobile.classList.add('fade'); 
+  }, 7000);
+}
 
 // ------------------------------
 // 窗口内容 (已按要求修改合作服)
