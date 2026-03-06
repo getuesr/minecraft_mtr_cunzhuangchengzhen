@@ -129,11 +129,27 @@ html,body {
   border-radius:12px 12px 0 0;
   cursor:grab;
   border-bottom:1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .titlebar:active { cursor:grabbing; }
 .window-title {
   font-weight:600; font-size:1.1rem;
-  word-break:break-word;  /* 长标题换行 */
+  word-break:break-word;
+}
+.close-btn {
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  transition: background 0.2s;
+  user-select: none;
+}
+.close-btn:hover {
+  background: rgba(255,80,80,0.5);
 }
 .window-content {
   padding:16px 14px;
@@ -161,6 +177,33 @@ html,body {
   color:var(--text-color);
 }
 .resize-arrow:hover { opacity:1; }
+
+/* 图片弹出窗口专用样式：内容区可滚动，图片可缩放 */
+.image-popup .window-content {
+  padding: 0;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+}
+.image-popup .img-preview-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.image-popup .img-preview-container img {
+  display: block;
+  width: 100%;    /* 初始100% */
+  height: auto;
+  transition: width 0.05s;
+  transform-origin: top left;
+  cursor: zoom-in;
+}
 
 /* 关于我们窗口的自定义样式 */
 .about-content {
@@ -223,7 +266,7 @@ html,body {
   margin:4px 0;
 }
 
-/* ---------- 合作服列表样式 ---------- */
+/* 合作服列表样式 */
 .coop-list {
   margin: 8px 0;
 }
@@ -270,16 +313,23 @@ html,body {
   }
   .titlebar { cursor:default; }
   .resize-arrow { display:none; }
-  .about-side-by-side {
-    justify-content: center;
-  }
 
-  /* 手机端提示显示/隐藏 */
+  /* 手机提示显示 */
   .toast-pc {
     display: none;
   }
   .toast-mobile {
     display: block;
+  }
+
+  /* 弹出图片窗口在手机上用fixed覆盖 */
+  .window.image-popup {
+    position: fixed !important;
+    top: 5% !important;
+    left: 5% !important;
+    width: 90% !important;
+    height: 80% !important;
+    z-index: 1000 !important;
   }
 }
 
@@ -308,6 +358,7 @@ html,body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: auto;  /* 保证双击能触发 */
 }
 </style>
 </head>
@@ -325,7 +376,7 @@ html,body {
   <div class="toast-bar" id="barPc"></div>
 </div>
 
-<!-- 新增手机提示 -->
+<!-- 手机提示 -->
 <div class="toast toast-mobile" id="toastMobile">
   📱 手机用户启用固定排版模式。
   <div class="toast-bar" id="barMobile"></div>
@@ -365,11 +416,12 @@ if (window.innerWidth <= 600) {
 }
 
 // ------------------------------
-// 窗口内容 (已按要求修改合作服)
+// 窗口内容 (已按要求修改)
 // ------------------------------
 const desk = document.getElementById('desktop');
 let zIndex = 10;
 
+// 电脑版窗口定义（移除了"客户端下载"窗口，更新了公告）
 const desktopWindows = [
 {
   title:"📋 关于我们", borderColor:"#ff6b6b", w:480, h:500, x:30, y:100,
@@ -431,7 +483,7 @@ const desktopWindows = [
   title:"🗺️ 线路地图", borderColor:"#43e97b", w:320, h:320, x:30, y:540,
   html:`<img class="content-img" src="L_1.jpg"><div class="placeholder">主城线 | 郊区线 | 机场线</div>`
 },
-// 合作服窗口 —— 已修改标题、尺寸、内容，添加鹤州城建按钮（图标从网页获取）
+// 合作服窗口
 {
   title:"🤝 合作服(已明确表达合作关系)", borderColor:"#7ec7ff", w:340, h:260, x:840, y:100,
   html:`
@@ -442,19 +494,15 @@ const desktopWindows = [
         鹤州城建
       </a>
     </div>
-    <!-- 可预留后续其他合作项 -->
   `
 },
 {
-  title:"📥 客户端下载", borderColor:"#77f", w:300, h:220, x:530, y:100,
-  html:`<div class="placeholder">官网一键下载<br>包含完整材质包</div>`
-},
-{
   title:"📢 最新公告", borderColor:"#ff577f", w:300, h:220, x:820, y:560,
-  html:`<div class="placeholder"> 本站第三次修改页面布局,此页面设计尚未完成。<br>奖励钻石块</div>`
+  html:`<div class="placeholder">本页第三次修改.此站点尚未完成</div>`   // 修改为要求的文本
 }
 ];
 
+// 手机版窗口定义（移除了客户端下载，更新公告）
 const mobileWindows = [
   { title:"📋 关于我们", borderColor:"#ff6b6b", 
     html:`
@@ -503,7 +551,6 @@ const mobileWindows = [
   },
   { title:"📜 入服规则", borderColor:"#b380df", html:'<div class="placeholder">禁止破坏 | 文明游戏 | 欢迎建设</div>' },
   { title:"🗺️ 线路地图", borderColor:"#43e97b", html:'<img class="content-img" src="L_1.jpg"><div class="placeholder">主城线 | 郊区线 | 机场线</div>' },
-  // 合作服移动端 —— 同样修改标题和内容
   { title:"🤝 合作服(已明确表达合作关系)", borderColor:"#7ec7ff", 
     html:`
     <div style="font-weight:600; margin-bottom:8px;">🤝 合作服务器</div>
@@ -515,11 +562,10 @@ const mobileWindows = [
     </div>
     ` 
   },
-  { title:"📥 客户端下载", borderColor:"#77f", html:'<div class="placeholder">官网一键下载<br>包含完整材质包</div>' },
-  { title:"📢 最新公告", borderColor:"#ff577f", html:'<div class="placeholder">周六铁路活动<br>奖励钻石块</div>' }
+  { title:"📢 最新公告", borderColor:"#ff577f", html:'<div class="placeholder">本页第三次修改.此站点尚未完成</div>' }  // 修改为要求的文本
 ];
 
-// 创建窗口
+// --- 通用窗口创建函数 (保持原有逻辑) ---
 function createWindows() {
   desk.innerHTML = '';
   const isMobile = window.innerWidth <= 600;
@@ -603,7 +649,7 @@ function createWindows() {
 createWindows();
 window.addEventListener('resize', createWindows);
 
-// 内部轮播
+// --- 内部轮播 ---
 setInterval(() => {
   const items = document.querySelectorAll('.in-carousel-item');
   if (!items.length) return;
@@ -612,6 +658,163 @@ setInterval(() => {
   cur = (cur + 1) % items.length;
   items[cur].classList.add('active');
 }, 5000);
+
+// ---------- 新增：双击图片弹出可缩放窗口 ----------
+function createImagePopup(imgSrc) {
+  const isMobile = window.innerWidth <= 600;
+  const win = document.createElement('div');
+  win.className = 'window image-popup';
+  win.style.borderColor = '#aa88ff';
+  win.style.zIndex = ++zIndex;
+
+  // 窗口大小/位置 (PC用绝对定位, 手机强制fixed由CSS处理)
+  if (!isMobile) {
+    win.style.width = '540px';
+    win.style.height = '420px';
+    win.style.left = '200px';
+    win.style.top = '120px';
+  } else {
+    // 手机端使用fixed, 已在media中定义, 但需添加类
+    win.style.position = 'fixed';
+    win.style.top = '5%';
+    win.style.left = '5%';
+    win.style.width = '90%';
+    win.style.height = '80%';
+  }
+
+  // 标题栏带关闭按钮
+  const bar = document.createElement('div');
+  bar.className = 'titlebar';
+  const t = document.createElement('div');
+  t.className = 'window-title';
+  t.innerText = '🔍 图片预览';
+  const closeBtn = document.createElement('span');
+  closeBtn.className = 'close-btn';
+  closeBtn.innerText = '✕';
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    win.remove();
+  });
+  bar.appendChild(t);
+  bar.appendChild(closeBtn);
+
+  // 内容区：带滚动条的容器 + img
+  const content = document.createElement('div');
+  content.className = 'window-content';
+  const container = document.createElement('div');
+  container.className = 'img-preview-container';
+  const img = document.createElement('img');
+  img.src = imgSrc;
+  img.alt = 'preview';
+  img.style.width = '100%';   // 初始百分比
+  img.style.cursor = 'zoom-in';
+
+  container.appendChild(img);
+  content.appendChild(container);
+
+  // 右下角缩放箭头
+  const r = document.createElement('div');
+  r.className = 'resize-arrow';
+  r.innerText = '⤢';
+
+  win.append(bar, content, r);
+  desk.appendChild(win);
+
+  // 滚轮缩放图片 (仅PC，手机无滚轮但保留逻辑无碍)
+  const wheelHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let currentWidth = img.style.width;
+    let percent = parseFloat(currentWidth);
+    if (isNaN(percent) || currentWidth.includes('%')) {
+      // 如果是百分比形式，提取数值
+      let match = currentWidth.match(/^(\d+(?:\.\d+)?)%/);
+      if (match) percent = parseFloat(match[1]);
+      else percent = 100;
+    } else {
+      // 如果是px形式，转为相对父容器的百分比? 简单起见转为px不好控制，我们强制统一使用百分比
+      // 为了统一，检测如果是px则改为基于父容器宽度的百分比
+      if (currentWidth.includes('px')) {
+        let pxVal = parseFloat(currentWidth);
+        let parentWidth = container.clientWidth;
+        percent = parentWidth > 0 ? (pxVal / parentWidth) * 100 : 100;
+      } else {
+        percent = 100;
+      }
+    }
+    // 根据滚轮方向调整 (向下缩小，向上放大)
+    let delta = e.deltaY > 0 ? -10 : 10;
+    percent = Math.min(500, Math.max(20, percent + delta));  // 限制20%~500%
+    img.style.width = percent + '%';
+  };
+  // 使用被动监听以提升滚动性能，但需要preventDefault, 不能被动
+  img.addEventListener('wheel', wheelHandler, { passive: false });
+  container.addEventListener('wheel', wheelHandler, { passive: false }); // 双重保障
+
+  // --- 使窗口可拖动/缩放 (复用之前的逻辑, 注意防冲突) ---
+  let drag = false, sx = 0, sy = 0, ox = 0, oy = 0;
+  const nh = 80;
+  bar.addEventListener('mousedown', (e) => {
+    if (isMobile) return;
+    if (e.target === closeBtn) return;  // 关闭按钮不拖动
+    e.preventDefault();
+    drag = true;
+    sx = e.clientX; sy = e.clientY;
+    ox = win.offsetLeft; oy = win.offsetTop;
+  });
+
+  const mouseMoveHandler = (e) => {
+    if (!drag) return;
+    let nx = ox + e.clientX - sx;
+    let ny = oy + e.clientY - sy;
+    nx = Math.max(0, Math.min(nx, window.innerWidth - win.offsetWidth));
+    ny = Math.max(nh + 10, Math.min(ny, window.innerHeight - win.offsetHeight));
+    win.style.left = nx + 'px';
+    win.style.top = ny + 'px';
+  };
+  const mouseUpHandler = () => { drag = false; };
+
+  window.addEventListener('mousemove', mouseMoveHandler);
+  window.addEventListener('mouseup', mouseUpHandler);
+
+  // 缩放
+  let resize = false;
+  r.addEventListener('mousedown', (e) => {
+    if (isMobile) return;
+    e.stopPropagation();
+    resize = true;
+  });
+  const resizeMoveHandler = (e) => {
+    if (!resize) return;
+    let w = e.clientX - win.offsetLeft;
+    let h = e.clientY - win.offsetTop;
+    w = Math.max(260, Math.min(w, window.innerWidth - win.offsetLeft));
+    h = Math.max(220, Math.min(h, window.innerHeight - win.offsetTop));
+    win.style.width = w + 'px';
+    win.style.height = h + 'px';
+  };
+  const resizeUpHandler = () => { resize = false; };
+  window.addEventListener('mousemove', resizeMoveHandler);
+  window.addEventListener('mouseup', resizeUpHandler);
+
+  // 窗口关闭时移除监听 (可选，但为了简洁保留全局，窗口移除后监听还在但无害)
+  // 置顶
+  win.addEventListener('mousedown', () => { win.style.zIndex = ++zIndex; });
+}
+
+// 监听双击图片 (背景图片不是img，安全)
+document.addEventListener('dblclick', (e) => {
+  const target = e.target;
+  if (target.tagName === 'IMG') {
+    // 避免在弹出窗口内的图片再次弹出 (可以加限制，但也可以无限嵌套；这里限制如果祖先有.image-popup就不触发)
+    if (target.closest('.image-popup')) return;
+    e.stopPropagation();
+    const src = target.src;
+    if (src) {
+      createImagePopup(src);
+    }
+  }
+});
 </script>
 </body>
 </html>
