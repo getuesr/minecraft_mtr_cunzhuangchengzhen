@@ -1,0 +1,229 @@
+/* style/warnings.css — 移动端自适应：垂直布局，无竖线，字体增大 */
+.warning-box {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #fff9e6;
+    border: 1px solid #ffd966;
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* 左侧圆角竖杠（桌面端） */
+.warning-box::before {
+    content: "";
+    position: absolute;
+    left: 1.2rem;
+    top: 1rem;
+    width: 4px;
+    height: calc(100% - 2rem);
+    background-color: #f3a712;
+    border-radius: 4px;
+}
+
+/* 图标容器 */
+.warning-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+    background-color: currentColor;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+/* 文本区域 */
+.warning-content {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #5c3b00;
+}
+.warning-content strong {
+    font-weight: 600;
+    color: #cc7b00;
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+.warning-content p {
+    margin: 0;
+}
+
+/* ===== 不同类型主题（颜色不变） ===== */
+.warning-box.info {
+    background-color: #e6f4fa;
+    border-color: #a9d6e5;
+}
+.warning-box.info::before {
+    background-color: #2c7da0;
+}
+.warning-box.info .warning-icon {
+    color: #2c7da0;
+}
+.warning-box.info .warning-content {
+    color: #0b3b4f;
+}
+.warning-box.info .warning-content strong {
+    color: #1f5e7e;
+}
+
+.warning-box.error {
+    background-color: #fee9e6;
+    border-color: #f5b7a9;
+}
+.warning-box.error::before {
+    background-color: #d9534f;
+}
+.warning-box.error .warning-icon {
+    color: #d9534f;
+}
+.warning-box.error .warning-content {
+    color: #8a2c1d;
+}
+.warning-box.error .warning-content strong {
+    color: #c93e2c;
+}
+
+.warning-box.merge {
+    background-color: #e8f0fe;
+    border-color: #b8c9e5;
+}
+.warning-box.merge::before {
+    background-color: #5a6e9a;
+}
+.warning-box.merge .warning-icon {
+    color: #5a6e9a;
+}
+.warning-box.merge .warning-content {
+    color: #2c3e66;
+}
+.warning-box.merge .warning-content strong {
+    color: #3a5795;
+}
+
+.warning-box.discuss {
+    background-color: #fef3e6;
+    border-color: #ffddb0;
+}
+.warning-box.discuss::before {
+    background-color: #e67e22;
+}
+.warning-box.discuss .warning-icon {
+    color: #e67e22;
+}
+.warning-box.discuss .warning-content {
+    color: #8a4b0e;
+}
+.warning-box.discuss .warning-content strong {
+    color: #b85c0e;
+}
+
+.warning-box.blocked {
+    background-color: #f2e9f7;
+    border-color: #d6c4e8;
+}
+.warning-box.blocked::before {
+    background-color: #9b59b6;
+}
+.warning-box.blocked .warning-icon {
+    color: #9b59b6;
+}
+.warning-box.blocked .warning-content {
+    color: #5e3370;
+}
+.warning-box.blocked .warning-content strong {
+    color: #8e44ad;
+}
+
+.warning-box.add {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+}
+.warning-box.add::before {
+    background-color: #2ecc71;
+}
+.warning-box.add .warning-icon {
+    color: #2ecc71;
+}
+.warning-box.add .warning-content {
+    color: #1e6f3f;
+}
+.warning-box.add .warning-content strong {
+    color: #27ae60;
+}
+
+/* ===== 图标 SVG (Mask DataURI) — 与之前相同 ===== */
+.warning-box.info .warning-icon {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm-.004 8.25a1 1 0 0 0-.992.885l-.007.116.003 5.502.007.117a1 1 0 0 0 1.987-.002L13 16.75l-.003-5.501-.007-.117a1 1 0 0 0-.994-.882ZM12 6.5a1.251 1.251 0 1 0 0 2.503A1.251 1.251 0 0 0 12 6.5Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm-.004 8.25a1 1 0 0 0-.992.885l-.007.116.003 5.502.007.117a1 1 0 0 0 1.987-.002L13 16.75l-.003-5.501-.007-.117a1 1 0 0 0-.994-.882ZM12 6.5a1.251 1.251 0 1 0 0 2.503A1.251 1.251 0 0 0 12 6.5Z' fill='black'/%3E%3C/svg%3E");
+}
+.warning-box.error .warning-icon {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12 6.477 2 12 2Zm.002 13.004a.999.999 0 1 0 0 1.997.999.999 0 0 0 0-1.997ZM12 7a1 1 0 0 0-.993.884L11 8l.002 5.001.007.117a1 1 0 0 0 1.986 0l.007-.117L13 8l-.007-.117A1 1 0 0 0 12 7Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12 6.477 2 12 2Zm.002 13.004a.999.999 0 1 0 0 1.997.999.999 0 0 0 0-1.997ZM12 7a1 1 0 0 0-.993.884L11 8l.002 5.001.007.117a1 1 0 0 0 1.986 0l.007-.117L13 8l-.007-.117A1 1 0 0 0 12 7Z' fill='black'/%3E%3C/svg%3E");
+}
+.warning-box.merge .warning-icon {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.498 12.504a1 1 0 0 1 .993.884l.007.116v7.504a1 1 0 0 1-1.993.117l-.007-.117v-5.093l-5.79 5.792a1 1 0 0 1-1.32.083l-.095-.083a1 1 0 0 1-.083-1.32l.083-.095 5.788-5.788H2.997a1 1 0 0 1-.117-1.993l.117-.007h7.501ZM13.5 2a1 1 0 0 1 .993.883L14.5 3v5.087l5.794-5.793a1 1 0 0 1 1.32-.084l.094.083a1 1 0 0 1 .083 1.32l-.083.095-5.796 5.795H21a1 1 0 0 1 .116 1.994l-.116.007h-7.502a1 1 0 0 1-.993-.883l-.007-.117V2.999a1 1 0 0 1 1-1Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.498 12.504a1 1 0 0 1 .993.884l.007.116v7.504a1 1 0 0 1-1.993.117l-.007-.117v-5.093l-5.79 5.792a1 1 0 0 1-1.32.083l-.095-.083a1 1 0 0 1-.083-1.32l.083-.095 5.788-5.788H2.997a1 1 0 0 1-.117-1.993l.117-.007h7.501ZM13.5 2a1 1 0 0 1 .993.883L14.5 3v5.087l5.794-5.793a1 1 0 0 1 1.32-.084l.094.083a1 1 0 0 1 .083 1.32l-.083.095-5.796 5.795H21a1 1 0 0 1 .116 1.994l-.116.007h-7.502a1 1 0 0 1-.993-.883l-.007-.117V2.999a1 1 0 0 1 1-1Z' fill='black'/%3E%3C/svg%3E");
+}
+.warning-box.discuss .warning-icon {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.5 3a7.5 7.5 0 0 0-6.797 10.675 68.094 68.094 0 0 0-.681 3.142.996.996 0 0 0 1.153 1.17c.623-.11 1.978-.36 3.236-.65A7.5 7.5 0 1 0 9.5 3Zm-.038 16a7.473 7.473 0 0 0 5.1 2c1.1 0 2.145-.237 3.088-.663 1.043.244 2.186.488 2.913.64a1.244 1.244 0 0 0 1.467-1.5c-.162-.703-.418-1.795-.671-2.803A7.503 7.503 0 0 0 17.015 6.41a8.44 8.44 0 0 1 .8 2.048 5.995 5.995 0 0 1 2.747 5.042c0 .992-.24 1.925-.665 2.747l-.13.253.07.276c.228.895.467 1.9.642 2.65-.774-.163-1.818-.39-2.74-.61l-.264-.062-.243.121c-.804.4-1.71.625-2.67.625a5.974 5.974 0 0 1-2.92-.756 8.517 8.517 0 0 1-2.18.256Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.5 3a7.5 7.5 0 0 0-6.797 10.675 68.094 68.094 0 0 0-.681 3.142.996.996 0 0 0 1.153 1.17c.623-.11 1.978-.36 3.236-.65A7.5 7.5 0 1 0 9.5 3Zm-.038 16a7.473 7.473 0 0 0 5.1 2c1.1 0 2.145-.237 3.088-.663 1.043.244 2.186.488 2.913.64a1.244 1.244 0 0 0 1.467-1.5c-.162-.703-.418-1.795-.671-2.803A7.503 7.503 0 0 0 17.015 6.41a8.44 8.44 0 0 1 .8 2.048 5.995 5.995 0 0 1 2.747 5.042c0 .992-.24 1.925-.665 2.747l-.13.253.07.276c.228.895.467 1.9.642 2.65-.774-.163-1.818-.39-2.74-.61l-.264-.062-.243.121c-.804.4-1.71.625-2.67.625a5.974 5.974 0 0 1-2.92-.756 8.517 8.517 0 0 1-2.18.256Z' fill='black'/%3E%3C/svg%3E");
+}
+.warning-box.blocked .warning-icon {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2.001c5.524 0 10 4.477 10 10s-4.476 10-10 10c-5.522 0-10-4.477-10-10s4.478-10 10-10Zm4.25 9.25h-8.5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2.001c5.524 0 10 4.477 10 10s-4.476 10-10 10c-5.522 0-10-4.477-10-10s4.478-10 10-10Zm4.25 9.25h-8.5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5Z' fill='black'/%3E%3C/svg%3E");
+}
+.warning-box.add .warning-icon {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.5 2A2.5 2.5 0 0 0 3 4.5v15A2.5 2.5 0 0 0 5.5 22h7.31a6.518 6.518 0 0 1-1.078-1.5H5.5a1 1 0 0 1-1-1h6.813a6.5 6.5 0 0 1 8.187-8.187V4.5A2.5 2.5 0 0 0 17 2H5.5ZM7 5h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm16 12.5a5.5 5.5 0 1 0-11 0 5.5 5.5 0 0 0 11 0Zm-5 .5.001 2.503a.5.5 0 1 1-1 0V18h-2.505a.5.5 0 1 1 0-1H17v-2.5a.5.5 0 1 1 1 0V17h2.503a.5.5 0 1 1 0 1h-2.502Z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.5 2A2.5 2.5 0 0 0 3 4.5v15A2.5 2.5 0 0 0 5.5 22h7.31a6.518 6.518 0 0 1-1.078-1.5H5.5a1 1 0 0 1-1-1h6.813a6.5 6.5 0 0 1 8.187-8.187V4.5A2.5 2.5 0 0 0 17 2H5.5ZM7 5h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm16 12.5a5.5 5.5 0 1 0-11 0 5.5 5.5 0 0 0 11 0Zm-5 .5.001 2.503a.5.5 0 1 1-1 0V18h-2.505a.5.5 0 1 1 0-1H17v-2.5a.5.5 0 1 1 1 0V17h2.503a.5.5 0 1 1 0 1h-2.502Z' fill='black'/%3E%3C/svg%3E");
+}
+
+/* ===== 移动端样式（最大宽度 480px） ===== */
+@media (max-width: 480px) {
+    .warning-box {
+        flex-direction: column;      /* 垂直排列 */
+        align-items: center;         /* 水平居中 */
+        text-align: center;          /* 整体文本居中（标题会居中，段落单独处理） */
+        padding: 1.2rem 1rem;
+    }
+
+    /* 隐藏左侧装饰竖线 */
+    .warning-box::before {
+        display: none;
+    }
+
+    /* 图标容器：居中，取消左边距，适当加大尺寸 */
+    .warning-icon {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 10px auto;  /* 上下左右居中，下方留出间距 */
+    }
+
+    /* 文本区域：整体居中，但段落左对齐以提高可读性 */
+    .warning-content {
+        width: 100%;
+        text-align: left;            /* 段落左对齐，更符合移动端阅读习惯 */
+        font-size: 1rem;             /* 增大字体 */
+        line-height: 1.5;
+    }
+
+    /* 标题居中，并适当增加间距 */
+    .warning-content strong {
+        text-align: center;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* 如果段落内有多个，保持间距 */
+    .warning-content p {
+        margin-top: 0.5rem;
+    }
+}

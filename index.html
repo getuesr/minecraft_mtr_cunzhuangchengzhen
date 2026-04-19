@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>萌新MTR服务器-芒特省</title>
+    <link rel="stylesheet" href="assets/css/default.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+<body>
+
+<!-- 侧边栏开关（隐藏 checkbox） -->
+<input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
+<!-- 整体布局 -->
+<div class="app-wrapper">
+    <!-- 侧边栏 -->
+    <aside class="app-sidebar">
+        <div class="sidebar-hover-tab">▶</div>
+        <div class="sidebar-header">
+            <h2>🚆 芒特省</h2>
+            <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item active">🏠 主页</a>
+            <a href="server.html" class="nav-item">📊 服务器状态</a>
+            <a href="gallery.html" class="nav-item">🖼️ 画廊</a>
+            <a href="about.html" class="nav-item">ℹ️ 关于</a>
+            <div class="nav-divider"></div>
+            <a href="wiki/index.html" class="nav-item">📚 维基</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="sidebar-copy-btn" id="sidebarCopyQQ">📋 复制QQ群号</button>
+            <div class="sidebar-status" id="sidebarOnlineStatus">
+                <span class="status-badge status-offline"></span> 检测中...
+            </div>
+            <div class="sidebar-copyright">MTR 萌新建设服</div>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="app-main">
+        <!-- 移动端菜单按钮（关联 checkbox） -->
+        <label for="sidebar-toggle" class="sidebar-toggle-label">☰</label>
+
+        <!-- 加载遮罩 -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">加载中...</div>
+            <div id="loadingSkipLink" class="loading-skip">加载时间过长，单击此处直接进入</div>
+        </div>
+
+        <!-- 图片预览模态框 -->
+        <div id="imageModal" class="image-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <img id="modalImage" src="" alt="预览图">
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content">
+            <div class="top-bar">
+                <div class="container">
+                    <h1>🚆 萌新MTR服务器 · 芒特省</h1>
+                    <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="card">
+                    <h2>✨ 关于芒特省</h2>
+                    <p>芒特省是一个专注 MTR 模组的纯净轨道交通服务器，拥有真实报站系统、信号调度、线路网络。无论你是建筑大佬还是萌新玩家，都能在这里找到归属感。服务器提供完整整合包，进群即可开玩！</p>
+                    <p class="mt-12">🎯 特色：原创车站鼓励计划 | 跨服联动 | 每周建筑活动</p>
+                    <p class="mt-12 bg-light p-10 rounded-12">🤖 biu搞了个自助QQ机器人为您疑难解答，但是他的bot有时候可能不在线？</p>
+                </div>
+
+                <div class="card">
+                    <h2>📌 服务器信息</h2>
+                    <div class="item" id="serverStatusItem">
+                        <span class="item-label">🟢 服务器状态</span>
+                        <span class="item-value" id="serverStatusValue">
+                            检测中...
+                            <button class="inline-android-btn small" id="refreshStatusBtn">🔄 刷新</button>
+                        </span>
+                    </div>
+                    <div class="item"><span class="item-label">📦 游戏版本</span><span class="item-value">1.20.1 Fabric</span></div>
+                    <div class="item"><span class="item-label">🚄 MTR 版本</span><span class="item-value">4.0.2</span></div>
+                    <div class="item"><span class="item-label">📢 官方QQ群</span><span class="item-value">1070623105 <button class="inline-android-btn" id="copyQQInlineBtn"><span class="btn-text">复制群号</span></button></span></div>
+                </div>
+
+                <div class="card">
+                    <h2>⚖️ 运行守则</h2>
+                    <div class="item">🔒 禁止恶意破坏、偷窃、高频红石</div>
+                    <div class="item">🤝 尊重他人建筑，合作共建社区</div>
+                    <div class="item">🏆 鼓励原创车站，优秀作品获宣传位</div>
+                    <div class="item">💬 友善交流，拒绝任何歧视言论</div>
+                    <div class="item">🚫 严禁作弊、外挂</div>
+                    <div class="item">📐 轨道建设需遵守基本现实规范（坡度/弯道合理）</div>
+                    <p class="text-small text-gray mt-12">💡 规则精简但严肃，违者将按程度处理，愿芒特省因你而精彩。</p>
+                </div>
+
+                <div class="card">
+                    <h2>📢 最新能量快讯</h2>
+                    <div class="item item-column">
+                        <div>🎉 整合包下载方式请加群获取，IP群内公告置顶。</div>
+                        <div>🌟 新玩家引导计划已上线，萌新福利领取中！</div>
+                        <div>🌐 官网新版即将公开 · 跨服联动预热中</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📸 服内风采</h2>
+                    <div class="image-grid-5" id="galleryGrid"></div>
+                    <p class="text-small text-blue mt-12 text-center">📸 点击图片放大预览 | 欢迎投稿</p>
+                </div>
+
+                <div class="card">
+                    <h2>🤝 共建社区</h2>
+                    <!-- 鹤州区域添加深灰色背景类 .bg-dark-gray -->
+                    <div class="coop-row" id="hezhouRow">
+                        <div class="coop-left">
+                            <div class="coop-icon bg-dark-gray">
+                                <img src="https://mtrhz.xyz/yftx/%E9%B9%A4%E5%B7%9Elogo1.png" alt="鹤州城建" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%231976D2%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E鹤%3C%2Ftext%3E%3C%2Fsvg%3E'">
+                            </div>
+                            <div>
+                                <div class="coop-name">鹤州城建</div>
+                                <div class="coop-status">联合线路 · 资源共享</div>
+                            </div>
+                        </div>
+                        <div class="coop-arrow">↗</div>
+                    </div>
+                    <div class="coop-row" id="longtengRow">
+                        <div class="coop-left">
+                            <div class="coop-icon">
+                                <img src="assets/images/longteng.png" alt="龙腾铁路" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23E65100%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E龙%3C%2Ftext%3E%3C%2Fsvg%3E'">
+                            </div>
+                            <div>
+                                <div class="coop-name">龙腾铁路</div>
+                                <div class="coop-status">合作伙伴 · 建设中</div>
+                            </div>
+                        </div>
+                        <div class="coop-arrow">🔗</div>
+                    </div>
+                    <div class="item">
+                        <span>🌟 服务器的大家庭</span>
+                        <span class="text-gray">（需同意展示游戏名）</span>
+                    </div>
+                    <div class="tag-group">
+                        <span class="tag">没有人申请</span>
+                        <span class="tag tag-outline">等待你的加入</span>
+                    </div>
+                    <div class="mt-16 mb-8">
+                        <div class="badge-link" id="jointBanBadge">
+                            <div class="badge-icon">🛡️</div>
+                            <div class="badge-info">
+                                <div class="badge-title">已接入次元联合联禁系统 V2.0</div>
+                                <div class="badge-status flex-center gap-5">
+                                    <span class="dot-green"></span> 芒特省 & 鹤州城建 · 联合封禁
+                                </div>
+                            </div>
+                            <span class="text-blue">↗</span>
+                        </div>
+                    </div>
+                    <p class="text-small text-gray mt-12">* 遵守服规即可获得建筑权限，成员名单持续更新</p>
+                </div>
+
+                <div class="card">
+                    <h2>📞 加入我们</h2>
+                    <div class="item"><span>📡 QQ群号</span><span><strong>1070623105</strong> <button class="inline-android-btn" id="copyQQCardBtn"><span class="btn-text">复制</span></button></span></div>
+                    <div class="item"><span>🎧 技术支援</span><span>群管理极速响应</span></div>
+                    <div class="item"><span>📦 整合包</span><span>加群文件下载</span></div>
+                    <div class="item"><span>🕒 在线时段</span><span>24h 常驻</span></div>
+                </div>
+            </div>
+
+            <div class="site-footer">MTR 萌新建设服务器 · 芒特省</div>
+        </div>
+    </main>
+</div>
+
+<script src="assets/js/default.js?v=2" defer></script>
+</body>
+</html>

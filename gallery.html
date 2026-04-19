@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>画廊 · 芒特省</title>
+    <link rel="stylesheet" href="assets/css/default.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+<body>
+
+<input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
+<div class="app-wrapper">
+    <aside class="app-sidebar">
+        <div class="sidebar-hover-tab">▶</div>
+        <div class="sidebar-header">
+            <h2>🚆 芒特省</h2>
+            <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">🏠 主页</a>
+            <a href="server.html" class="nav-item">📊 服务器状态</a>
+            <a href="gallery.html" class="nav-item active">🖼️ 画廊</a>
+            <a href="about.html" class="nav-item">ℹ️ 关于</a>
+            <div class="nav-divider"></div>
+            <a href="wiki/index.html" class="nav-item">📚 维基</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="sidebar-copy-btn" id="sidebarCopyQQ">📋 复制QQ群号</button>
+            <div class="sidebar-status" id="sidebarOnlineStatus">
+                <span class="status-badge status-offline"></span> 检测中...
+            </div>
+            <div class="sidebar-copyright">MTR 萌新建设服</div>
+        </div>
+    </aside>
+
+    <main class="app-main">
+        <label for="sidebar-toggle" class="sidebar-toggle-label">☰</label>
+
+        <div id="imageModal" class="image-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <img id="modalImage" src="" alt="预览图">
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content visible">
+            <div class="top-bar">
+                <div class="container">
+                    <h1>🚆 萌新MTR服务器 · 芒特省</h1>
+                    <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- 图片网格卡片 -->
+                <div class="card">
+                    <h2>📸 服内风采</h2>
+                    <div class="image-grid-5" id="galleryGrid"></div>
+                    <p class="text-small text-blue mt-12 text-center">📸 点击图片放大预览 | 欢迎投稿</p>
+                </div>
+
+                <!-- 共建社区卡片 -->
+                <div class="card">
+                    <h2>🤝 共建社区</h2>
+                    <div class="coop-row" id="hezhouRow">
+                        <div class="coop-left">
+                            <div class="coop-icon bg-dark-gray">
+                                <img src="https://mtrhz.xyz/yftx/%E9%B9%A4%E5%B7%9Elogo1.png" alt="鹤州城建" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%231976D2%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E鹤%3C%2Ftext%3E%3C%2Fsvg%3E'">
+                            </div>
+                            <div>
+                                <div class="coop-name">鹤州城建</div>
+                                <div class="coop-status">联合线路 · 资源共享</div>
+                            </div>
+                        </div>
+                        <div class="coop-arrow">↗</div>
+                    </div>
+                    <div class="coop-row" id="longtengRow">
+                        <div class="coop-left">
+                            <div class="coop-icon">
+                                <img src="assets/images/longteng.png" alt="龙腾铁路" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23E65100%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E龙%3C%2Ftext%3E%3C%2Fsvg%3E'">
+                            </div>
+                            <div>
+                                <div class="coop-name">龙腾铁路</div>
+                                <div class="coop-status">合作伙伴 · 建设中</div>
+                            </div>
+                        </div>
+                        <div class="coop-arrow">🔗</div>
+                    </div>
+                    <div class="item">
+                        <span>🌟 服务器的大家庭</span>
+                        <span class="text-gray">（需同意展示游戏名）</span>
+                    </div>
+                    <div class="tag-group">
+                        <span class="tag">没有人申请</span>
+                        <span class="tag tag-outline">等待你的加入</span>
+                    </div>
+                    <div class="mt-16 mb-8">
+                        <div class="badge-link" id="jointBanBadge">
+                            <div class="badge-icon">🛡️</div>
+                            <div class="badge-info">
+                                <div class="badge-title">已接入次元联合联禁系统 V2.0</div>
+                                <div class="badge-status flex-center gap-5">
+                                    <span class="dot-green"></span> 芒特省 & 鹤州城建 · 联合封禁
+                                </div>
+                            </div>
+                            <span class="text-blue">↗</span>
+                        </div>
+                    </div>
+                    <p class="text-small text-gray mt-12">* 遵守服规即可获得建筑权限，成员名单持续更新</p>
+                </div>
+            </div>
+
+            <div class="site-footer">MTR 萌新建设服务器 · 芒特省</div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // 图片数据需要在加载前定义，供 default.js 使用
+    window.GALLERY_IMAGES = [
+        { img: "assets/images/img_bac_1.jpg", caption: "村城的列车站" },
+        { img: "assets/images/img_bac_2.jpg", caption: "村城新大道" },
+        { img: "assets/images/img_bac_3.jpg", caption: "玉金县城(火车站)" },
+        { img: "assets/images/img_bac_4.jpg", caption: "云州北" },
+        { img: "assets/images/img_bac_5.jpg", caption: "新海市车站" }
+    ];
+</script>
+<script src="assets/js/default.js" defer></script>
+</body>
+</html>

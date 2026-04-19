@@ -1,0 +1,175 @@
+/* ========== 服务器状态专属卡片样式 ========== */
+
+/* 状态卡片容器 */
+.status-card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-top: 20px;
+    border: 1px solid rgba(25, 118, 210, 0.1);
+}
+
+/* 卡片标题栏 */
+.status-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #F8FBFF 0%, #E3F2FD 100%);
+    border-bottom: 1px solid #E0EAF5;
+}
+
+.status-server-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-server-name h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0D47A1;
+    margin: 0;
+}
+
+.status-server-name .server-icon {
+    font-size: 28px;
+}
+
+.status-player-count {
+    display: flex;
+    align-items: center;
+    background: #1976D2;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 18px;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+}
+
+.status-player-count .count-number {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.status-player-count .count-separator {
+    opacity: 0.8;
+}
+
+.status-player-count .count-max {
+    opacity: 0.9;
+}
+
+/* 卡片主体内容：大图标 + 信息列表 */
+.status-card-body {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    gap: 30px;
+}
+
+.status-big-icon {
+    width: 120px;
+    height: 120px;
+    background: transparent;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 20px rgba(21, 101, 192, 0.3);
+    overflow: hidden; /* 确保图片不会溢出圆角 */
+}
+
+.status-big-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 保持比例，完整显示图片，可能会留白 */
+    /* 或者使用 object-fit: cover; 填满容器，可能裁切 */
+    border-radius: inherit;
+    padding: 0px; /* 可选，增加内边距让图片周围透气 */
+    box-sizing: border-box;
+}
+
+.status-info-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-info-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dashed #E0E0E0;
+    flex-wrap: nowrap; /* 禁止换行 */
+}
+
+.status-info-item:last-child {
+    border-bottom: none;
+}
+
+
+.status-info-label {
+    width: 100px;
+    min-width: 100px;   /* 防止被压缩 */
+    font-weight: 600;
+    color: #555;
+    font-size: 15px;
+    white-space: nowrap; /* 文字不换行 */
+}
+
+.status-info-value {
+    flex: 1;
+    font-weight: 500;
+    color: #1976D2;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap; /* 内部文字也不换行，除非按钮较多 */
+    margin-left: 10px;
+}
+
+.inline-android-btn {
+    margin-left: 12px;
+}
+
+/* 移动端适配 */
+@media (max-width: 600px) {
+    .status-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 18px;
+    }
+    
+    .status-card-body {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .status-big-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+    }
+    .status-big-icon img {
+        padding: 8px;
+    }
+    
+    .status-info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .status-info-label {
+        width: auto;
+    }
+}

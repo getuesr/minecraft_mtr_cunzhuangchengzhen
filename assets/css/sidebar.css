@@ -1,0 +1,235 @@
+/* ========== 侧边栏核心样式 - 箭头垂直居中版 ========== */
+
+/* 隐藏 checkbox */
+.sidebar-toggle-checkbox {
+    display: none;
+}
+
+/* 侧边栏默认折叠宽度 32px */
+.app-sidebar {
+    width: 32px;
+    background: linear-gradient(145deg, #1565C0 0%, #0D47A1 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+    z-index: 150;
+    white-space: nowrap;
+}
+
+/* 箭头：绝对定位垂直居中 */
+.sidebar-hover-tab {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 0 8px 8px 0;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 1;
+}
+
+/* 箭头悬停效果 */
+.sidebar-hover-tab:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* 侧边栏内除箭头外的所有直接子元素默认隐藏 */
+.app-sidebar > *:not(.sidebar-hover-tab) {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease 0.1s, visibility 0.2s ease 0.1s;
+    width: 100%;
+}
+
+/* 悬停展开 */
+.app-sidebar:hover {
+    width: 280px;
+}
+
+/* 悬停时隐藏箭头 */
+.app-sidebar:hover .sidebar-hover-tab {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* 悬停时显示其他内容 */
+.app-sidebar:hover > *:not(.sidebar-hover-tab) {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ---------- 侧边栏内部具体样式 ---------- */
+.sidebar-header {
+    padding: 20px 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 20px;
+}
+.sidebar-header h2 {
+    font-size: 24px;
+    font-weight: 500;
+}
+.sidebar-header p {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-top: 8px;
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 12px;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 14px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.nav-item:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+.nav-item.active {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.nav-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 16px 16px;
+}
+
+.sidebar-footer {
+    padding: 20px 16px 8px;
+    font-size: 12px;
+    opacity: 0.9;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    margin-top: 20px;
+}
+.sidebar-copy-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 40px;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.sidebar-copy-btn:hover {
+    background: rgba(255,255,255,0.25);
+}
+.sidebar-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+.sidebar-copyright {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* 状态指示点 */
+.status-badge {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0px;
+}
+.status-online {
+    background-color: #4caf50;
+    box-shadow: 0 0 4px #4caf50;
+}
+.status-offline {
+    background-color: #f44336;
+}
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 768px) {
+    /* 隐藏箭头 */
+    .sidebar-hover-tab {
+        display: none;
+    }
+
+    .app-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        width: 260px;
+        box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+        transition: transform 0.3s ease;
+    }
+
+    .app-sidebar > * {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .app-sidebar:hover {
+        width: 260px;
+    }
+
+    .sidebar-toggle-label {
+        display: flex;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 200;
+        background: #1976D2;
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        font-size: 24px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        -webkit-user-select: none;user-select: none;
+    }
+
+    .sidebar-toggle-checkbox:checked ~ .app-wrapper .app-sidebar {
+        transform: translateX(0);
+    }
+}

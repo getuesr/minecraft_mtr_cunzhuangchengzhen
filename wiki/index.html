@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>维基 · 芒特省</title>
+    <!-- 注意路径：从 wiki/ 目录引用根目录的 assets -->
+    <link rel="stylesheet" href="../assets/css/default.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <link rel="stylesheet" href="../assets/css/wiki.css">
+    <link rel="stylesheet" href="../assets/css/warnings.css">
+</head>
+<body>
+
+<!-- 侧边栏开关（移动端） -->
+<input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
+<div class="app-wrapper">
+    <!-- 侧边栏（高亮维基项） -->
+    <aside class="app-sidebar">
+        <div class="sidebar-hover-tab">▶</div>
+        <div class="sidebar-header">
+            <h2>🚆 芒特省</h2>
+            <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../index.html" class="nav-item">🏠 主页</a>
+            <a href="../server.html" class="nav-item">📊 服务器状态</a>
+            <a href="../gallery.html" class="nav-item">🖼️ 画廊</a>
+            <a href="../about.html" class="nav-item">ℹ️ 关于</a>
+            <div class="nav-divider"></div>
+            <a href="../wiki/index.html" class="nav-item active">📚 维基</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="sidebar-copy-btn" id="sidebarCopyQQ">📋 复制QQ群号</button>
+            <div class="sidebar-status" id="sidebarOnlineStatus">
+                <span class="status-badge status-offline"></span> 检测中...
+            </div>
+            <div class="sidebar-copyright">MTR 萌新建设服</div>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="app-main">
+        <label for="sidebar-toggle" class="sidebar-toggle-label">☰</label>
+
+        <!-- 图片预览模态框（保留，以防未来需要） -->
+        <div id="imageModal" class="image-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <img id="modalImage" src="" alt="预览图">
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content visible">
+            <div class="top-bar">
+                <div class="container">
+                    <h1>📚 芒特省维基</h1>
+                    <p>玩家共建 · 知识库 · 教程与指南</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="warning-box merge">
+                <div class="warning-icon"></div>
+                <div class="warning-content">
+                    <strong>🚧 维基正在建设中</strong>
+                    <p>芒特省维基将由社区共同编写，涵盖线路图、车站介绍、新手教程、指令列表等内容。</p>
+                </div>
+                </div>
+
+                <!-- 目录/分类预览 -->
+                <div class="wiki-grid">
+                    <div class="wiki-category">
+                        <div class="wiki-icon">🚇</div>
+                        <h3>线路与车站</h3>
+                        <p>查看所有轨道交通线路、换乘指南</p>
+                        <span class="wiki-badge">即将上线</span>
+                    </div>
+                    <div class="wiki-category">
+                        <div class="wiki-icon">📖</div>
+                        <h3>新手教程</h3>
+                        <p>如何加入服务器、基本操作、指令</p>
+                        <span class="wiki-badge">即将上线</span>
+                    </div>
+                    <div class="wiki-category">
+                        <div class="wiki-icon">🏗️</div>
+                        <h3>建筑规范</h3>
+                        <p>车站建设标准、轨道设计参考</p>
+                        <span class="wiki-badge">即将上线</span>
+                    </div>
+                    <div class="wiki-category">
+                        <div class="wiki-icon">📜</div>
+                        <h3>服务器规则</h3>
+                        <p>详细行为准则与处罚条例</p>
+                        <span class="wiki-badge">查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer">MTR 萌新建设服务器 · 芒特省</div>
+        </div>
+    </main>
+</div>
+
+<!-- 引用根目录的公共 JS，注意路径 -->
+<script src="../assets/js/default.js" defer></script>
+</body>
+</html>

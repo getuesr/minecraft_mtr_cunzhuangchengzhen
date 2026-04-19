@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>服务器状态 · 芒特省</title>
+    <link rel="stylesheet" href="assets/css/default.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/status.css">
+</head>
+<body>
+
+<!-- 侧边栏开关 -->
+<input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
+<!-- 整体布局 -->
+<div class="app-wrapper">
+    <!-- 侧边栏（导航高亮为服务器状态） -->
+    <aside class="app-sidebar">
+        <div class="sidebar-hover-tab">▶</div>
+        <div class="sidebar-header">
+            <h2>🚆 芒特省</h2>
+            <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">🏠 主页</a>
+            <a href="server.html" class="nav-item active">📊 服务器状态</a>
+            <a href="gallery.html" class="nav-item">🖼️ 画廊</a>
+            <a href="about.html" class="nav-item">ℹ️ 关于</a>
+            <div class="nav-divider"></div>
+            <a href="wiki/index.html" class="nav-item">📚 维基</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="sidebar-copy-btn" id="sidebarCopyQQ">📋 复制QQ群号</button>
+            <div class="sidebar-status" id="sidebarOnlineStatus">
+                <span class="status-badge status-offline"></span> 检测中...
+            </div>
+            <div class="sidebar-copyright">MTR 萌新建设服</div>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="app-main">
+        <label for="sidebar-toggle" class="sidebar-toggle-label">☰</label>
+
+        <!-- 图片预览模态框 -->
+        <div id="imageModal" class="image-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <img id="modalImage" src="" alt="预览图">
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content visible">
+            <div class="top-bar">
+                <div class="container">
+                    <h1>🚆 萌新MTR服务器 · 芒特省</h1>
+                    <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- 新状态卡片 -->
+                <div class="status-card">
+                    <div class="status-card-header">
+                        <div class="status-server-name">
+                            <span class="server-icon">🚆</span>
+                            <h3>芒特省 MTR 服务器</h3>
+                        </div>
+                        <div class="status-player-count" id="playerCountDisplay">
+                            <span class="count-number" id="onlineCount">0</span>
+                            <span class="count-separator">/</span>
+                            <span class="count-max" id="maxCount">20</span>
+                        </div>
+                    </div>
+                    <div class="status-card-body">
+                        <div class="status-big-icon">
+                            <img src="assets/images/logo.png" alt="芒特省 Logo">
+                        </div>
+                        <div class="status-info-list">
+                            <div class="status-info-item">
+                                <span class="status-info-label">🟢 服务器状态</span>
+                                <span class="status-info-value" id="serverStatusText">
+                                    <span class="status-badge status-offline"></span> 检测中...
+                                    <button class="inline-android-btn small" id="refreshStatusBtn">🔄 刷新</button>
+                                </span>
+                            </div>
+                            <div class="status-info-item">
+                                <span class="status-info-label">📦 游戏版本</span>
+                                <span class="status-info-value">1.20.1 Fabric</span>
+                            </div>
+                            <div class="status-info-item">
+                                <span class="status-info-label">🚄 MTR 版本</span>
+                                <span class="status-info-value">4.0.2</span>
+                            </div>
+                            <div class="status-info-item">
+                                <span class="status-info-label">📢 官方QQ群</span>
+                                <span class="status-info-value">
+                                    1070623105
+                                    <button class="inline-android-btn small" id="copyQQInlineBtn">📋 复制</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer">MTR 萌新建设服务器 · 芒特省</div>
+        </div>
+    </main>
+</div>
+
+<script src="assets/js/default.js" defer></script>
+</body>
+</html>

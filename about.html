@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>关于 · 芒特省</title>
+    <link rel="stylesheet" href="assets/css/default.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+<body>
+
+<input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
+<div class="app-wrapper">
+    <aside class="app-sidebar">
+        <div class="sidebar-hover-tab">▶</div>
+        <div class="sidebar-header">
+            <h2>🚆 芒特省</h2>
+            <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">🏠 主页</a>
+            <a href="server.html" class="nav-item">📊 服务器状态</a>
+            <a href="gallery.html" class="nav-item">🖼️ 画廊</a>
+            <a href="about.html" class="nav-item active">ℹ️ 关于</a>
+            <div class="nav-divider"></div>
+            <a href="wiki/index.html" class="nav-item">📚 维基</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="sidebar-copy-btn" id="sidebarCopyQQ">📋 复制QQ群号</button>
+            <div class="sidebar-status" id="sidebarOnlineStatus">
+                <span class="status-badge status-offline"></span> 检测中...
+            </div>
+            <div class="sidebar-copyright">MTR 萌新建设服</div>
+        </div>
+    </aside>
+
+    <main class="app-main">
+        <label for="sidebar-toggle" class="sidebar-toggle-label">☰</label>
+
+        <div id="imageModal" class="image-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <img id="modalImage" src="" alt="预览图">
+            </div>
+        </div>
+
+        <div id="mainContent" class="main-content visible">
+            <div class="top-bar">
+                <div class="container">
+                    <h1>🚆 萌新MTR服务器 · 芒特省</h1>
+                    <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+                </div>
+            </div>
+
+            <!-- 运行守则卡片 -->
+
+            <div class="container">
+                <!-- 关于卡片 -->
+                <div class="card">
+                    <h2>✨ 关于芒特省</h2>
+                    <p>芒特省是一个专注 MTR 模组的纯净轨道交通服务器，拥有真实报站系统、信号调度、线路网络。无论你是建筑大佬还是萌新玩家，都能在这里找到归属感。服务器提供完整整合包，进群即可开玩！</p>
+                    <p class="mt-12">🎯 特色：原创车站鼓励计划 | 跨服联动 | 每周建筑活动</p>
+                    <p class="mt-12 bg-light p-10 rounded-12">🤖 biu搞了个自助QQ机器人为您疑难解答，但是他的bot有时候可能不在线？</p>
+                </div>
+
+                <div class="card">
+                    <h2>⚖️ 运行守则</h2>
+                    <div class="item">🔒 禁止恶意破坏、偷窃、高频红石</div>
+                    <div class="item">🤝 尊重他人建筑，合作共建社区</div>
+                    <div class="item">🏆 鼓励原创车站，优秀作品获宣传位</div>
+                    <div class="item">💬 友善交流，拒绝任何歧视言论</div>
+                    <div class="item">🚫 严禁作弊、外挂</div>
+                    <div class="item">📐 轨道建设需遵守基本现实规范（坡度/弯道合理）</div>
+                    <p class="text-small text-gray mt-12">💡 规则精简但严肃，违者将按程度处理，愿芒特省因你而精彩。</p>
+                </div>
+
+                <!-- 加入我们卡片 -->
+                <div class="card">
+                    <h2>📞 加入我们</h2>
+                    <div class="item"><span>📡 QQ群号</span><span><strong>1070623105</strong> <button class="inline-android-btn" id="copyQQCardBtn"><span class="btn-text">复制</span></button></span></div>
+                    <div class="item"><span>🎧 技术支援</span><span>群管理极速响应</span></div>
+                    <div class="item"><span>📦 整合包</span><span>加群文件下载</span></div>
+                    <div class="item"><span>🕒 在线时段</span><span>24h 常驻</span></div>
+                </div>
+            </div>
+
+            <div class="site-footer">MTR 萌新建设服务器 · 芒特省</div>
+        </div>
+    </main>
+</div>
+
+<script src="assets/js/default.js" defer></script>
+</body>
+</html>

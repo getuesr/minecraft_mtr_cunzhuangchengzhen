@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>404 · 页面未找到 · 芒特省</title>
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="../assets/css/default.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    <!-- 404页面专用样式：提取所有内联样式至此文件 -->
+    <link rel="stylesheet" href="../assets/css/error.css">
+</head>
+<body>
+
+<input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+
+<div class="app-wrapper">
+    <!-- 侧边栏（与主页完全一致） -->
+    <aside class="app-sidebar">
+        <div class="sidebar-hover-tab">▶</div>
+        <div class="sidebar-header">
+            <h2>🚆 芒特省</h2>
+            <p>萌新友好 | 简单的线路 | 社区共建铁路网</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../index.html" class="nav-item">🏠 主页</a>
+            <a href="../server.html" class="nav-item">📊 服务器状态</a>
+            <a href="../gallery.html" class="nav-item">🖼️ 画廊</a>
+            <a href="../about.html" class="nav-item">ℹ️ 关于</a>
+            <div class="nav-divider"></div>
+            <a href="../wiki/index.html" class="nav-item">📚 维基</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="sidebar-copy-btn" id="sidebarCopyQQ">📋 复制QQ群号</button>
+            <div class="sidebar-status" id="sidebarOnlineStatus">
+                <span class="status-badge status-offline"></span> 检测中...
+            </div>
+            <div class="sidebar-copyright">MTR 萌新建设服</div>
+        </div>
+    </aside>
+
+    <main class="app-main">
+        <label for="sidebar-toggle" class="sidebar-toggle-label">☰</label>
+
+        <div id="mainContent" class="main-content visible">
+            <div class="top-bar">
+                <div class="container">
+                    <h1>🚫 404 · 页面未找到</h1>
+                    <p>您访问的页面可能已被移除、更名或暂时不可用</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- 原内联样式已全部移除，通过 error.css 中的专用类控制样式 -->
+                <div class="card error-card">
+                    <div class="error-icon">🔍</div>
+                    <h2 class="error-title">这里什么也没有...</h2>
+                    <p class="error-message">请检查网址是否正确，或点击下方按钮返回首页。</p>
+                    <div class="error-actions">
+                        <a href="../index.html" class="inline-android-btn">🏠 返回主页</a>
+                        <button class="inline-android-btn" onclick="history.back()">↩️ 返回上一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer">MTR 萌新建设服务器 · 芒特省</div>
+        </div>
+    </main>
+</div>
+
+<script src="../assets/js/default.js" defer></script>
+</body>
+</html>

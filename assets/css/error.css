@@ -1,0 +1,33 @@
+/* ========== 404错误页面专用样式 ========== */
+/* 从原HTML内联样式中提取，保证视觉完全一致 */
+
+/* 卡片容器（原 .card 上的内联样式） */
+.error-card {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* 大搜索图标/404图标 */
+.error-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+}
+
+/* 错误标题（原 h2 内联样式） */
+.error-title {
+    border-left: none;
+    padding-left: 0;
+    margin-bottom: 16px;
+}
+
+/* 错误提示文本 */
+.error-message {
+    margin-bottom: 24px;
+}
+
+/* 按钮组容器 */
+.error-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>富业路站 · 芒特省维基</title>
+    <link rel="stylesheet" href="../../../../assets/css/default.css">
+    <link rel="stylesheet" href="../../../../assets/css/wikicontent.css">
+    <link rel="stylesheet" href="../../../../assets/css/warnings.css">
+</head>
+<body>
+
+<div class="wiki-layout">
+    <!-- 树状侧边栏 -->
+    <aside class="wiki-sidebar">
+        <!-- 侧边栏内容同首页，可抽离为公共组件，此处简化展示 -->
+        <div class="wiki-sidebar-header"><h3>📚 芒特省维基</h3></div>
+        <nav class="wiki-nav">
+            <ul>
+                <li><a href="../../../index.html">🏠 首页</a></li>
+                <li class="nav-folder"><span>📜 规范与规定</span><ul><li><a href="../../../rule/">规范</a></li><li><a href="../../forcerule/">规定</a></li></ul></li>
+                <li class="nav-folder"><span>🏗️ 城建指南</span><ul><li><a href="../../../guide/">概览</a></li></ul></li>
+                <li class="nav-folder"><span>🚆 铁路线路</span>
+                    <li><a href="../index.html"><span>村城/存城</span></a>
+                    <ul>
+                        <li><a href="line1/" class="active">1号线</a></li>
+                    </ul></li>
+                    <li><a href="../index.html"><span>玉金</span></a>
+                    <ul>
+                        <li><a href="../yujin/line1/">1号线</a></li>
+                    </ul></li>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="wiki-main">
+        <div class="wiki-top-bar">
+            <h1>富业路站</h1>
+        </div>
+        <div class="wiki-content">
+            <!-- 信息卡片 -->
+            <div class="infobox">
+                <div class="infobox-title">富业路站</div>
+                <div class="infobox-row"><span class="infobox-label">所属线路</span><span class="infobox-value"><a href="index.html">村城地铁1号线</a></span></div>
+                <div class="infobox-row"><span class="infobox-label">开通时间</span><span class="infobox-value">20xx-xx-xx</span></div>
+                <div class="infobox-row"><span class="infobox-label">站台类型</span><span class="infobox-value">岛式站台</span></div>
+            </div>
+
+            <p><strong>富业路站</strong>是村城地铁1号线的始末站，位于村城中心商业区，是服务器重要的交通枢纽之一。</p>
+
+            <!-- 乘坐指引章节 -->
+            <h2>🚶 乘坐指引</h2>
+            <div class="station-gallery">
+                <!-- 步骤1 -->
+                <div class="gallery-figure" onclick="openImageModal('images/2026-04-18_20.23.06.png', '找到进站口，进入车站')">
+                    <img src="images/2026-04-18_20.23.06.png" alt="进站口">
+                    <figcaption>① 找到进站口，进入车站</figcaption>
+                </div>
+                <!-- 步骤2 -->
+                <div class="gallery-figure" onclick="openImageModal('images/2026-04-18_20.23.18.png', '下到通道，进入走廊')">
+                    <img src="images/2026-04-18_20.23.18.png" alt="通道走廊">
+                    <figcaption>② 下到通道，进入走廊</figcaption>
+                </div>
+                <!-- 步骤3 -->
+                <div class="gallery-figure" onclick="openImageModal('images/2026-04-18_20.23.22.png', '进入站点，从左侧下楼梯')">
+                    <img src="images/2026-04-18_20.23.22.png" alt="下楼梯">
+                    <figcaption>③ 进入站点，从左侧下楼梯</figcaption>
+                </div>
+                <!-- 步骤4 -->
+                <div class="gallery-figure" onclick="openImageModal('images/2026-04-18_20.23.28.png', '到达岛式站台，根据乘客资讯显示屏乘车')">
+                    <img src="images/2026-04-18_20.23.28.png" alt="岛式站台">
+                    <figcaption>④ 到达岛式站台，根据乘客资讯显示屏乘车</figcaption>
+                </div>
+            </div>
+            <p class="margin-16px">跟随以上步骤即可顺利进站乘车。如需换乘其他线路，请留意站内导向标识。</p>
+
+            <!-- 补充说明或提示框（可选） -->
+            <div class="warning-box info">
+                <div class="warning-icon"></div>
+                <div class="warning-content">
+                    <strong>乘车提示</strong>
+                    <p>本站为1号线始发站，列车通常停靠在1号站台。请留意站台广播及乘客资讯显示屏的列车到站信息。</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 图片预览模态框 -->
+<div id="imageModal" class="image-modal">
+    <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <img id="modalImage" src="" alt="预览图">
+    </div>
+</div>
+
+<!-- 引入公共JS，并确保模态框功能可用 -->
+<script src="../../../../assets/js/default.js"></script>
+<script>
+    // 若 default.js 未提供 openImageModal 或模态框关闭逻辑，补充定义
+    (function() {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.modal-close');
+
+        window.openImageModal = function(src, caption) {
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalImg.alt = caption || '';
+            modal.classList.add('active');
+        };
+
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => { modalImg.src = ''; }, 200);
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (modal) modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // 图片加载失败时显示占位图
+        document.querySelectorAll('.gallery-figure img').forEach(img => {
+            img.onerror = function() {
+                this.src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22400%22%20height%3D%22300%22%3E%3Crect%20width%3D%22400%22%20height%3D%22300%22%20fill%3D%22%23f0f0f0%22%2F%3E%3Ctext%20x%3D%22200%22%20y%3D%22150%22%20text-anchor%3D%22middle%22%20fill%3D%22%23999%22%3E%E5%9B%BE%E7%89%87%E6%9A%82%E7%BC%BA%3C%2Ftext%3E%3C%2Fsvg%3E';
+            };
+        });
+    })();
+</script>
+</body>
+</html>
